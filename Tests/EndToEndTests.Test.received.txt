@@ -1,0 +1,14 @@
+﻿MyPackages Unknown
+    Autofac Supported
+    NLog Supported
+        NETStandard.Library Supported
+            Microsoft.Win32.Primitives Supported
+        Microsoft.Extensions.PlatformAbstractions Supported
+    Microsoft.Web.Xdt Not Supported
+    Nancy Not Supported
+    Nancy.Bootstrappers.Autofac Not Supported
+        Nancy Not Supported
+        Autofac Supported
+    SharpZipLib Not Supported
+    Sprache Not Supported
+    SSH.NET Not Supported

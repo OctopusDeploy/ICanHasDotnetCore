@@ -1,0 +1,7 @@
+﻿MyPackages Unknown
+    Autofac Supported
+    NLog Supported
+        NETStandard.Library Supported
+            Microsoft.Win32.Primitives Supported
+        Microsoft.Extensions.PlatformAbstractions Supported
+    Microsoft.Web.Xdt Not Supported

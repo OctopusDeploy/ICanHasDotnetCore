@@ -2,9 +2,9 @@
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
-using ICanHasDotnetCore.Magic.PackagesFile;
+using ICanHasDotnetCore.PackagesFile;
 
-namespace ICanHasDotnetCore.Magic
+namespace ICanHasDotnetCore
 {
     public class PackagesFileReader
     {

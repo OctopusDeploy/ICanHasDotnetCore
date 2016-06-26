@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using NuGet;
 using Serilog;
 
-namespace ICanHasDotnetCore.Magic
+namespace ICanHasDotnetCore
 {
     public interface IPackageRepositoryWrapper
     {

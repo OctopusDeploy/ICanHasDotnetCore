@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ICanHasDotnetCore.Magic;
-using ICanHasDotnetCore.Magic.Output;
+using ICanHasDotnetCore.Output;
 using Serilog;
 
 namespace ICanHasDotnetCore.Console

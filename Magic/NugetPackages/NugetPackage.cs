@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace ICanHasDotnetCore.Magic.NugetPackages
+namespace ICanHasDotnetCore.NugetPackages
 {
     public enum SupportType
     {

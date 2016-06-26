@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using ICanHasDotnetCore.Magic;
 using ICanHasDotnetCore.Web.Models;
 
 namespace ICanHasDotnetCore.Web.Controllers

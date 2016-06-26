@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ICanHasDotnetCore.Magic
+namespace ICanHasDotnetCore
 {
     public class Option<T>
     {

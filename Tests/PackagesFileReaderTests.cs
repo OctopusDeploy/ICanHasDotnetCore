@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using ICanHasDotnetCore.Magic;
 using NUnit.Framework;
 
 namespace ICanHasDotnetCore.Tests

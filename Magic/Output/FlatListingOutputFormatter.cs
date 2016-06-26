@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Text;
-using ICanHasDotnetCore.Magic.NugetPackages;
+using ICanHasDotnetCore.NugetPackages;
 
-namespace ICanHasDotnetCore.Magic.Output
+namespace ICanHasDotnetCore.Output
 {
     public class FlatListingOutputFormatter
     {

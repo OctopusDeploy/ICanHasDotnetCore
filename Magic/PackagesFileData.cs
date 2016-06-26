@@ -1,4 +1,4 @@
-﻿namespace ICanHasDotnetCore.Magic
+﻿namespace ICanHasDotnetCore
 {
     public class PackagesFileData
     {

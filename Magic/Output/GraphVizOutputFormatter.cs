@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
-using ICanHasDotnetCore.Magic.NugetPackages;
+using ICanHasDotnetCore.NugetPackages;
 
-namespace ICanHasDotnetCore.Magic.Output
+namespace ICanHasDotnetCore.Output
 {
     public class GraphVizOutputFormatter
     {

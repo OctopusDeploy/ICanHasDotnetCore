@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using NuGet;
 using Serilog;
 
-namespace ICanHasDotnetCore.Magic.NugetPackages
+namespace ICanHasDotnetCore.NugetPackages
 {
     public class NugetPackageInfoRetriever
     {

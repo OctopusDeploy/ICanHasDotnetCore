@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
-using ICanHasDotnetCore.Magic.NugetPackages;
-using Serilog;
+using ICanHasDotnetCore.NugetPackages;
 
-namespace ICanHasDotnetCore.Magic
+namespace ICanHasDotnetCore
 {
     public class PackageCompatabilityInvestigator
     {

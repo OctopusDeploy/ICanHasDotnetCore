@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ICanHasDotnetCore.Magic
+namespace ICanHasDotnetCore
 {
     public interface IResult
     {

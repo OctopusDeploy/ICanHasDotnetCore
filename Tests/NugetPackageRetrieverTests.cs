@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
-using ICanHasDotnetCore.Magic;
-using ICanHasDotnetCore.Magic.NugetPackages;
+using ICanHasDotnetCore.NugetPackages;
 using NUnit.Framework;
 
 namespace ICanHasDotnetCore.Tests

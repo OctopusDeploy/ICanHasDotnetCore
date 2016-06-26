@@ -1,7 +1,6 @@
 ﻿using ApprovalTests;
 using ApprovalTests.Reporters;
-using ICanHasDotnetCore.Magic;
-using ICanHasDotnetCore.Magic.Output;
+using ICanHasDotnetCore.Output;
 using NUnit.Framework;
 
 namespace ICanHasDotnetCore.Tests

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>ICanHasDotnetCore.Web</id>
+    <version>$version$</version>
+    <title>I Can Has Dotnet Core? Website</title>
+    <authors>Octopus Deploy</authors>
+    <owners>Octopus Deploy</owners>
+    <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
+    <projectUrl>https://github.com/OctopusDeploy/ICanHasDotnetCore</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Scans package.config files and determines whether the nuget packages target .NETStandard</description>
+    <copyright>Copyright 2016</copyright>
+  </metadata>
+</package>

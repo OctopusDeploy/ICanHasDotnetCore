@@ -3,7 +3,7 @@ using ICanHasDotnetCore.Magic;
 using ICanHasDotnetCore.Magic.NugetPackages;
 using NUnit.Framework;
 
-namespace Tests
+namespace ICanHasDotnetCore.Tests
 {
     public class NugetPackageRetrieverTests
     {

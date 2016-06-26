@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using ICanHasDotnetCore.Magic;
-using ICanHasDotnetCore.Magic.NugetPackages;
 using ICanHasDotnetCore.Magic.Output;
 using Serilog;
 
-namespace CanIHazDotnetCore.Console
+namespace ICanHasDotnetCore.Console
 {
     class Program
     {

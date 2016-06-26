@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using System.Xml.Serialization;
 
-namespace ICanHasDotnetCore.Magic
+namespace ICanHasDotnetCore.Magic.PackagesFile
 {
     [XmlRoot(ElementName = "packages")]
     public class Packages : List<DependencyEntry>

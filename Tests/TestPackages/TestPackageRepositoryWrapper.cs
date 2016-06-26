@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using ICanHasDotnetCore.Magic;
 using NuGet;
 
-namespace Tests.TestPackages
+namespace ICanHasDotnetCore.Tests.TestPackages
 {
     public class TestPackageRepositoryWrapper : IPackageRepositoryWrapper
     {

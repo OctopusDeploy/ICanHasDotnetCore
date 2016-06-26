@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ApprovalTests;
+﻿using ApprovalTests;
 using ApprovalTests.Reporters;
 using ICanHasDotnetCore.Magic;
 using ICanHasDotnetCore.Magic.Output;
-using Microsoft.SqlServer.Server;
 using NUnit.Framework;
 
-namespace Tests
+namespace ICanHasDotnetCore.Tests
 {
     public class EndToEndTests
     {

@@ -7,8 +7,8 @@
     <ProjectGuid>{43B71B56-007A-47D6-B00C-1C68DD41497A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tests</RootNamespace>
-    <AssemblyName>Tests</AssemblyName>
+    <RootNamespace>ICanHasDotnetCore.Tests</RootNamespace>
+    <AssemblyName>ICanHasDotnetCore.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

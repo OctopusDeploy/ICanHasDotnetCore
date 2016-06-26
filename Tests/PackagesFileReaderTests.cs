@@ -1,9 +1,8 @@
 ﻿using FluentAssertions;
-using NUnit;
 using ICanHasDotnetCore.Magic;
 using NUnit.Framework;
 
-namespace Tests
+namespace ICanHasDotnetCore.Tests
 {
     public class PackagesFileReaderTests
     {

@@ -1,4 +1,5 @@
-﻿var gulp = require("gulp");
+/// <binding AfterBuild='default' />
+var gulp = require("gulp");
 var $ = require("gulp-load-plugins")({pattern: ["gulp-*", "gulp.*", "del*", "path*"], lazy: true});
 
 var filenames = {
@@ -131,7 +132,7 @@ gulp.task("fonts", function () {
 
 
 gulp.task("app", function (cb) {
-    $.runSequence("clean", ["vendorScripts", "appScripts", "vendorStyles", "appStyles", "ngTemplates", "images", "fonts", "dtos"], cb);
+    $.runSequence("clean", ["vendorScripts", "appScripts", "vendorStyles", "appStyles", "ngTemplates", "images", "fonts"], cb);
 });
 
 

@@ -26,7 +26,10 @@ module ICanHasDotnetCore.Home {
         }
 
         visualiseDependencies() {
-            this.$state.go(Result.state, <Result.IStateParams> { packageFiles: this.packageFiles });
+            this.$state.go(Result.state,
+            {
+                 data: this.packageFiles.filter(p => !!p.file)
+            });
         }
     }
 

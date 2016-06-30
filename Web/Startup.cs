@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -33,7 +34,12 @@ namespace ICanHasDotnetCore.Web
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseStaticFiles().UseMvc();
+            app.UseStaticFiles().UseMvc(AddRoutes);
+        }
+
+        private void AddRoutes(IRouteBuilder routeBuilder)
+        {
+            //routeBuilder.MapRoute("Index", "{*url}", n)
         }
     }
 }

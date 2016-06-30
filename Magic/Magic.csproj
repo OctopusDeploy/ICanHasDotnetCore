@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="InvestigationResult.cs" />
     <Compile Include="NugetPackages\NugetPackage.cs" />
+    <Compile Include="NugetPackages\SupportType.cs" />
     <Compile Include="Option.cs" />
     <Compile Include="Output\FlatListingOutputFormatter.cs" />
     <Compile Include="Output\GraphVizOutputFormatter.cs" />
@@ -81,9 +82,7 @@
     <None Include="Magic.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="GraphVis\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

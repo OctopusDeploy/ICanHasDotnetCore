@@ -1,4 +1,5 @@
 ﻿/// <reference path="../typings/main.d.ts" />
+declare var vis;
 module ICanHasDotnetCore {
 
     interface IRouteState extends angular.ui.IState {
@@ -7,6 +8,7 @@ module ICanHasDotnetCore {
 
     interface IRouteParams extends angular.ui.IStateOptions {
         title: string;
+        data: any;
     }
 
     function httpErrorHandler($httpProvider: ng.IHttpProvider) {
@@ -48,7 +50,7 @@ module ICanHasDotnetCore {
         .config(
         ($urlRouterProvider: angular.ui.IUrlRouterProvider) => {
             $urlRouterProvider.when("", "/")
-                .otherwise(() => alert('not found'));
+                .otherwise(() => "/");
         }
         )
         .config([
@@ -78,7 +80,7 @@ module ICanHasDotnetCore {
             templateUrl: "app/" + template,
             controller: controller,
             controllerAs: "vm",
-            params: { title: title }
+            params: { title: title, data: null }
         };
         app.config(($stateProvider: angular.ui.IStateProvider) =>
             $stateProvider.state(id, stateConfig));

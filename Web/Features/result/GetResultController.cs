@@ -8,11 +8,11 @@ namespace ICanHasDotnetCore.Web.Features.result
 {
     public class GetResultController : Controller
     {
-        public async Task<GetResultResponse> Get(GetResultRequest request)
+        [HttpPost("/api/GetResult")]
+        public async Task<GetResultResponse> Get([FromBody]GetResultRequest request)
         {
             var result = await PackageCompatabilityInvestigator.Create()
                 .Go(request.PackageFiles.Select(p => new PackagesFileData(p.Name, p.Contents)).ToArray());
-
             return new GetResultResponse()
             {
                 Result = result.GetAllDistinctRecursive().Select(r => new PackageResult

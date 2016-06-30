@@ -2,11 +2,14 @@
 
 namespace ICanHasDotnetCore.Web.Controllers
 {
-    [Route("/")]
+    [Route("{*url}")]
     public class IndexController : Controller
     {
-        public ActionResult Get()
+        public ActionResult Get(string url)
         {
+            if(url?.StartsWith("api") ?? false)
+                return NotFound();
+
             return File("~/index.html", "text/html");
         }
     }

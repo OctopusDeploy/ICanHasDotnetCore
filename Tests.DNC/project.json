@@ -7,7 +7,7 @@
     "FluentAssertions": "4.9.1",
     "NETStandard.Library": "1.6.0",
     "NuGet.Core": "2.11.1",
-    "NUnit": "3.4.0",
+    "NUnit": "2.6.4",
     "Web": "1.0.0-*"
   },
 

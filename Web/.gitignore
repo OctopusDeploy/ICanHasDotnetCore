@@ -1,0 +1,4 @@
+typings/
+wwwroot/
+node_modules/
+Features/**/*.js

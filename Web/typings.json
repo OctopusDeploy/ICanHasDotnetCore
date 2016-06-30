@@ -1,0 +1,10 @@
+{
+  "ambientDependencies": {
+    "angular": "github:DefinitelyTyped/DefinitelyTyped/angularjs/angular.d.ts#1c94cfb32eab35dde9fda7fb738d324e9a0e66d4",
+    "angular-material": "registry:dt/angular-material#1.0.0-rc5.0+20160317120654",
+    "angular-ui-router": "github:DefinitelyTyped/DefinitelyTyped/angular-ui-router/angular-ui-router.d.ts#1c94cfb32eab35dde9fda7fb738d324e9a0e66d4",
+    "jquery": "github:DefinitelyTyped/DefinitelyTyped/jquery/jquery.d.ts#1c94cfb32eab35dde9fda7fb738d324e9a0e66d4",
+    "lodash": "github:DefinitelyTyped/DefinitelyTyped/lodash/lodash.d.ts#672afd8f7b09d839b61eeb4867753876cf79c8b6",
+    "toastr": "github:DefinitelyTyped/DefinitelyTyped/toastr/toastr.d.ts#1c94cfb32eab35dde9fda7fb738d324e9a0e66d4"
+  }
+}

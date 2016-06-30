@@ -1,0 +1,15 @@
+<div layout="column" ng-cloak>
+    <md-toolbar layout="row">
+        <div class="md-toolbar-tools">
+            <a href="" ui-route="layout.home">
+                <md-icon md-font-set="material-icons">track_changes</md-icon>
+                <span flex class="page-title">I Can Has .NET Core</span>
+            </a>
+        </div>
+    </md-toolbar>
+    <div class="container main" layout="row" flex>
+        <md-content flex id="content">
+            <ui-view></ui-view>
+        </md-content>
+    </div>
+</div>

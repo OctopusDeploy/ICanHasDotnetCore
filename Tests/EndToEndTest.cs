@@ -1,4 +1,5 @@
-﻿using ApprovalTests;
+﻿using System.Runtime.CompilerServices;
+using ApprovalTests;
 using ApprovalTests.Reporters;
 using ICanHasDotnetCore.Output;
 using NUnit.Framework;
@@ -9,7 +10,7 @@ namespace ICanHasDotnetCore.Tests
     {
         [Test]
         [UseReporter(typeof(DiffReporter))]
-
+        [MethodImpl(MethodImplOptions.NoInlining)]
         public void Test()
         {
             var contents = @"<?xml version=""1.0"" encoding=""utf-8""?>

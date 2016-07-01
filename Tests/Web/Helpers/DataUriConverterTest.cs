@@ -3,6 +3,7 @@ using NUnit.Framework;
 using FluentAssertions;
 using ApprovalTests;
 using ApprovalTests.Reporters;
+using System.Runtime.CompilerServices;
 
 namespace Tests.DNC.Web.Helpers
 {
@@ -10,6 +11,7 @@ namespace Tests.DNC.Web.Helpers
     public class DataUriConverterTest
     {
         [Test]
+        [MethodImpl(MethodImplOptions.NoInlining)]
         public void CanConvert()
         {
             var result = DataUriConverter.ConvertFrom(

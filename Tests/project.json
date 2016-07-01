@@ -9,7 +9,7 @@
     "NETStandard.Library": "1.6.0",
     "NuGet.Core": "2.11.1",
     "NUnit": "2.6.4",
-    "System.Runtime": "4.1.0",
+    "System.Runtime": "4.0.20",
     "Web": "1.0.0-*"
   },
 

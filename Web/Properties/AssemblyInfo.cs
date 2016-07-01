@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Octopus Deploy")]
-[assembly: AssemblyProduct("ICanHasDotnetCore.Magic")]
+[assembly: AssemblyProduct("ICanHasDotnetCore.Web")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyFileVersion("0.0.0.0")]
 [assembly: AssemblyVersion("0.0.0.0")]
@@ -18,4 +18,4 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("89caea64-c5fe-45f5-8b5d-53ae40a1fc92")]
+[assembly: Guid("e7a09e85-977a-4852-8f5b-9707525d7104")]

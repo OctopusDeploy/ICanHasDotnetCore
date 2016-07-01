@@ -2,7 +2,7 @@
     <div layout="column">
         <div ng-repeat="item in vm.packageFiles" layout layout-align="center center">
             <md-input-container flex="40">
-                <input type="text" placeholder="Project Name" ng-model="item.projectName" />
+                <input type="text" placeholder="Project Name" ng-model="item.name" />
             </md-input-container>
             <div flex="30">
                 <input class="ng-hide" id="input-file-id-{{$index}}" multiple type="file" ng-file-model="item.file" accept=".config" />

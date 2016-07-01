@@ -158,6 +158,7 @@ gulp.task("debug", ["app"], function () {
         .pipe(gulp.dest(outputDir));
 });
 
+gulp.task("release", ["debug"]);
 
 gulp.task("watch", ["debug"], function () {
     gulp.watch(paths.src.vendorJs, ['vendorScripts']);

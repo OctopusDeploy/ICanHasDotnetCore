@@ -5,6 +5,7 @@
     "ApprovalTests": "3.0.11",
     "ApprovalUtilities": "3.0.11",
     "FluentAssertions": "4.9.1",
+    "Magic": "1.0.0-*",
     "NETStandard.Library": "1.6.0",
     "NuGet.Core": "2.11.1",
     "NUnit": "2.6.4",
@@ -13,12 +14,6 @@
 
   "frameworks": {
     "net461": {
-      "imports": "dnxcore50",
-      "dependencies": {
-        "Magic": {
-          "target": "project"
-        }
-      }
     }
   }
 }

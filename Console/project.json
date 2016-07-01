@@ -1,0 +1,16 @@
+﻿{
+  "version": "1.0.0-*",
+  "buildOptions": {
+    "emitEntryPoint": true
+  },
+
+  "dependencies": {
+    "Magic": "1.0.0-*",
+    "Serilog": "2.0.0",
+    "Serilog.Sinks.ColoredConsole": "2.0.0"
+  },
+
+  "frameworks": {
+    "net461": {}
+    }
+  }

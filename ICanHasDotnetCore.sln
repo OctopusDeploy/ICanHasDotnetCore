@@ -3,15 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Magic", "Magic\Magic.csproj", "{AF931DA9-82DC-4523-BFE1-85C90608D782}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{43B71B56-007A-47D6-B00C-1C68DD41497A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console", "Console\Console.csproj", "{F888DDE6-4AEF-481E-9D87-747FE993D642}"
-EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Web", "Web\Web.xproj", "{95D6E787-309B-448B-8F1D-46D3F5E64C94}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Tests.DNC", "Tests.DNC\Tests.DNC.xproj", "{E7A09E85-977A-4852-8F5B-9707525D7104}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Magic", "Magic\Magic.xproj", "{89CAEA64-C5FE-45F5-8B5D-53AE40A1FC92}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Console", "Console\Console.xproj", "{3DC92468-CF9B-433D-95BC-996799941A0A}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Tests", "Tests\Tests.xproj", "{E7A09E85-977A-4852-8F5B-9707525D7104}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,22 +17,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AF931DA9-82DC-4523-BFE1-85C90608D782}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AF931DA9-82DC-4523-BFE1-85C90608D782}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AF931DA9-82DC-4523-BFE1-85C90608D782}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AF931DA9-82DC-4523-BFE1-85C90608D782}.Release|Any CPU.Build.0 = Release|Any CPU
-		{43B71B56-007A-47D6-B00C-1C68DD41497A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{43B71B56-007A-47D6-B00C-1C68DD41497A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{43B71B56-007A-47D6-B00C-1C68DD41497A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{43B71B56-007A-47D6-B00C-1C68DD41497A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F888DDE6-4AEF-481E-9D87-747FE993D642}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F888DDE6-4AEF-481E-9D87-747FE993D642}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F888DDE6-4AEF-481E-9D87-747FE993D642}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F888DDE6-4AEF-481E-9D87-747FE993D642}.Release|Any CPU.Build.0 = Release|Any CPU
 		{95D6E787-309B-448B-8F1D-46D3F5E64C94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{95D6E787-309B-448B-8F1D-46D3F5E64C94}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95D6E787-309B-448B-8F1D-46D3F5E64C94}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95D6E787-309B-448B-8F1D-46D3F5E64C94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89CAEA64-C5FE-45F5-8B5D-53AE40A1FC92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89CAEA64-C5FE-45F5-8B5D-53AE40A1FC92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89CAEA64-C5FE-45F5-8B5D-53AE40A1FC92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89CAEA64-C5FE-45F5-8B5D-53AE40A1FC92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DC92468-CF9B-433D-95BC-996799941A0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DC92468-CF9B-433D-95BC-996799941A0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DC92468-CF9B-433D-95BC-996799941A0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DC92468-CF9B-433D-95BC-996799941A0A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E7A09E85-977A-4852-8F5B-9707525D7104}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E7A09E85-977A-4852-8F5B-9707525D7104}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7A09E85-977A-4852-8F5B-9707525D7104}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using System.Text;
 using ApprovalTests;
 using ApprovalTests.Reporters;
 using ICanHasDotnetCore.Output;
@@ -28,7 +29,7 @@ namespace ICanHasDotnetCore.Tests
             var result = PackageCompatabilityInvestigator.Create()
                 .Go(new[]
                 {
-                    new PackagesFileData("MyPackages", contents)
+                    new PackagesFileData("MyPackages", Encoding.UTF8.GetBytes(contents))
                 })
                 .Result;
 

@@ -72,7 +72,7 @@ namespace ICanHasDotnetCore.Console
             {
                 var configFile = Path.Combine(directory, "packages.config");
                 if (File.Exists(configFile))
-                    yield return new PackagesFileData(new DirectoryInfo(directory).Name, File.ReadAllText(configFile));
+                    yield return new PackagesFileData(new DirectoryInfo(directory).Name, File.ReadAllBytes(configFile));
 
                 foreach (var packageFile in FindFiles(Directory.EnumerateDirectories(directory)))
                     yield return packageFile;

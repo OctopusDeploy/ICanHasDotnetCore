@@ -31,6 +31,10 @@ namespace ICanHasDotnetCore
 
         public async Task<InvestigationResult> Go(IReadOnlyList<PackagesFileData> files)
         {
+            for (int x = 0; x < files.Count; x++)
+                if (files[x].Name == null)
+                    files[x].Name = $"File {x}";
+
             var results = files.Select(Process).ToArray();
             return new InvestigationResult(await Task.WhenAll(results));
         }

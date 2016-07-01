@@ -5,10 +5,9 @@ namespace ICanHasDotnetCore.Web.Helpers
 {
     public static class DataUriConverter
     {
-        public static string ConvertFrom(string str)
+        public static byte[] ConvertFrom(string str)
         {
-            var data = Convert.FromBase64String(str.Split(',')[1]);
-            return Encoding.UTF8.GetString(data);
+            return Convert.FromBase64String(str.Split(',')[1]);
         }
     }
 }

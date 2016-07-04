@@ -1,10 +1,15 @@
 <div layout="column" ng-cloak>
-    <md-toolbar layout="row">
-        <div class="md-toolbar-tools">
+    <md-toolbar layout="row" class="md-hue-2">
+        <div class="md-toolbar-tools max md-max">
             <a href="" ui-sref="layout.home">
                 <md-icon md-font-set="material-icons">track_changes</md-icon>
                 <span flex class="page-title">I Can Has .NET Core</span>
             </a>
+            <span flex></span>
+            <span class="menu">
+                <a href="" ui-sref="layout.faq">FAQ</a>
+                <a href="https://github.com/OctopusDeploy/ICanHasDotnetCore">Source</a>
+            </span>
         </div>
     </md-toolbar>
     <div class="container main" layout="row" flex>
@@ -12,4 +17,13 @@
             <ui-view></ui-view>
         </md-content>
     </div>
+
+    <footer>
+        <img src="/images/octopus.png" />
+        <p>An <a href="https://octopus.com">Octopus Deploy</a> project</p>
+        <p><a href="https://twitter.com/OctopusDeploy"><img src="/images/twitter.png" /></a> <a href="https://twitter.com/OctopusDeploy">@OctopusDeploy</a></p>
+        <p>
+            <a href="https://github.com/OctopusDeploy/ICanHasDotnetCore">GitHub</a> - Source, suggestions and bugs
+        </p>
+    </footer>
 </div>

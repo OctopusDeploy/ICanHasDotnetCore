@@ -12,7 +12,7 @@ module ICanHasDotnetCore.Result {
     }
 
     export interface IGetResultRequest {
-        PackageFiles: Home.IPackageFile[]
+        packageFiles: Home.IPackageFile[]
     }
 
     export interface IGetResultResponse {

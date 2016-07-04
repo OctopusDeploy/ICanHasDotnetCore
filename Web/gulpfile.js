@@ -13,7 +13,7 @@ var paths = {
     src: {
         appIndex: "index.html",
         appTs: "Features/**/*.ts",
-        appLess: "Features/**/*.less",
+        appLess: ["Features/*.less", "Features/**/*.less"],
         appNgTemplates: "Features/**/*.html",
         appImages: ["content/images/**"],
         appFonts: [],
@@ -142,6 +142,7 @@ gulp.task("debug", ["app"], function () {
         .pipe($.order([
             "vendor.js",
             "angular.js",
+            "vendor.css",
             "**/*.*",
             "**/*"], {base: outputDir}));
 

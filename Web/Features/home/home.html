@@ -1,15 +1,21 @@
-<div class="home">
-    <div layout="column">
+<div class="max home">
+    <h2 class="md-title">Can I port my application to .NET Core?</h2>
+    If you mean "can I use the new tools and project structures", then yes, <a href="" ui-sref="layout.net461">yes you can</a>.
+
+    <h2 class="md-title">I want to take advantage of the .NET Standard platform!</h2>
+    Awesome! Upload your project's <code>package.config</code> files and we will analyse them and build a visualisation of the dependencies and whether there are .NET Standard versions of those. Alternatively download the <a href="" ui-sref="layout.console">command line tool</a>.
+
+    <div layout="column" class="package-list">
         <div ng-repeat="item in vm.packageFiles" layout layout-align="center center">
             <md-input-container flex="40">
-                <input type="text" placeholder="Project Name" ng-model="item.name" />
+                <input type="text" placeholder="Project Name" ng-model="item.name"/>
             </md-input-container>
             <div flex="30">
-                <input class="ng-hide" id="input-file-id-{{$index}}" multiple type="file" ng-file-model="item.file" accept=".config" />
-                <label for="input-file-id-{{$index}}" class="choose-file md-button md-raised" ng-hide="item.file">Choose project.config File</label>
+                <input class="ng-hide" id="input-file-id-{{$index}}" multiple type="file" ng-file-model="item.file" accept=".config"/>
+                <label for="input-file-id-{{$index}}" class="choose-file md-button md-raised" ng-hide="item.file">Choose package.config File</label>
                 <div>
                     <span  class="package-file-name">{{ item.file.name}}</span>
-                    <md-button flex class="md-danger md-icon-button" title="Delete" ng-show="item.file" ng-click="vm.deletePackageFile(item)">
+                    <md-button class="md-danger md-icon-button" title="Delete" ng-show="item.file" ng-click="vm.deletePackageFile(item)">
                         <md-icon md-font-set="material-icons">delete</md-icon>
                     </md-button>
                 </div>

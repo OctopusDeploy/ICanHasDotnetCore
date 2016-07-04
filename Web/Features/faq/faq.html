@@ -1,0 +1,17 @@
+<div class="max faq">
+    <h2 class="md-title">How does this work?</h2>
+    We read your <code>packages.config</code> file and recursively lookup up those packages and their dependencies on
+    nuget.org. We then look at whether there are any <code>.NETStandard</code> dependencies. Since what was the base class
+    library is now referenced via nuget, the majority of .NETStandard assemblies reference at least one package.
+
+    <h2 class="md-title">Do you keep any uploaded information?</h2>
+    <p>
+        Yes, but in a non-identifying way. We keep track of which packages have not yet been ported to .NET Standard, and a
+        count of how many times that package was referenced. We do not track the names of packages that were not recognised,
+        as these would typically be from internal nuget feeds.
+    </p>
+    <p>
+        We also use google analytics to track page views and time one site.
+    </p>
+</div>
+

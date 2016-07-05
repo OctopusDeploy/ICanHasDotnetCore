@@ -3,9 +3,10 @@ namespace ICanHasDotnetCore.NugetPackages
     public enum SupportType
     {
         Unknown = 0,
-        Supported,
-        Unsupported,
-        KnownReplacementAvailable,
-        InvestigationTarget
+        Supported = 1,
+        PreRelease = 2,
+        Unsupported = 3,
+        KnownReplacementAvailable = 4,
+        InvestigationTarget = 5
     }
 }

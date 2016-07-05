@@ -6,9 +6,10 @@ module ICanHasDotnetCore.Result {
     export enum SupportType {
         Unknown = 0,
         Supported = 1,
-        Unsupported = 2,
-        KnownReplacementAvailable = 3,
-        InvestigationTarget = 4
+        PreRelease = 2,
+        Unsupported = 3,
+        KnownReplacementAvailable = 4,
+        InvestigationTarget = 5
     }
 
     export interface IGetResultRequest {
@@ -40,7 +41,9 @@ module ICanHasDotnetCore.Result {
             "Reticulating Splines",
             "Unpacking Nuggets",
             "Interrogating Byte Server",
-            "Building Network"
+            "Building Network",
+            "Analysing Big Data",
+            "Consulting the Internet of Things"
         ];
 
         constructor(private $http: ng.IHttpService, $state: ng.ui.IStateService, private $timeout: ng.ITimeoutService) {

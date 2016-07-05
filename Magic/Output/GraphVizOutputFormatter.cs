@@ -41,22 +41,24 @@ namespace ICanHasDotnetCore.Output
         private static string GetResultColour(PackageResult result)
         {
             if (!result.WasSuccessful)
-                return "#A93226";
+                return "#ef9a9a"; // Red
 
             switch (result.SupportType)
             {
                 case SupportType.Unknown:
-                    return "#E59866";
+                    return "#E0E0E0"; // Grey
                 case SupportType.Supported:
+                    return "#A5D6A7"; // green
+                case SupportType.PreRelease:
                     return "#A9DFBF";
                 case SupportType.Unsupported:
-                    return "#F7DC6F";
+                    return "#FFCC80"; // orange
                 case SupportType.KnownReplacementAvailable:
-                    return "#BB8FCE";
+                    return "#81D4FA"; //blue
                 case SupportType.InvestigationTarget:
-                    return "lightgray";
+                    return "#B39DDB"; // purple
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    return "#FAFAFA"; // B&W
             }
         }
     }

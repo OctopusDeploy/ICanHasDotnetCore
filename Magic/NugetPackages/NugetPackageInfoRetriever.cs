@@ -21,20 +21,16 @@ namespace ICanHasDotnetCore.NugetPackages
             _repository = repository;
         }
 
-        public async Task<Result<NugetPackage>> Retrieve(string id)
+        public async Task<Result<NugetPackage>> Retrieve(string id, bool prerelease)
         {
             if(KnownReplacements.Contains(id))
                 return Result.Success(new NugetPackage(id, new string[0], SupportType.KnownReplacementAvailable));
 
-            Log.Information("Retrieving package {id}", id);
-            var package = await _repository.GetLatestPackage(id);
+            var package = await _repository.GetLatestPackage(id, prerelease);
             if (package == null)
             {
-                Log.Information("Could not find package {id}", id);
                 return Result<NugetPackage>.Failed($"Could not find package {id}");
             }
-
-            Log.Information("Found package {id}, version {version}", package.Id, package.Version);
 
 
             var coreDeps = package.DependencySets
@@ -45,13 +41,11 @@ namespace ICanHasDotnetCore.NugetPackages
             if (coreDeps != null)
             {
                 var dependencies = GetDependencies(coreDeps);
-                Log.Information("Package {id} identified as core compatible, with dependencies {dependencies}", package.Id, dependencies);
-                return new NugetPackage(id, dependencies, SupportType.Supported);
+                return new NugetPackage(id, dependencies, package.IsReleaseVersion()?  SupportType.Supported : SupportType.PreRelease);
             }
 
             var osDeps = GetOldSkoolDependencies(package);
 
-            Log.Information("Package {id} identified as not compatible, with dependencies {dependencies}", package.Id, osDeps);
             return new NugetPackage(id, osDeps, SupportType.Unsupported);
         }
 

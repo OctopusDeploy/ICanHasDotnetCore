@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Core;
 
 namespace ICanHasDotnetCore.Web
 {
@@ -14,9 +16,15 @@ namespace ICanHasDotnetCore.Web
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .Enrich.FromLogContext()
+                .ReadFrom.Configuration(Configuration)
+                .WriteTo.Seq("http://localhost:5341/")
+                .CreateLogger();
         }
 
         public IConfigurationRoot Configuration { get; }
@@ -33,13 +41,15 @@ namespace ICanHasDotnetCore.Web
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+            loggerFactory.AddSerilog();
 
-            app.UseStaticFiles().UseMvc(AddRoutes);
+            
+            app.UseStaticFiles().UseMvc();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
         }
 
-        private void AddRoutes(IRouteBuilder routeBuilder)
-        {
-            //routeBuilder.MapRoute("Index", "{*url}", n)
-        }
     }
 }

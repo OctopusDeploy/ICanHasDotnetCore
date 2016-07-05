@@ -1,6 +1,6 @@
 <div class="result">
 
     <md-progress-linear ng-hide="vm.response" class="md-primary md-hue-2" md-mode="indeterminate"></md-progress-linear>
-    <div ng-hide="vm.response" class="md-title loading-message">{{vm.loadingMessage}}...</div>
+    <div ng-hide="vm.response" class="md-title loading-message" layout layout-align="center center">{{vm.loadingMessage}}...</div>
     <dependency-graph ng-show="vm.response" package-results="vm.response.result" data="vm.graphData"></dependency-graph>
 </div>

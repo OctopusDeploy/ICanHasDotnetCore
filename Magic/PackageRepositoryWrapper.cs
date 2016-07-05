@@ -8,16 +8,16 @@ namespace ICanHasDotnetCore
 {
     public interface IPackageRepositoryWrapper
     {
-        Task<IPackage> GetLatestPackage(string id);
+        Task<IPackage> GetLatestPackage(string id, bool prerelease);
         Task<Result<byte[]>> DownloadPackage(IPackageName package);
     }
 
     public class PackageRepositoryWrapper : IPackageRepositoryWrapper
     {
         private readonly DataServicePackageRepository _repository = new DataServicePackageRepository(new Uri("https://www.nuget.org/api/v2"));
-        public Task<IPackage> GetLatestPackage(string id)
+        public Task<IPackage> GetLatestPackage(string id, bool prerelease)
         {
-            return Task.Run(() => _repository.FindPackage(id));
+            return Task.Run(() => _repository.FindPackage(id, (IVersionSpec) null, prerelease, false));
         }
 
         public Task<Result<byte[]>> DownloadPackage(IPackageName package)

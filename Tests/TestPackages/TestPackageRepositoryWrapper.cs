@@ -6,7 +6,7 @@ namespace ICanHasDotnetCore.Tests.TestPackages
 {
     public class TestPackageRepositoryWrapper : IPackageRepositoryWrapper
     {
-        public Task<IPackage> GetLatestPackage(string id)
+        public Task<IPackage> GetLatestPackage(string id, bool prerelease)
         {
             throw new System.NotImplementedException();
         }

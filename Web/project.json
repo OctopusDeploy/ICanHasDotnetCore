@@ -11,6 +11,11 @@
     "Microsoft.Extensions.Logging.Console": "1.0.0",
     "Microsoft.Extensions.Logging.Debug": "1.0.0",
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
+    "Microsoft.AspNetCore.Diagnostics": "1.0.0",
+    "Serilog": "2.0.0",
+    "Serilog.Sinks.Seq": "2.0.0",
+    "Serilog.Extensions.Logging": "1.0.0",
+    "Serilog.Settings.Configuration": "2.0.0-rc-8",
     "Magic": "1.0.0-*"
   },
 

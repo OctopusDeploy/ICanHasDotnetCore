@@ -33,15 +33,23 @@ namespace ICanHasDotnetCore.Tests
         public void CompatiblePackageCanBeIdentified()
         {
             var retriever = GetRetriever();
-            var pkg = retriever.Retrieve("Serilog.Sinks.Seq", true).Result;
+            var pkg = retriever.Retrieve("Serilog.Sinks.Seq", false).Result;
             pkg.SupportType.Should().Be(SupportType.Supported);
+        }
+
+        [Test]
+        public void CompatiblePrereleasePackageCanBeIdentified()
+        {
+            var retriever = GetRetriever();
+            var pkg = retriever.Retrieve("Serilog.Sinks.Seq", true).Result;
+            pkg.SupportType.Should().Be(SupportType.PreRelease);
         }
 
         [Test]
         public void IncompatiblePackageCanBeIdentified()
         {
             var retriever = GetRetriever();
-            var pkg = retriever.Retrieve("BootstrapMvcHelpers", true).Result;
+            var pkg = retriever.Retrieve("BootstrapMvcHelpers", false).Result;
             pkg.SupportType.Should().Be(SupportType.Unsupported);
         }
 

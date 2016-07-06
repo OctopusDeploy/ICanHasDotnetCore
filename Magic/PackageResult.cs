@@ -14,7 +14,7 @@ namespace ICanHasDotnetCore
         public string PackageName { get; private set; }
         public string Error { get; private set; }
         public IReadOnlyList<PackageResult> Dependencies { get; private set; }
-        public bool WasSuccessful { get; private set; }
+        public bool WasSuccessful => SupportType != SupportType.Error;
         public SupportType SupportType { get; private set; }
 
         public static PackageResult Failed(string packageName, string error)
@@ -23,7 +23,8 @@ namespace ICanHasDotnetCore
             {
                 PackageName = packageName,
                 Error = error,
-                Dependencies = new PackageResult[0]
+                Dependencies = new PackageResult[0],
+                SupportType = SupportType.Error
             };
         }
 
@@ -33,7 +34,6 @@ namespace ICanHasDotnetCore
             {
                 PackageName = packageName,
                 Dependencies = dependencies,
-                WasSuccessful = true,
                 SupportType = supportType
             };
         }

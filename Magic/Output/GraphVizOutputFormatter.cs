@@ -40,12 +40,9 @@ namespace ICanHasDotnetCore.Output
 
         private static string GetResultColour(PackageResult result)
         {
-            if (!result.WasSuccessful)
-                return "#ef9a9a"; // Red
-
             switch (result.SupportType)
             {
-                case SupportType.Unknown:
+                case SupportType.NotFound:
                     return "#E0E0E0"; // Grey
                 case SupportType.Supported:
                     return "#A5D6A7"; // green
@@ -57,6 +54,8 @@ namespace ICanHasDotnetCore.Output
                     return "#81D4FA"; //blue
                 case SupportType.InvestigationTarget:
                     return "#B39DDB"; // purple
+                case SupportType.Error:
+                    return "#ef9a9a"; // purple
                 default:
                     return "#FAFAFA"; // B&W
             }

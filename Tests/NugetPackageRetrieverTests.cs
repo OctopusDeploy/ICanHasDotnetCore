@@ -11,9 +11,8 @@ namespace ICanHasDotnetCore.Tests
         {
             var retriever = GetRetriever();
             var pkg = retriever.Retrieve("Serilog.Sinks.Seq", true).Result;
-            pkg.WasSuccessful.Should().BeTrue();
-            pkg.Value.Id.Should().Be("Serilog.Sinks.Seq");
-            pkg.Value.Dependencies.Should().BeEquivalentTo("Serilog.Sinks.RollingFile", "Serilog", "Serilog.Sinks.PeriodicBatching");
+            pkg.Id.Should().Be("Serilog.Sinks.Seq");
+            pkg.Dependencies.Should().BeEquivalentTo("Serilog.Sinks.RollingFile", "Serilog", "Serilog.Sinks.PeriodicBatching");
         }
 
         [Test]
@@ -21,9 +20,8 @@ namespace ICanHasDotnetCore.Tests
         {
             var retriever = GetRetriever();
             var pkg = retriever.Retrieve("Autofac", true).Result;
-            pkg.WasSuccessful.Should().BeTrue();
-            pkg.Value.Id.Should().Be("Autofac");
-            pkg.Value.Dependencies.Should().BeEquivalentTo();
+            pkg.Id.Should().Be("Autofac");
+            pkg.Dependencies.Should().BeEquivalentTo();
         }
 
         private NugetPackageInfoRetriever GetRetriever()
@@ -36,8 +34,7 @@ namespace ICanHasDotnetCore.Tests
         {
             var retriever = GetRetriever();
             var pkg = retriever.Retrieve("Serilog.Sinks.Seq", true).Result;
-            pkg.WasSuccessful.Should().BeTrue();
-            pkg.Value.SupportType.Should().Be(SupportType.Supported);
+            pkg.SupportType.Should().Be(SupportType.Supported);
         }
 
         [Test]
@@ -45,16 +42,15 @@ namespace ICanHasDotnetCore.Tests
         {
             var retriever = GetRetriever();
             var pkg = retriever.Retrieve("BootstrapMvcHelpers", true).Result;
-            pkg.WasSuccessful.Should().BeTrue();
-            pkg.Value.SupportType.Should().Be(SupportType.Unsupported);
+            pkg.SupportType.Should().Be(SupportType.Unsupported);
         }
 
         [Test]
-        public void NonExistantPackageShouldNotSucceed()
+        public void NonExistantPackageShouldBeNotFound()
         {
             var retriever = GetRetriever();
             var pkg = retriever.Retrieve("FooFooFoo", true).Result;
-            pkg.WasSuccessful.Should().BeFalse();
+            pkg.SupportType.Should().Be(SupportType.NotFound);
         }
     }
 }

@@ -19,31 +19,27 @@ namespace ICanHasDotnetCore.Output
         internal static void Format(StringBuilder sb, PackageResult result)
         {
             sb.Append(result.PackageName).Append("   ");
-            if (result.WasSuccessful)
+            switch (result.SupportType)
             {
-                switch (result.SupportType)
-                {
-                    case SupportType.Unknown:
-                        sb.AppendLine("[Unknown Support]");
-                        break;
-                    case SupportType.Supported:
-                        sb.AppendLine("[Supported]");
-                        break;
-                    case SupportType.Unsupported:
-                        sb.AppendLine("[Unsupported]");
-                        break;
-                    case SupportType.KnownReplacementAvailable:
-                        sb.AppendLine("[Known Replacement Available]");
-                        break;
-                    case SupportType.InvestigationTarget:
-                        break;
-                    default:
-                        throw new ArgumentException();
-                }
-            }
-            else
-            {
-                sb.AppendLine(result.Error);
+                case SupportType.NotFound:
+                    sb.AppendLine("[Not Found]");
+                    break;
+                case SupportType.Supported:
+                    sb.AppendLine("[Supported]");
+                    break;
+                case SupportType.Unsupported:
+                    sb.AppendLine("[Unsupported]");
+                    break;
+                case SupportType.KnownReplacementAvailable:
+                    sb.AppendLine("[Known Replacement Available]");
+                    break;
+                case SupportType.InvestigationTarget:
+                    break;
+                case SupportType.Error:
+                    sb.AppendLine(result.Error);
+                    break;
+                default:
+                    throw new ArgumentException();
             }
         }
     }

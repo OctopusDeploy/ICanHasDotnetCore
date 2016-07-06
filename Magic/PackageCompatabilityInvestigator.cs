@@ -65,18 +65,16 @@ namespace ICanHasDotnetCore
             try
             {
                 var package = await _nugetPackageInfoRetriever.Retrieve(id, false);
-                if (package.WasFailure)
-                    return PackageResult.Failed(id, package.ErrorString);
 
-                if (package.Value.SupportType == SupportType.Unsupported)
+                if (package.SupportType == SupportType.Unsupported)
                 {
                     var prerelease = await _nugetPackageInfoRetriever.Retrieve(id, true);
-                    if (prerelease.WasSuccessful)
+                    if (prerelease.SupportType == SupportType.Supported)
                         package = prerelease;
                 }
 
-                var dependencyResults = await GetDependencyResults(package.Value.Dependencies);
-                return PackageResult.Success(id, dependencyResults, package.Value.SupportType);
+                var dependencyResults = await GetDependencyResults(package.Dependencies);
+                return PackageResult.Success(id, dependencyResults, package.SupportType);
             }
             catch (Exception ex)
             {

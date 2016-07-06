@@ -13,7 +13,6 @@ namespace ICanHasDotnetCore.Web.Features.result
     {
         public string PackageName { get; set; }
         public string Error { get; set; }
-        public bool WasSuccessful { get; set; }
         public SupportType SupportType { get; set; }
         public string[] Dependencies { get; set; }
     }

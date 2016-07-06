@@ -23,7 +23,6 @@ namespace ICanHasDotnetCore.Web.Features.result
                     PackageName = r.PackageName,
                     SupportType = r.SupportType,
                     Error = r.Error,
-                    WasSuccessful = r.WasSuccessful,
                     Dependencies = r.Dependencies?.Select(d => d.PackageName).ToArray()
                 }).ToArray(),
                 GraphViz = GraphVizOutputFormatter.Format(result),

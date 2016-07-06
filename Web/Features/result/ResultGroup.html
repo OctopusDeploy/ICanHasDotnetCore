@@ -1,0 +1,13 @@
+<div ng-show="vm.packages.length">
+    <package-result-box type="vm.type"></package-result-box>
+    <p>{{vm.description}}</p>
+    <div class="list">
+        <div class="list-item" ng-repeat="package in vm.packages" layout layout-align="start center">
+            <div flex="25" class="name">{{package.packageName}}</div>
+            <div flex-wrap>
+                <package-result-box ng-repeat="dep in vm.getDependencies(package)" type="dep.supportType" text="dep.packageName"></package-result-box>
+            </div>
+            <div flex class="error">{{package.error}}</div>
+        </div>
+    </div>
+</div>

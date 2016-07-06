@@ -21,16 +21,14 @@ namespace ICanHasDotnetCore.NugetPackages
             _repository = repository;
         }
 
-        public async Task<Result<NugetPackage>> Retrieve(string id, bool prerelease)
+        public async Task<NugetPackage> Retrieve(string id, bool prerelease)
         {
             if(KnownReplacements.Contains(id))
                 return Result.Success(new NugetPackage(id, new string[0], SupportType.KnownReplacementAvailable));
 
             var package = await _repository.GetLatestPackage(id, prerelease);
             if (package == null)
-            {
-                return Result<NugetPackage>.Failed($"Could not find package {id}");
-            }
+                return new NugetPackage(id, new string[0], SupportType.NotFound);
 
 
             var coreDeps = package.DependencySets

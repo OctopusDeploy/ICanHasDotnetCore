@@ -1,14 +1,56 @@
 .result {
     dependency-graph {
-        height: 800px;
+        height: 300px;
         display: block;
         border: 1px solid grey;
+    }
+
+    dependency-graph.expanded {
+        height: 800px;
     }
 
     .loading-message {
         text-align: center;
         margin-top: 10px;
         opacity: .5;
-        height:800px;
+        height: 400px;
+    }
+
+    .legend {
+        position: absolute;
+        top: 1px;
+        right: 0;
+        padding: 10px;
+        border-color: #ddd;
+        border-width: 1px;
+        border-style: solid;
+        font-size: 12px;
+    }
+
+    package-result-box {
+        margin-top: 5px;
+        margin-bottom: 5px;
+        border-radius: 5px;
+        border-width: 1px;
+        border-style: solid;
+        padding: 2px 5px;
+        display: block;
+    }
+
+    result-group {
+        margin-top: 15px;
+    }
+
+    .graphvis {
+        white-space: pre;
+        border-color: #ddd;
+        border-width: 1px;
+        border-style: solid;
+        background: #eee;
+        font-family: Consolas,monospace;
+        font-size: 12px;
+        max-height: 400px;
+        overflow: auto;
+        padding: 10px;
     }
 }

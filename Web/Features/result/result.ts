@@ -4,12 +4,13 @@ module ICanHasDotnetCore.Result {
 
 
     export enum SupportType {
-        Unknown = 0,
+        NotFound = 0,
         Supported = 1,
         PreRelease = 2,
         Unsupported = 3,
         KnownReplacementAvailable = 4,
-        InvestigationTarget = 5
+        InvestigationTarget = 5,
+        Error = 6
     }
 
     export interface IGetResultRequest {
@@ -24,7 +25,6 @@ module ICanHasDotnetCore.Result {
     export interface IPackageResult {
         packageName: string;
         error?: string;
-        wasSuccessful: boolean;
         supportType: SupportType;
         dependencies: string[];
     }
@@ -51,8 +51,8 @@ module ICanHasDotnetCore.Result {
 
             var packageFiles = <Home.IPackageFile[]>$state.params["data"];
             if (!packageFiles) {
-                $state.go(Home.state);
-                //this.response = this.testResponse;
+                //$state.go(Home.state);
+                this.response = this.testResponse;
                 return;
             }
 
@@ -72,14 +72,27 @@ module ICanHasDotnetCore.Result {
             this.$timeout(() => this.setLoadingMessage(), 3000);
         }
 
+        hasPackages(typeStr: string) {
+            return this.getPackages(typeStr).length > 0;
+        }
+
+        getPackages(typeStr: string) {
+            if (!this.response)
+                return [];
+            var type = SupportType[typeStr];
+            return this.response.result.filter(p => p.supportType === type);
+        }
+
         private testResponse: IGetResultResponse = {
-            graphViz: "",
+            graphViz: "Test data",
             result: [
-                { packageName: "A", wasSuccessful: true, supportType: SupportType.InvestigationTarget, dependencies: ["B", "C"] },
-                { packageName: "B", wasSuccessful: true, supportType: SupportType.Unsupported, dependencies: ["C", "D"] },
-                { packageName: "C", wasSuccessful: true, supportType: SupportType.KnownReplacementAvailable, dependencies: ["D"] },
-                { packageName: "D", wasSuccessful: true, supportType: SupportType.Supported, dependencies: ["E"] },
-                { packageName: "E", wasSuccessful: false, error: "Oops", supportType: SupportType.Unknown, dependencies: [] }
+                { packageName: "A", supportType: SupportType.InvestigationTarget, dependencies: ["B", "C"] },
+                { packageName: "B", supportType: SupportType.Unsupported, dependencies: ["C", "D", "F"] },
+                { packageName: "C", supportType: SupportType.KnownReplacementAvailable, dependencies: ["D"] },
+                { packageName: "D", supportType: SupportType.Supported, dependencies: ["E"] },
+                { packageName: "E", error: "Oops, something really really went wrong!!", supportType: SupportType.Error, dependencies: [] },
+                { packageName: "F", supportType: SupportType.PreRelease, dependencies: ["G"] },
+                { packageName: "G", supportType: SupportType.NotFound, dependencies: [] }
             ]
         };
 

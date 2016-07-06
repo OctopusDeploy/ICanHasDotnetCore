@@ -2,5 +2,53 @@
 
     <md-progress-linear ng-hide="vm.response" class="md-primary md-hue-2" md-mode="indeterminate"></md-progress-linear>
     <div ng-hide="vm.response" class="md-title loading-message" layout layout-align="center center">{{vm.loadingMessage}}...</div>
-    <dependency-graph ng-show="vm.response" package-results="vm.response.result" data="vm.graphData"></dependency-graph>
+    <div ng-show="vm.response">
+        <dependency-graph package-results="vm.response.result" data="vm.graphData" ng-class="{expanded: vm.graphExpanded}"></dependency-graph>
+
+        <div class="legend">
+            <package-result-box type="'InvestigationTarget'" ng-show="vm.hasPackages('InvestigationTarget')"></package-result-box>
+            <package-result-box type="'Supported'" ng-show="vm.hasPackages('Supported')"></package-result-box>
+            <package-result-box type="'PreRelease'" ng-show="vm.hasPackages('PreRelease')"></package-result-box>
+            <package-result-box type="'KnownReplacement'" ng-show="vm.hasPackages('KnownReplacement')"></package-result-box>
+            <package-result-box type="'Unsupported'" ng-show="vm.hasPackages('Unsupported')"></package-result-box>
+            <package-result-box type="'NotFound'" ng-show="vm.hasPackages('NotFound')"></package-result-box>
+            <package-result-box type="'Error'" ng-show="vm.hasPackages('Error')"></package-result-box>
+        </div>
+        <div layout layout-align="end">
+            <md-button ng-click="vm.graphExpanded=true" ng-hide="vm.graphExpanded"><md-icon md-font-set="material-icons">expand_more</md-icon> Expand</md-button>
+            <md-button ng-click="vm.graphExpanded=false" ng-show="vm.graphExpanded"><md-icon md-font-set="material-icons">expand_less</md-icon> Collapse</md-button>
+        </div>
+        <div class="max">
+            <div class="result-list">
+                <h2 class="md-title">Results</h2>
+                This is a list of all the packages scanned found, along with the packages each of them depends on.
+                <result-group type="InvestigationTarget" all-packages="vm.response.result"
+                              description="These are dependencies for the files you uploaded"></result-group>
+                <result-group type="Supported" all-packages="vm.response.result"
+                              description="The latest released version of these packages support .NET Standard"></result-group>
+                <result-group type="PreRelease" all-packages="vm.response.result"
+                              description="The latest released version of these packages do not support .NET Standard,
+                    however there is a preview release that does"></result-group>
+                <result-group type="KnownReplacement" all-packages="vm.response.result"
+                              description="We have identified these packages as no longer being required on .NET Standard, or have a
+                    replacement package with a different name"></result-group>
+                <result-group type="Unsupported" all-packages="vm.response.result"
+                              description="The latest released version of these packages do not support .NET Standard, and
+                    there is no pre-release package that does"></result-group>
+                <result-group type="NotFound" all-packages="vm.response.result"
+                              description="These packages could not be found on nuget.org, most likely they are from an internal
+                    nuget feed"></result-group>
+                <result-group type="Error" all-packages="vm.response.result"
+                              description="Something went wrong when inspecting the package"></result-group>
+            </div>
+            <div >
+                <h2 class="md-title">GraphVis data</h2>
+                <p>
+                    The data below is in <a href="http://www.graphviz.org/">GraphVis</a> dot format can be imported into many
+                    network graphing tools, including <a href="http://www.webgraphviz.com/">webgraphviz.com</a>.
+                </p> 
+                <div class="graphvis">{{vm.response.graphViz}}</div>
+            </div>
+        </div>
+    </div>
 </div>

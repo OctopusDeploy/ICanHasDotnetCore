@@ -1,5 +1,5 @@
 ﻿module ICanHasDotnetCore.Result.DependencyGraph {
-    app.directive("dependencyGraph", (supportTypeColourService: SupportTypeColourService.IService) => {
+    app.directive("dependencyGraph", (supportTypeService: SupportTypeService.IService) => {
 
         var network;
         var options = {
@@ -23,7 +23,7 @@
             {
                 id: result.packageName,
                 label: result.packageName,
-                color: supportTypeColourService.get(result.wasSuccessful, result.supportType),
+                color: supportTypeService.getColours(result.supportType),
             }
         );
 

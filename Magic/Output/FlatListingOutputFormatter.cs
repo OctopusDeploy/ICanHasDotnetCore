@@ -27,6 +27,9 @@ namespace ICanHasDotnetCore.Output
                 case SupportType.Supported:
                     sb.AppendLine("[Supported]");
                     break;
+                case SupportType.PreRelease:
+                    sb.AppendLine("[Supported (Pre-Release)]");
+                    break;
                 case SupportType.Unsupported:
                     sb.AppendLine("[Unsupported]");
                     break;
@@ -34,6 +37,7 @@ namespace ICanHasDotnetCore.Output
                     sb.AppendLine("[Known Replacement Available]");
                     break;
                 case SupportType.InvestigationTarget:
+                    sb.AppendLine();
                     break;
                 case SupportType.Error:
                     sb.AppendLine(result.Error);

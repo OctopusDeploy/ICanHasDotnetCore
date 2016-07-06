@@ -23,7 +23,7 @@ namespace ICanHasDotnetCore.NugetPackages
 
         public async Task<NugetPackage> Retrieve(string id, bool prerelease)
         {
-            if(KnownReplacements.Contains(id))
+            if (KnownReplacements.Contains(id))
                 return Result.Success(new NugetPackage(id, new string[0], SupportType.KnownReplacementAvailable));
 
             var package = await _repository.GetLatestPackage(id, prerelease);
@@ -39,7 +39,7 @@ namespace ICanHasDotnetCore.NugetPackages
             if (coreDeps != null)
             {
                 var dependencies = GetDependencies(coreDeps);
-                return new NugetPackage(id, dependencies, package.IsReleaseVersion()?  SupportType.Supported : SupportType.PreRelease);
+                return new NugetPackage(id, dependencies, package.IsReleaseVersion() ? SupportType.Supported : SupportType.PreRelease);
             }
 
             var osDeps = GetOldSkoolDependencies(package);
@@ -66,6 +66,7 @@ namespace ICanHasDotnetCore.NugetPackages
                 .Select(d => d.Id)
                 .Where(d => !d.StartsWith("System."))
                 .Where(d => !d.StartsWith("Microsoft.NETCore."))
+                .Where(d => d != "NETStandard.Library")
                 .ToArray();
         }
     }

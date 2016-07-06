@@ -69,7 +69,7 @@ namespace ICanHasDotnetCore
                 if (package.SupportType == SupportType.Unsupported)
                 {
                     var prerelease = await _nugetPackageInfoRetriever.Retrieve(id, true);
-                    if (prerelease.SupportType == SupportType.Supported)
+                    if (prerelease.SupportType == SupportType.PreRelease)
                         package = prerelease;
                 }
 

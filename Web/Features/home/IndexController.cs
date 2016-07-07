@@ -7,7 +7,7 @@ namespace ICanHasDotnetCore.Web.Controllers
     {
         public ActionResult Get(string url)
         {
-            if(url?.StartsWith("api") ?? false)
+            if(url == null  || url.StartsWith("api") || url.StartsWith("images") || url.StartsWith("app"))
                 return NotFound();
 
             return File("~/index.html", "text/html");

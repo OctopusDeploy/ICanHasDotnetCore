@@ -75,7 +75,9 @@ gulp.task("appScripts", function () {
             out: filenames.appJs
         }))
         .pipe($.sourcemaps.write())
-        .pipe(gulp.dest(outputDir));
+        .pipe(gulp.dest(outputDir))
+        .pipe($.livereload());
+
 });
 
 gulp.task("vendorStyles", function () {
@@ -94,7 +96,9 @@ gulp.task("appStyles", function () {
         .pipe($.plumber())
         .pipe($.flatten())
         .pipe($.concat(filenames.appCss))
-        .pipe(gulp.dest(outputDir));
+        .pipe(gulp.dest(outputDir))
+        .pipe($.livereload());
+
 });
 
 gulp.task("ngTemplates", function () {
@@ -112,7 +116,9 @@ gulp.task("ngTemplates", function () {
             root: "app",
             module: "app"
         }))
-        .pipe(gulp.dest(outputDir));
+        .pipe(gulp.dest(outputDir))
+        .pipe($.livereload());
+
 });
 
 gulp.task("images", function () {
@@ -162,6 +168,7 @@ gulp.task("debug", ["app"], function () {
 gulp.task("release", ["debug"]);
 
 gulp.task("watch", ["debug"], function () {
+    $.livereload.listen();
     gulp.watch(paths.src.vendorJs, ['vendorScripts']);
     gulp.watch(paths.src.appTs, ['appScripts']);
     gulp.watch(paths.src.vendorCss, ['vendorStyles']);

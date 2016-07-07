@@ -40,11 +40,11 @@ Push-Location
 cd Web
 
 "NPM Install"
-npm install
+. npm install
 CheckExit
 
 "Gulp"
-gulp release
+. .\node_modules\.bin\gulp release
 Pop-Location
 CheckExit
 
@@ -59,7 +59,7 @@ CheckExit
 
 
 "Publish Console"
-. dotnet publish Console -o "$pwd\Publish\Console" -r active -c Release
+. dotnet publish Console -o "$pwd\Publish\Console" -c Release
 CheckExit
 
 "Zip Console" 

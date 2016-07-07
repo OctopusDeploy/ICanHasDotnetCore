@@ -1347,6 +1347,18 @@
           "lib/net45/Serilog.Sinks.File.dll": {}
         }
       },
+      "Serilog.Sinks.Literate/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Serilog": "2.0.0"
+        },
+        "compile": {
+          "lib/net45/Serilog.Sinks.Literate.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Serilog.Sinks.Literate.dll": {}
+        }
+      },
       "Serilog.Sinks.PeriodicBatching/2.0.0": {
         "type": "package",
         "dependencies": {
@@ -2244,6 +2256,7 @@
           "Serilog": "2.0.0",
           "Serilog.Extensions.Logging": "1.0.0",
           "Serilog.Settings.Configuration": "2.0.0-rc-8",
+          "Serilog.Sinks.Literate": "2.0.0",
           "Serilog.Sinks.Seq": "2.0.0"
         },
         "compile": {
@@ -3527,6 +3540,19 @@
         "lib/net45/Serilog.Sinks.File.xml",
         "lib/netstandard1.3/Serilog.Sinks.File.dll",
         "lib/netstandard1.3/Serilog.Sinks.File.xml"
+      ]
+    },
+    "Serilog.Sinks.Literate/2.0.0": {
+      "sha512": "dR5O5nkzSGQ1IHAVgLENeCMQypj1Ch2IWxQ/2sO/t6k8i6Qej2S7sb5+HhaxXJ9Al0rTv3fsBtlg/cDrX2MKjg==",
+      "type": "package",
+      "path": "Serilog.Sinks.Literate/2.0.0",
+      "files": [
+        "Serilog.Sinks.Literate.2.0.0.nupkg.sha512",
+        "Serilog.Sinks.Literate.nuspec",
+        "lib/net45/Serilog.Sinks.Literate.dll",
+        "lib/net45/Serilog.Sinks.Literate.xml",
+        "lib/netstandard1.3/Serilog.Sinks.Literate.dll",
+        "lib/netstandard1.3/Serilog.Sinks.Literate.xml"
       ]
     },
     "Serilog.Sinks.PeriodicBatching/2.0.0": {

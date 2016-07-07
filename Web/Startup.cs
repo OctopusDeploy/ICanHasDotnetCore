@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Core;
+using Serilog.Events;
 
 namespace ICanHasDotnetCore.Web
 {
@@ -23,7 +24,10 @@ namespace ICanHasDotnetCore.Web
                 .MinimumLevel.Debug()
                 .Enrich.FromLogContext()
                 .ReadFrom.Configuration(Configuration)
-                .WriteTo.Seq("http://localhost:5341/")
+                .WriteTo.LiterateConsole(LogEventLevel.Information)
+                .WriteTo.Seq(Configuration["Seq:Url"], apiKey: Configuration["Seq:ApiKey"])
+                .Enrich.WithProperty("Application", "ICanHasDotnetCore")
+                .Enrich.WithProperty("Environment", env.EnvironmentName)
                 .CreateLogger();
         }
 
@@ -43,7 +47,7 @@ namespace ICanHasDotnetCore.Web
             loggerFactory.AddDebug();
             loggerFactory.AddSerilog();
 
-            
+
             app.UseStaticFiles().UseMvc();
             if (env.IsDevelopment())
             {

@@ -16,7 +16,8 @@
     "Serilog.Sinks.Seq": "2.0.0",
     "Serilog.Extensions.Logging": "1.0.0",
     "Serilog.Settings.Configuration": "2.0.0-rc-8",
-    "Magic": "1.0.0-*"
+    "Magic": "1.0.0-*",
+    "libuv": "1.9.0" 
   },
 
   "tools": {

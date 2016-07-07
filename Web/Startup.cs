@@ -23,7 +23,6 @@ namespace ICanHasDotnetCore.Web
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .Enrich.FromLogContext()
-                .ReadFrom.Configuration(Configuration)
                 .WriteTo.LiterateConsole(LogEventLevel.Information)
                 .WriteTo.Seq(Configuration["Seq:Url"], apiKey: Configuration["Seq:ApiKey"])
                 .Enrich.WithProperty("Application", "ICanHasDotnetCore")

@@ -1208,24 +1208,6 @@
           "lib/net45/Serilog.Extensions.Logging.dll": {}
         }
       },
-      "Serilog.Settings.Configuration/2.0.0-rc-8": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.Extensions.Configuration": "1.0.0-rc2-final",
-          "Microsoft.Extensions.DependencyModel": "1.0.0-rc2-final",
-          "Newtonsoft.Json": "8.0.4-beta1",
-          "Serilog": "2.0.0-rc-576"
-        },
-        "frameworkAssemblies": [
-          "System.Runtime"
-        ],
-        "compile": {
-          "lib/net451/Serilog.Settings.Configuration.dll": {}
-        },
-        "runtime": {
-          "lib/net451/Serilog.Settings.Configuration.dll": {}
-        }
-      },
       "Serilog.Sinks.File/2.0.0": {
         "type": "package",
         "dependencies": {
@@ -3056,19 +3038,6 @@
         "lib/net45/Serilog.Extensions.Logging.xml",
         "lib/netstandard1.3/Serilog.Extensions.Logging.dll",
         "lib/netstandard1.3/Serilog.Extensions.Logging.xml"
-      ]
-    },
-    "Serilog.Settings.Configuration/2.0.0-rc-8": {
-      "sha512": "5zcIkfDziLx3P13nW1G4LhKBTk83dntFUnIxa+dRULKPbFlUyAm8GZvL8ZhxE7qZwuCxXhvkiqVXEQ3+EtyvrA==",
-      "type": "package",
-      "path": "Serilog.Settings.Configuration/2.0.0-rc-8",
-      "files": [
-        "Serilog.Settings.Configuration.2.0.0-rc-8.nupkg.sha512",
-        "Serilog.Settings.Configuration.nuspec",
-        "lib/net451/Serilog.Settings.Configuration.dll",
-        "lib/net451/Serilog.Settings.Configuration.xml",
-        "lib/netstandard1.5/Serilog.Settings.Configuration.dll",
-        "lib/netstandard1.5/Serilog.Settings.Configuration.xml"
       ]
     },
     "Serilog.Sinks.File/2.0.0": {
@@ -5874,7 +5843,6 @@
       "Microsoft.Extensions.Options.ConfigurationExtensions >= 1.0.0",
       "Serilog >= 2.0.0",
       "Serilog.Extensions.Logging >= 1.0.0",
-      "Serilog.Settings.Configuration >= 2.0.0-rc-8",
       "Serilog.Sinks.Literate >= 2.0.0",
       "Serilog.Sinks.Seq >= 2.0.0"
     ],

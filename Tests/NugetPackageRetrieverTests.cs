@@ -12,7 +12,7 @@ namespace ICanHasDotnetCore.Tests
             var retriever = GetRetriever();
             var pkg = retriever.Retrieve("Serilog.Sinks.Seq", true).Result;
             pkg.Id.Should().Be("Serilog.Sinks.Seq");
-            pkg.Dependencies.Should().BeEquivalentTo("Serilog.Sinks.RollingFile", "Serilog", "Serilog.Sinks.PeriodicBatching");
+            pkg.Dependencies.Should().Contain("Serilog.Sinks.RollingFile", "Serilog", "Serilog.Sinks.PeriodicBatching");
         }
 
         [Test]

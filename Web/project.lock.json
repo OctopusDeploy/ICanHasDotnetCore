@@ -3,7 +3,7 @@
   "version": 2,
   "targets": {
     ".NETFramework,Version=v4.6.1": {
-      "libuv/1.9.0": {
+      "Libuv/1.9.0": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.0.1"
@@ -1985,10 +1985,10 @@
     }
   },
   "libraries": {
-    "libuv/1.9.0": {
+    "Libuv/1.9.0": {
       "sha512": "9Q7AaqtQhS8JDSIvRBt6ODSLWDBI4c8YxNxyCQemWebBFUtBbc6M5Vi5Gz1ZyIUlTW3rZK9bIr5gnVyv0z7a2Q==",
       "type": "package",
-      "path": "libuv/1.9.0",
+      "path": "Libuv/1.9.0",
       "files": [
         "Libuv.1.9.0.nupkg.sha512",
         "Libuv.nuspec",
@@ -5834,6 +5834,7 @@
   },
   "projectFileDependencyGroups": {
     "": [
+      "Libuv >= 1.9.0",
       "Magic >= 1.0.0-*",
       "Microsoft.AspNetCore.Diagnostics >= 1.0.0",
       "Microsoft.AspNetCore.Mvc >= 1.0.0",
@@ -5850,8 +5851,7 @@
       "Serilog >= 2.0.0",
       "Serilog.Extensions.Logging >= 1.0.0",
       "Serilog.Settings.Configuration >= 2.0.0-rc-8",
-      "Serilog.Sinks.Seq >= 2.0.0",
-      "libuv >= 1.9.0"
+      "Serilog.Sinks.Seq >= 2.0.0"
     ],
     ".NETFramework,Version=v4.6.1": []
   },

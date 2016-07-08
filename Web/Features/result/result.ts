@@ -36,6 +36,7 @@ module ICanHasDotnetCore.Result {
 
         response: IGetResultResponse;
         loadingMessage;
+        error: boolean;
 
         private loadingMessages = [
             "Reticulating Splines",
@@ -51,7 +52,7 @@ module ICanHasDotnetCore.Result {
 
             if ($location.search().demo) {
                 $http.get<IGetResultResponse>("/api/GetResult/Demo", {})
-                    .then(response => this.response = response.data);
+                    .then(response => this.response = response.data, () => this.error = true);
                 return;
             }
 
@@ -63,7 +64,7 @@ module ICanHasDotnetCore.Result {
 
             packageFiles = packageFiles.map(f => ({ name: f.name, contents: f.file.data }));
             $http.post<IGetResultResponse>("/api/GetResult", <IGetResultRequest>{ packageFiles: packageFiles })
-                .then(response => this.response = response.data);
+                .then(response => this.response = response.data, () => this.error = true);
 
         }
 

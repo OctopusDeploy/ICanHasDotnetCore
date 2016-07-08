@@ -3,6 +3,32 @@
   "version": 2,
   "targets": {
     ".NETFramework,Version=v4.6.1": {
+      "Autofac/4.0.0-rc3-280": {
+        "type": "package",
+        "compile": {
+          "lib/net451/Autofac.dll": {}
+        },
+        "runtime": {
+          "lib/net451/Autofac.dll": {}
+        }
+      },
+      "Autofac.Extensions.DependencyInjection/4.0.0-rc3-280": {
+        "type": "package",
+        "dependencies": {
+          "Autofac": "4.0.0-rc3-280",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0",
+          "System.Collections": "4.0.11",
+          "System.Diagnostics.Contracts": "4.0.1",
+          "System.Runtime": "4.1.0",
+          "System.Threading.Tasks": "4.0.11"
+        },
+        "compile": {
+          "lib/netstandard1.1/Autofac.Extensions.DependencyInjection.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.1/Autofac.Extensions.DependencyInjection.dll": {}
+        }
+      },
       "Libuv/1.9.0": {
         "type": "package",
         "dependencies": {
@@ -1979,6 +2005,30 @@
     }
   },
   "libraries": {
+    "Autofac/4.0.0-rc3-280": {
+      "sha512": "Uf4XV4veCpxGSfjnz8tv9417UmQPiflJK5d+5a3mkWjSTvtf5pMOhh4UVUAs+3ZR8lNqkJ6tSXm4TUhF/lzgZA==",
+      "type": "package",
+      "path": "Autofac/4.0.0-rc3-280",
+      "files": [
+        "Autofac.4.0.0-rc3-280.nupkg.sha512",
+        "Autofac.nuspec",
+        "lib/net451/Autofac.dll",
+        "lib/net451/Autofac.xml",
+        "lib/netstandard1.1/Autofac.dll",
+        "lib/netstandard1.1/Autofac.xml"
+      ]
+    },
+    "Autofac.Extensions.DependencyInjection/4.0.0-rc3-280": {
+      "sha512": "wLwjih+qGn9CPviKOb228u4qjHxEdzOI6xhBC9ofNJtXE8RUQYuv5nGdnn3/HLhl+b9aUCsHKg7eaxC/dH4tEg==",
+      "type": "package",
+      "path": "Autofac.Extensions.DependencyInjection/4.0.0-rc3-280",
+      "files": [
+        "Autofac.Extensions.DependencyInjection.4.0.0-rc3-280.nupkg.sha512",
+        "Autofac.Extensions.DependencyInjection.nuspec",
+        "lib/netstandard1.1/Autofac.Extensions.DependencyInjection.dll",
+        "lib/netstandard1.1/Autofac.Extensions.DependencyInjection.xml"
+      ]
+    },
     "Libuv/1.9.0": {
       "sha512": "9Q7AaqtQhS8JDSIvRBt6ODSLWDBI4c8YxNxyCQemWebBFUtBbc6M5Vi5Gz1ZyIUlTW3rZK9bIr5gnVyv0z7a2Q==",
       "type": "package",
@@ -5828,6 +5878,7 @@
   },
   "projectFileDependencyGroups": {
     "": [
+      "Autofac.Extensions.DependencyInjection >= 4.0.0-rc3-280",
       "Magic >= 1.0.0-*",
       "Microsoft.AspNetCore.Diagnostics >= 1.0.0",
       "Microsoft.AspNetCore.Mvc >= 1.0.0",
@@ -5846,7 +5897,9 @@
       "Serilog.Sinks.Literate >= 2.0.0",
       "Serilog.Sinks.Seq >= 2.0.0"
     ],
-    ".NETFramework,Version=v4.6.1": []
+    ".NETFramework,Version=v4.6.1": [
+      "System.Data >= 4.0.0"
+    ]
   },
   "tools": {
     ".NETCoreApp,Version=v1.0": {

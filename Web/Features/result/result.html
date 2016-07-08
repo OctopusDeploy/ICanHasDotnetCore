@@ -1,7 +1,12 @@
 <div class="result">
 
-    <md-progress-linear ng-hide="vm.response" class="md-primary md-hue-2" md-mode="indeterminate"></md-progress-linear>
-    <div ng-hide="vm.response" class="md-title loading-message" layout layout-align="center center">{{vm.loadingMessage}}...</div>
+    <md-progress-linear ng-hide="vm.response || vm.error" class="md-primary md-hue-2" md-mode="indeterminate"></md-progress-linear>
+    <div ng-hide="vm.response || vm.error" class="md-title loading-message" layout layout-align="center center">{{vm.loadingMessage}}...</div>
+    <div ng-show="vm.error" class="max error">
+        <md-icon>sentiment_very_dissatisfied</md-icon>
+        <p>Oops! Something went very wrong. The error has been logged, and we will try and fix it, so come back tomorrow and try again.</p>
+        <p>In the meantime, <a href="https://www.google.com.au/search?q=teacup+pigs&tbm=isch" target="_blank">this</a> is a thing.</p>
+    </div>
     <div ng-show="vm.response">
         <dependency-graph package-results="vm.response.result" data="vm.graphData" ng-class="{expanded: vm.graphExpanded}"></dependency-graph>
 
@@ -41,12 +46,12 @@
                 <result-group type="Error" all-packages="vm.response.result"
                               description="Something went wrong when inspecting the package"></result-group>
             </div>
-            <div >
+            <div>
                 <h2 class="md-title">GraphVis data</h2>
                 <p>
                     The data below is in <a href="http://www.graphviz.org/">GraphVis</a> dot format can be imported into many
                     network graphing tools, including <a href="http://www.webgraphviz.com/">webgraphviz.com</a>.
-                </p> 
+                </p>
                 <div class="graphvis">{{vm.response.graphViz}}</div>
             </div>
         </div>

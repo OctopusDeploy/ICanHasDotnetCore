@@ -1,23 +1,46 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ICanHasDotnetCore.NugetPackages;
 using ICanHasDotnetCore.Output;
+using ICanHasDotnetCore.Web.Features.Statistics;
 using ICanHasDotnetCore.Web.Helpers;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace ICanHasDotnetCore.Web.Features.result
 {
     public class GetResultController : Controller
     {
+        private readonly StatisticsRepository _statisticsRepository;
+
+        public GetResultController(StatisticsRepository statisticsRepository)
+        {
+            _statisticsRepository = statisticsRepository;
+        }
+
         [HttpPost("/api/GetResult")]
         public async Task<GetResultResponse> Get([FromBody]GetResultRequest request)
         {
+            var sw = Stopwatch.StartNew();
             var packagesFileDatas = request.PackageFiles.Select(p => new PackagesFileData(p.Name, DataUriConverter.ConvertFrom(p.Contents))).ToArray();
             var result = await PackageCompatabilityInvestigator.Create()
                 .Go(packagesFileDatas);
-
+            sw.Stop();
+            await _statisticsRepository.AddStatisticsForResult(result);
+            LogMessage(result, sw);
             return BuildResponse(result);
+        }
+
+        private void LogMessage(InvestigationResult result, Stopwatch sw)
+        {
+            var grouped = result.GetAllDistinctRecursive()
+                .GroupBy(r => r.SupportType)
+                .ToDictionary(g => g.Key, g => g.Count());
+
+            Log.Information("Processed packages {Count} files in {Time}ms resulting in {Total} dependencies. Breakdown: {Breakdown}.", grouped[SupportType.InvestigationTarget], sw.ElapsedMilliseconds, grouped.Sum(g => g.Value), grouped);
         }
 
         private static GetResultResponse BuildResponse(InvestigationResult result)

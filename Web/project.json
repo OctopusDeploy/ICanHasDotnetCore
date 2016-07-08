@@ -16,6 +16,7 @@
     "Serilog.Sinks.Seq": "2.0.0",
     "Serilog.Sinks.Literate": "2.0.0",
     "Serilog.Extensions.Logging": "1.0.0",
+    "Autofac.Extensions.DependencyInjection": "4.0.0-rc3-280",
     "Magic": "1.0.0-*"
   },
 
@@ -26,7 +27,10 @@
   "frameworks": {
     "net461": {
       "imports": [
-      ]
+      ],
+      "frameworkAssemblies": {
+        "System.Data": "4.0.0.0"
+      }
     }
   },
 

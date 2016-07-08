@@ -52,11 +52,17 @@ CheckExit
 . dotnet publish Web -o "$pwd\Publish\Web" -c Release
 CheckExit
 
-
 "Pack Web"
 . Tools\Octo.exe pack --id ICanHasDotnetCore.Web --version $version --basePath Publish\Web --format zip --outFolder Publish
 CheckExit
 
+"Publish Database"
+. dotnet publish Database -o "$pwd\Publish\Database" -c Release
+CheckExit
+
+"Pack Database"
+. Tools\Octo.exe pack --id ICanHasDotnetCore.Database --version $version --basePath Publish\Database --format zip --outFolder Publish
+CheckExit
 
 "Publish Console"
 . dotnet publish Console -o "$pwd\Publish\Console" -c Release

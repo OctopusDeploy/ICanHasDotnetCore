@@ -1,6 +1,7 @@
 ﻿using System;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using ICanHasDotnetCore.Web.Plumbing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;
@@ -23,7 +24,7 @@ namespace ICanHasDotnetCore.Web
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
-            
+
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .Enrich.FromLogContext()
@@ -44,7 +45,7 @@ namespace ICanHasDotnetCore.Web
 
             // Create the container builder.
             var builder = new ContainerBuilder();
-            
+
             // Register dependencies, populate the services from
             // the collection, and build the container.
             builder.RegisterInstance(Configuration);
@@ -63,12 +64,13 @@ namespace ICanHasDotnetCore.Web
             loggerFactory.AddDebug();
             loggerFactory.AddSerilog();
 
+            if (!env.IsDevelopment())
+                app.UseMiddleware<RedirectHttpMiddleware>();
 
-            app.UseStaticFiles().UseMvc();
+            app.UseStaticFiles()
+                .UseMvc();
             if (env.IsDevelopment())
-            {
                 app.UseDeveloperExceptionPage();
-            }
         }
 
     }

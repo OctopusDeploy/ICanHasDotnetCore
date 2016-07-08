@@ -59,18 +59,31 @@ module ICanHasDotnetCore {
             }]
         );
 
-    app.config(function ($mdThemingProvider) {
+    app.config($mdThemingProvider => {
         $mdThemingProvider.theme('default')
             .primaryPalette('blue')
             .accentPalette('green');
     });
 
-    app.config(function ($mdIconProvider) {
+    app.config($mdIconProvider => {
         var rootURL = "ui/images/";
 
         // Register the user `avatar` icons
         $mdIconProvider
-            .icon("menu", rootURL + "menu.svg", 24)
+            .icon("menu", rootURL + "menu.svg", 24);
+    });
+
+    app.run(($window, $rootScope: ng.IRootScopeService, $location: ng.ILocationService, $http: ng.IHttpService) => {
+        $http.get("/api/Analytics")
+            .then<string>(result => {
+                var sendPageView = () => $window.ga('send', 'pageview', $location.path());
+
+                if (result.data) {
+                    $window.ga('create', result.data, 'auto');
+                    $rootScope.$on('$stateChangeSuccess', sendPageView);
+                    sendPageView();
+                }
+            });
     });
 
 

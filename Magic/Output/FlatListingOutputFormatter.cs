@@ -37,7 +37,7 @@ namespace ICanHasDotnetCore.Output
                     sb.AppendLine("[Known Replacement Available]");
                     break;
                 case SupportType.InvestigationTarget:
-                    sb.AppendLine();
+                    sb.AppendLine("[Your Project]");
                     break;
                 case SupportType.Error:
                     sb.AppendLine(result.Error);

@@ -1,10 +1,39 @@
 * {
     box-sizing: border-box;
 }
+
+@code-colour: #AD1457;
+
 .max {
     max-width: 1024px;
     margin-left: auto;
     margin-right: auto;
     padding-left: 10px;
     padding-right: 10px;
+    color: inherit;
+    border-color: @code-colour;
+
+}
+
+code {
+    color: @code-colour;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #ccc;
+    border-radius: 3px;
+    background: #f9f9f9;
+    padding: 1px 3px;
+    font-size: 12px;
+    display: inline-block;
+
+}
+code.block
+{
+    border-color: @code-colour;
+    border-style: dotted;
+    padding: 15px;
+    display:block;
+    color: inherit;
+    white-space:nowrap;
+    overflow: auto;
 }

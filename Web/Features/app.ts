@@ -75,7 +75,7 @@ module ICanHasDotnetCore {
 
     app.run(($window, $rootScope: ng.IRootScopeService, $location: ng.ILocationService, $http: ng.IHttpService) => {
         $http.get("/api/Analytics")
-            .then<string>(result => {
+            .then(result => {
                 var sendPageView = () => $window.ga('send', 'pageview', $location.path());
 
                 if (result.data) {

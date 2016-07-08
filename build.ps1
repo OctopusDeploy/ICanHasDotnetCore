@@ -48,9 +48,19 @@ CheckExit
 Pop-Location
 CheckExit
 
+
 "Publish Web"
 . dotnet publish Web -o "$pwd\Publish\Web" -c Release
 CheckExit
+
+
+"Publish Console"
+. dotnet publish Console -o "$pwd\Publish\Console" -c Release
+CheckExit
+
+"Zip Console" 
+New-Item "Publish\ConsoleZip" -ItemType Directory
+[io.compression.zipfile]::CreateFromDirectory("$pwd\Publish\Console", "$pwd\Publish\Web\wwwroot\Downloads\ICanHasDotnetCore.zip")
 
 "Pack Web"
 . Tools\Octo.exe pack --id ICanHasDotnetCore.Web --version $version --basePath Publish\Web --format zip --outFolder Publish
@@ -62,16 +72,4 @@ CheckExit
 
 "Pack Database"
 . Tools\Octo.exe pack --id ICanHasDotnetCore.Database --version $version --basePath Publish\Database --format zip --outFolder Publish
-CheckExit
-
-"Publish Console"
-. dotnet publish Console -o "$pwd\Publish\Console" -c Release
-CheckExit
-
-"Zip Console" 
-New-Item "Publish\ConsoleZip" -ItemType Directory
-[io.compression.zipfile]::CreateFromDirectory("$pwd\Publish\Console", "$pwd\Publish\ConsoleZip\Console.$version.zip")
-
-"Pack Console"
-. Tools\Octo.exe pack --id ICanHasDotnetCore.Console --version $version --basePath Publish\ConsoleZip\ --format zip --outFolder Publish
 CheckExit

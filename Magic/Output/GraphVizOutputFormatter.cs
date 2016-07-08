@@ -25,7 +25,7 @@ namespace ICanHasDotnetCore.Output
             var sb = new StringBuilder();
             sb.AppendLine("# This file can be used with GraphVis or http://www.webgraphviz.com/");
             sb.AppendLine($"digraph \"{name}\" {{");
-            sb.AppendLine("    graph[layout = fdp];");
+            sb.AppendLine("    graph[layout = dot];");
             sb.AppendLine("    node[style = filled,shape=box];");
           
             foreach (var result in results)

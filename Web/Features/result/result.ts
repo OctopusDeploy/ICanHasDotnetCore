@@ -46,13 +46,18 @@ module ICanHasDotnetCore.Result {
             "Consulting the Internet of Things"
         ];
 
-        constructor(private $http: ng.IHttpService, $state: ng.ui.IStateService, private $timeout: ng.ITimeoutService) {
+        constructor(private $http: ng.IHttpService, $state: ng.ui.IStateService, private $timeout: ng.ITimeoutService, $location: ng.ILocationService) {
             this.setLoadingMessage();
+
+            if ($location.search().demo) {
+                $http.get<IGetResultResponse>("/api/GetResult/Demo", {})
+                    .then(response => this.response = response.data);
+                return;
+            }
 
             var packageFiles = <Home.IPackageFile[]>$state.params["data"];
             if (!packageFiles) {
-                //$state.go(Home.state);
-                this.response = this.testResponse;
+                $state.go(Home.state);
                 return;
             }
 
@@ -83,7 +88,7 @@ module ICanHasDotnetCore.Result {
             return this.response.result.filter(p => p.supportType === type);
         }
 
-        private testResponse: IGetResultResponse = {
+        private demoResponse: IGetResultResponse = {
             graphViz: "Test data",
             result: [
                 { packageName: "A", supportType: SupportType.InvestigationTarget, dependencies: ["B", "C"] },

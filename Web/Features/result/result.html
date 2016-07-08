@@ -9,7 +9,7 @@
             <package-result-box type="'InvestigationTarget'" ng-show="vm.hasPackages('InvestigationTarget')"></package-result-box>
             <package-result-box type="'Supported'" ng-show="vm.hasPackages('Supported')"></package-result-box>
             <package-result-box type="'PreRelease'" ng-show="vm.hasPackages('PreRelease')"></package-result-box>
-            <package-result-box type="'KnownReplacement'" ng-show="vm.hasPackages('KnownReplacement')"></package-result-box>
+            <package-result-box type="'KnownReplacementAvailable'" ng-show="vm.hasPackages('KnownReplacementAvailable')"></package-result-box>
             <package-result-box type="'Unsupported'" ng-show="vm.hasPackages('Unsupported')"></package-result-box>
             <package-result-box type="'NotFound'" ng-show="vm.hasPackages('NotFound')"></package-result-box>
             <package-result-box type="'Error'" ng-show="vm.hasPackages('Error')"></package-result-box>
@@ -29,7 +29,7 @@
                 <result-group type="PreRelease" all-packages="vm.response.result"
                               description="The latest released version of these packages do not support .NET Standard,
                     however there is a preview release that does"></result-group>
-                <result-group type="KnownReplacement" all-packages="vm.response.result"
+                <result-group type="KnownReplacementAvailable" all-packages="vm.response.result"
                               description="We have identified these packages as no longer being required on .NET Standard, or have a
                     replacement package with a different name"></result-group>
                 <result-group type="Unsupported" all-packages="vm.response.result"

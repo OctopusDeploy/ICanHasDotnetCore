@@ -2,7 +2,7 @@
 
     <md-progress-linear ng-hide="vm.response || vm.error" class="md-primary md-hue-2" md-mode="indeterminate"></md-progress-linear>
     <div ng-hide="vm.response || vm.error" class="md-title loading-message" layout layout-align="center center">{{vm.loadingMessage}}...</div>
-    <div ng-show="vm.error" class="max error">
+    <div ng-show="vm.error" class="max server-error">
         <md-icon>sentiment_very_dissatisfied</md-icon>
         <p>Oops! Something went very wrong. The error has been logged, and we will try and fix it, so come back tomorrow and try again.</p>
         <p>In the meantime, <a href="https://www.google.com.au/search?q=teacup+pigs&tbm=isch" target="_blank">this</a> is a thing.</p>

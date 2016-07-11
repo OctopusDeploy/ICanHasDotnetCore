@@ -9,9 +9,12 @@
 * {
     box-sizing: border-box;
 }
-p
+body{
+    letter-spacing: 0.01em
+}
+p, li
 {
-    line-height: 1.5em;
+    line-height: 1.6em;
 }
 .accent {
     color: @accent;
@@ -51,9 +54,11 @@ code.block {
 }
 
 md-icon.external-link {
-    font-size: 12px;
-    width: 12px;
-    height: 12px;
+    font-size: 10px;
+    min-width: 10px;
+    min-height: 10px;
+    width: 10px;
+    height: 10px;
     vertical-align: super;
 }
 
@@ -72,9 +77,7 @@ md-icon.external-link {
     background: #eee;
 }
 
-package-result-box {
-    width: 250px;
-}
+
 
 a md-icon {
     color: @link-colour;

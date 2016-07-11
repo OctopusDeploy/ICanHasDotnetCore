@@ -8,8 +8,10 @@
         <a class="md-button md-raised download" href="/Downloads/ICanHasDotnetCore.zip" target="_self"><md-icon>file_download</md-icon> Download</a>
     </div>
     <h2 class="md-title">Usage</h2>
-    Specify the output directory and one or more directories to scan. The application will recursively scan the speciifed
-    directories looking for <code>packages.config</code> files.
+    <p>
+        Specify the output directory and one or more directories to scan. The application will recursively scan the speciifed
+        directories looking for <code>packages.config</code> files.
+    </p>
     <p>
         <code class="block">CanIHazDotnetCore.exe &lt;output_directory&gt; &lt;dir_to_scan_1&gt; [dir_to_scan_2] ... [dir_to_scan_n]</code>
     </p>
@@ -22,18 +24,23 @@
         <code class="block">CanIHazDotnetCore.exe c:\temp\output MyApplication.Data MyApplication.Web Tests\Tests Tests\Tests.UI</code>
     </p>
     <h2 class="md-title">Output</h2>
-    Each found <code>packages.config</code> file is tagged with the name of the directory it was found in as the 'Project' name.
-    The application will output:
-    <ul>
-        <li><code>Flat.txt</code> - A flat list of the dependencies</li>
-        <li><code>Tree.txt</code> - A tree of the dependencies</li>
-        <li><code>All.gv</code> - A <a href="http://http://www.graphviz.org/">GraphVis</a> file of all dependencies of all projects</li>
-        <li><code>1Level.gv</code> - A <a href="http://http://www.graphviz.org/">GraphVis</a> file of direct dependencies of all projects</li>
-        <li><code>&lt;Project&gt;.gv</code> - A <a href="http://http://www.graphviz.org/">GraphVis</a> file of dependencies for <code>&lt;Project&gt;</code></li>
-    </ul>
+    <p>
+        Each found <code>packages.config</code> file is tagged with the name of the directory it was found in as the 'Project' name.
+        The application will output:
+        <ul>
+            <li><code>Flat.txt</code> - A flat list of the dependencies</li>
+            <li><code>Tree.txt</code> - A tree of the dependencies</li>
+            <li><code>All.gv</code> - A <a href="http://http://www.graphviz.org/">GraphVis</a> file of all dependencies of all projects</li>
+            <li><code>1Level.gv</code> - A <a href="http://http://www.graphviz.org/">GraphVis</a> file of direct dependencies of all projects</li>
+            <li><code>&lt;Project&gt;.gv</code> - A <a href="http://http://www.graphviz.org/">GraphVis</a> file of dependencies for <code>&lt;Project&gt;</code></li>
+        </ul>
+    </p>
+
     <h3 class="md-subtitle">Result Statuses and Colours</h3>
-    The textual output will use a textual status (eg <code>[Supported]</code>), while the GraphVis data uses colour.
-    The possible statuses are:
+    <p>
+        The textual output will use a textual status (eg <code>[Supported]</code>), while the GraphVis data uses colour.
+        The possible statuses are:
+    </p>
     <div class="statuses">
         <div layout layout-align="start center">
             <package-result-box type="'InvestigationTarget'"></package-result-box>
@@ -65,7 +72,9 @@
         </div>
     </div>
     <h3 class="md-subtitle">GraphVis</h3>
-    The <code>.gv</code> file is a GraphVis dot file. It can be used with the <a href="http://http://www.graphviz.org/">GraphVis</a> application, online at <a href="http://www.webgraphviz.com/">WebGraphViz</a>
-    or with many other web and non-web based network graphing applications.
+    <p>
+        The <code>.gv</code> file is a GraphVis dot file. It can be used with the <a href="http://http://www.graphviz.org/">GraphVis</a> application, online at <a href="http://www.webgraphviz.com/">WebGraphViz</a>
+        or with many other web and non-web based network graphing applications.
+    </p>
 </div>
 

@@ -1,6 +1,7 @@
 module ICanHasDotnetCore.Result {
 
     export const state = "layout.result";
+    export const demoState = "layout.resultDemo";
 
 
     export enum SupportType {
@@ -50,7 +51,7 @@ module ICanHasDotnetCore.Result {
         constructor(private $http: ng.IHttpService, $state: ng.ui.IStateService, private $timeout: ng.ITimeoutService, $location: ng.ILocationService) {
             this.setLoadingMessage();
 
-            if ($location.search().demo) {
+            if ($state.current.name === demoState) {
                 $http.get<IGetResultResponse>("/api/GetResult/Demo", {})
                     .then(response => this.response = response.data, () => this.error = true);
                 return;
@@ -105,4 +106,5 @@ module ICanHasDotnetCore.Result {
     }
 
     addAngularState(state, "/result?demo", "Result", ViewModel, "result/result.html");
+    addAngularState(demoState, "/result/demo", "Result Demo", ViewModel, "result/result.html");
 }

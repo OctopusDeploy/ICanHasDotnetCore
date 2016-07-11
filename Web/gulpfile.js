@@ -158,7 +158,7 @@ gulp.task("debug", ["app"], function () {
         .src("index.html")
         .pipe($.plumber())
         .pipe($.inject(sources, {
-            addRootSlash: false,
+            addRootSlash: true,
             ignorePath: [outputDir],
             addSuffix: "?d=" + timestamp
         }))

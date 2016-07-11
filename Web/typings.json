@@ -1,5 +1,5 @@
 {
-  "ambientDependencies": {
+  "globalDevDependencies": {
     "angular": "github:DefinitelyTyped/DefinitelyTyped/angularjs/angular.d.ts#1c94cfb32eab35dde9fda7fb738d324e9a0e66d4",
     "angular-material": "registry:dt/angular-material#1.0.0-rc5.0+20160317120654",
     "angular-ui-router": "github:DefinitelyTyped/DefinitelyTyped/angular-ui-router/angular-ui-router.d.ts#1c94cfb32eab35dde9fda7fb738d324e9a0e66d4",

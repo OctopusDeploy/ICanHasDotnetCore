@@ -1,6 +1,6 @@
 module ICanHasDotnetCore.Console {
 
-    export const state = "layout_console";
+    export const state = "layout.console";
 
     class ViewModel {
     }

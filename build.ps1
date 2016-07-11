@@ -59,7 +59,7 @@ CheckExit
 CheckExit
 
 "Zip Console" 
-New-Item "Publish\ConsoleZip" -ItemType Directory
+New-Item "$pwd\Publish\Web\wwwroot\Downloads" -ItemType Directory
 [io.compression.zipfile]::CreateFromDirectory("$pwd\Publish\Console", "$pwd\Publish\Web\wwwroot\Downloads\ICanHasDotnetCore.zip")
 
 "Pack Web"

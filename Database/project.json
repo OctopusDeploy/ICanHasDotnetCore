@@ -17,6 +17,6 @@
   "buildOptions": {
     "emitEntryPoint": true,
     "embed": [ "Scripts/**/*.*" ],
-    "copyToOutput": [ "appsettings.json" ]
+    "copyToOutput": [ "appsettings.json", "PostDeploy.ps1" ]
   }
 }

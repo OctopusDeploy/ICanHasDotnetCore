@@ -16,7 +16,8 @@ namespace ICanHasDotnetCore.Database
                 .Build();
 
             var connectionString = configuration["ConnectionString"];
-
+            Console.WriteLine($"Connection String: {connectionString}");
+            Console.WriteLine("Ensuring Database");
             EnsureDatabase.For.SqlDatabase(connectionString);
 
             var upgrader = DeployChanges.To

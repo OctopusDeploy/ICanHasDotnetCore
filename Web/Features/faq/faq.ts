@@ -1,6 +1,6 @@
 module ICanHasDotnetCore.Faq {
 
-    export const state = "layout.faq";
+    export const state = "layout_faq";
 
     class ViewModel {
     }

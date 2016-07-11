@@ -1,6 +1,6 @@
 module ICanHasDotnetCore.Statistics {
     import SupportType = ICanHasDotnetCore.Result.SupportType;
-    export const state = "layout.statistics";
+    export const state = "layout_statistics";
 
     interface IPackageStatistic {
         name: string;

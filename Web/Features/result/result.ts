@@ -1,6 +1,6 @@
 module ICanHasDotnetCore.Result {
 
-    export const state = "layout.result";
+    export const state = "layout_result";
 
 
     export enum SupportType {

@@ -1,6 +1,6 @@
 module ICanHasDotnetCore.Home {
 
-    export const state = "layout.home";
+    export const state = "layout_home";
     export interface IPackageFile {
         name?: string;
         file?: any;

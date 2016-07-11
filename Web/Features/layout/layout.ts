@@ -1,5 +1,8 @@
 module ICanHasDotnetCore.Layout {
+
     class ViewModel {
+        version = ICanHasDotnetCore.version;
+
         constructor() {
         }
 

@@ -27,6 +27,9 @@ function CheckExit()
 	}
 }
 
+"Setting Version"
+"Version is $version"
+(Get-Content Web\Features\Version.ts).replace('0.0.0.0', $version) | Set-Content Web\Features\Version.ts
 
 "Restoring Packages"
 . dotnet restore

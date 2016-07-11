@@ -104,5 +104,5 @@ module ICanHasDotnetCore.Result {
 
     }
 
-    addAngularState(state, "/result", "Result", ViewModel, "result/result.html");
+    addAngularState(state, "/result?demo", "Result", ViewModel, "result/result.html");
 }

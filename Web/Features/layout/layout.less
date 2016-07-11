@@ -1,3 +1,4 @@
+@import (reference) "../site";
 .main {
 }
 
@@ -10,12 +11,16 @@
         a {
             padding-left: 5px;
             padding-right: 5px;
+            padding-bottom: 3px;
+
+           &.active { 
+                border-bottom-style: solid;
+                border-width: 2px;
+                border-color: @accent;
+            }
         }
     }
 
-    md-icon {
-        vertical-align: bottom;
-    }
 }
 
 footer {

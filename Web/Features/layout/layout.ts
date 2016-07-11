@@ -1,7 +1,6 @@
 module ICanHasDotnetCore.Layout {
     class ViewModel {
         constructor() {
-
         }
 
     }

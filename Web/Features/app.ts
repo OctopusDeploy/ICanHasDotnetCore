@@ -62,7 +62,7 @@ module ICanHasDotnetCore {
     app.config($mdThemingProvider => {
         $mdThemingProvider.theme('default')
             .primaryPalette('blue')
-            .accentPalette('green');
+            .accentPalette('orange');
     });
 
     app.config($mdIconProvider => {

@@ -13,7 +13,7 @@ var paths = {
     src: {
         appIndex: "index.html",
         appTs: "Features/**/*.ts",
-        appLess: ["Features/*.less", "Features/**/*.less"],
+        appLess: ["Features/**/*.less"],
         appNgTemplates: "Features/**/*.html",
         appImages: ["content/images/**"],
         appFonts: [],

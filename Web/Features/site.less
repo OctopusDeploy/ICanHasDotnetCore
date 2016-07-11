@@ -4,8 +4,14 @@
 
 @code-colour: #AD1457;
 @primary-hue: #2196f3;
+@hue1: #1976D2;
 @hue2: #1565c0;
+@accent: #FFAB40;
 @link-colour: #551a8b;
+
+.accent {
+    color: @accent;
+}
 
 .max {
     max-width: 1024px;
@@ -26,6 +32,7 @@ code {
     padding: 1px 3px;
     font-size: 12px;
     display: inline-block;
+    vertical-align: text-bottom;
 }
 
 code.block {
@@ -60,12 +67,10 @@ md-icon.external-link {
     background: #eee;
 }
 
-package-result-box
-{
+package-result-box {
     width: 250px;
 }
 
-a md-icon
-{
+a md-icon {
     color: @link-colour;
 }

@@ -46,6 +46,9 @@ cd Web
 . npm install
 CheckExit
 
+"Typings"
+.\node_modules\.bin\typings install
+
 "Gulp"
 . .\node_modules\.bin\gulp release
 Pop-Location

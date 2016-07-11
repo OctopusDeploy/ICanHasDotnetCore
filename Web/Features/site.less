@@ -3,6 +3,9 @@
 }
 
 @code-colour: #AD1457;
+@primary-hue: #2196f3;
+@hue2: #1565c0;
+@link-colour: #551a8b;
 
 .max {
     max-width: 1024px;
@@ -11,8 +14,6 @@
     padding-left: 10px;
     padding-right: 10px;
     color: inherit;
-    border-color: @code-colour;
-
 }
 
 code {
@@ -25,15 +26,46 @@ code {
     padding: 1px 3px;
     font-size: 12px;
     display: inline-block;
-
 }
-code.block
-{
+
+code.block {
     border-color: @code-colour;
     border-style: dotted;
     padding: 15px;
-    display:block;
+    display: block;
     color: inherit;
-    white-space:nowrap;
+    white-space: nowrap;
     overflow: auto;
+}
+
+md-icon.external-link {
+    font-size: 12px;
+    width: 12px;
+    height: 12px;
+    vertical-align: super;
+}
+
+.label {
+    display: inline-block;
+    background: @primary-hue;
+    color: white;
+    border-radius: 3px;
+    font-size: 12px;
+    padding: 2px 5px;
+    vertical-align: bottom;
+    text-align: center;
+}
+
+.zebra-stripe:nth-child(even) {
+    background: #eee;
+}
+
+package-result-box
+{
+    width: 250px;
+}
+
+a md-icon
+{
+    color: @link-colour;
 }

@@ -5,5 +5,5 @@ module ICanHasDotnetCore.Console {
     class ViewModel {
     }
 
-    addAngularState(state, "/Console", "Command Line Tool", ViewModel, "Console/console.html");
+    addAngularState(state, "/Console", "Command Line Tool", ViewModel, "Console/Console.html");
 }

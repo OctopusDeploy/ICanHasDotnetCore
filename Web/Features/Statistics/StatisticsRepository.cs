@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,8 +14,7 @@ namespace ICanHasDotnetCore.Web.Features.Statistics
     public class StatisticsRepository
     {
         // Only log packages found on Nuget.org
-        private static readonly SupportType[] AddStatisticsFor = new[]
-            {SupportType.Unsupported, SupportType.Supported, SupportType.PreRelease};
+        private static readonly SupportType[] AddStatisticsFor = { SupportType.Unsupported, SupportType.Supported, SupportType.PreRelease };
 
         private readonly string _connectionString;
 
@@ -74,6 +75,29 @@ WHEN NOT MATCHED THEN
             {
                 Log.Logger.Error(ex, "Exception writing statistic {stat}", package.PackageName);
             }
+        }
+
+        public IReadOnlyList<PackageStatistic> GetAllPackageStatistics()
+        {
+            const string sql = "SELECT Name, [Count], LatestSupportType FROM dbo.[PackageStatistics] WITH (NOLOCK)";
+            var stats = new List<PackageStatistic>();
+            using (var con = new SqlConnection(_connectionString))
+            {
+                con.Open();
+                using (var cmd = new SqlCommand(sql, con))
+                {
+                    var reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                        stats.Add(new PackageStatistic()
+                        {
+                            Name = (string)reader["Name"],
+                            Count = (int)reader["Count"],
+                            LatestSupportType =
+                                (SupportType)Enum.Parse(typeof(SupportType), (string)reader["LatestSupportType"])
+                        });
+                }
+            }
+            return stats;
         }
     }
 }

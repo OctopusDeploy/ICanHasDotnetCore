@@ -29,7 +29,7 @@ function CheckExit()
 
 "Setting Version"
 "Version is $version"
-(Get-Content Web\Features\Version.ts).replace('0.0.0.0', $version) | Set-Content Web\Features\Version.ts
+(Get-Content Web\Features\Version.ts).replace("[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+", $version) | Set-Content Web\Features\Version.ts
 
 "Restoring Packages"
 . dotnet restore

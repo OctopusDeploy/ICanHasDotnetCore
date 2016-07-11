@@ -47,12 +47,14 @@ module ICanHasDotnetCore {
             }
         ])
         .config(($locationProvider: ng.ILocationProvider) => $locationProvider.html5Mode(true))
-        .config(
-        ($urlRouterProvider: angular.ui.IUrlRouterProvider) => {
+        .config(($urlRouterProvider: angular.ui.IUrlRouterProvider) => {
             $urlRouterProvider.when("", "/")
                 .otherwise(() => "/");
-        }
-        )
+        })
+        .config(($urlMatcherFactoryProvider) => {
+            $urlMatcherFactoryProvider.caseInsensitive(true);
+            $urlMatcherFactoryProvider.strictMode(false);
+        })
         .config([
             "$compileProvider", $compileProvider => {
                 $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|local):/);

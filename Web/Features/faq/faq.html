@@ -1,4 +1,21 @@
 <div class="max faq">
+    <h2 class="md-title">The new tool stack</h2>
+    <p>
+        The new .NET tool stack includes the <a href="https://github.com/dotnet/cli" target="_blank">dotnet command line tool<md-icon class="external-link">launch</md-icon></a>, <code>xproj</code> project structure and JSON configuration.
+    </p>
+    <p>
+        It is possible to take most existing applications, targeting .NET 4.5.1 or later and convert them to use this new structure. This is done by creating a new .NET Core project, editing the <code>project.json</code> file to change the
+        <code>frameworks</code> section to target <code>net451</code> (<a href="https://github.com/OctopusDeploy/ICanHasDotnetCore/blob/master/Web/project.json" target="_blank">example<md-icon class="external-link">launch</md-icon></a>).
+    </p>
+    <p>
+        This website (<a href="https://github.com/OctopusDeploy/ICanHasDotnetCore" target="_blank">source<md-icon class="external-link">launch</md-icon></a>) uses the new tooling, but targets .NET 4.6.1 as not all our dependencies have been ported to .NET Standard.
+        The new tooling supports targeting multiple platforms, so each project can be gradually be converted to also target .NET Standard when appropriate.
+    </p>
+    <h2 class="md-title">.NET Standard</h2>
+    <p>
+        .NET Standard Library is a set of APIs that are intended to be available on all .NET runtimes. Applications targeting .NET Standard should run on all platforms that implement that standard.
+        See the refer to the <a href="https://docs.microsoft.com/en-us/dotnet/articles/standard/library" target="_blank">.NET Standard Library<md-icon class="external-link">launch</md-icon></a> documentation.
+    </p>
     <h2 class="md-title">How does this work?</h2>
     We read your <code>packages.config</code> file and recursively lookup up those packages and their dependencies on
     nuget.org. We then look at whether there are any <code>.NETStandard</code> dependencies. Since what was the base class
@@ -6,7 +23,7 @@
 
     <h2 class="md-title">Do you keep any uploaded information?</h2>
     <p>
-        Yes, but in a non-identifying way. We keep a count of how many time a packages found on nuget.org is appears in a result set. 
+        Yes, but in a non-identifying way. We keep a count of how many time a packages found on nuget.org is appears in a result set.
         We do not track the names of packages that were not recognised, as these would typically be from internal nuget feeds.
     </p>
     <p>
@@ -15,5 +32,6 @@
     <p>
         We also use google analytics to track page views and time one site.
     </p>
+
 </div>
 

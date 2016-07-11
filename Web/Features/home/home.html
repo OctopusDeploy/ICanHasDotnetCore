@@ -2,36 +2,22 @@
     <h1 class="md-headline">Can I port my application to .NET Core?</h1>
     <p>
         It really depends on what you mean by .NET Core. Most commonly the term is used to refer to the <a href="https://docs.microsoft.com/en-us/dotnet/articles/standard/library" target="_blank">.NET Standard Library<md-icon class="external-link">launch</md-icon></a> (.NET Standard).
-        However it may also refer to the new tool stack.
-    </p>
-    <h2 class="md-title">The tool stack</h2>
-    <p>
-        The new .NET tool stack includes the <a href="https://github.com/dotnet/cli" target="_blank">dotnet command line tool<md-icon class="external-link">launch</md-icon></a>, <code>xproj</code> project structure and JSON configuration.
+        However it may also refer to the new tool stack. For more information, check out the <a href="" ui-sref="layout.faq">FAQ</a> for more information.
     </p>
     <p>
-        It is possible to take most existing applications, targeting .NET 4.5.1 or later and convert them to use this new structure. This is done by creating a new .NET Core project, editing the <code>project.json</code> file to change the
-        <code>frameworks</code> section to target <code>net451</code> (<a href="https://github.com/OctopusDeploy/ICanHasDotnetCore/blob/master/Web/project.json" target="_blank">example<md-icon class="external-link">launch</md-icon></a>).
-    </p>
-    <p>
-        This website (<a href="https://github.com/OctopusDeploy/ICanHasDotnetCore" target="_blank">source<md-icon class="external-link">launch</md-icon></a>) uses the new tooling, but targets .NET 4.6.1 as not all our dependencies have been ported to .NET Standard.
-        The new tooling supports targeting multiple platforms, so each project can be gradually be converted to also target .NET Standard when appropriate.
-    </p>
-    <h2 class="md-title">.NET Standard</h2>
-    <p>
-        .NET Standard Library is a set of APIs that are intended to be available on all .NET runtimes. Applications targeting .NET Standard should run on all platforms that implement that standard. There are two parts to assessing whether you can port your application.
-    </p>
-    <p>
-        The first is whether you use any APIs that are not part of the standard. For example not all of the types and methods in .NET 4.6 BCL are in the standard. Michael Whelan has written an excellent
-        <a href="http://www.michael-whelan.net/porting-dotnet-framework-library-to-dotnet-core/" target="_blank">guide<md-icon class="external-link">launch</md-icon></a> on analysing an existing project and porting it.
-    </p>
-    <p>
-        The second item to assess is whether there are .NET Standard version of your non-BCL dependencies available. That is where this website comes in.
-    </p>
-    <h2 class="md-title">TL;DR;</h2>
-    <p>
-        Upload your project's <code>package.config</code> files and we will analyse them and build a visualisation of the dependencies and whether there are .NET Standard versions of those. Alternatively download the <a href="" ui-sref="layout.console">command line tool</a>.
-        The result is displayed as a graph of dependencies and their .NET Standard support status along with a lis view of the same (<a href="" ui-sref="layout.resultDemo">Demo</a>). 
-        Alternatively download the <a href="" ui-sref="layout.console">command line tool</a>.
+        There are two main aspects to determining whether you project can be ported to .NET Standard:
+        <ol>
+            <li>
+                Are any .NET BCL types and methods used that are not part of the standard. Michael Whelan has written an excellent
+                <a href="http://www.michael-whelan.net/porting-dotnet-framework-library-to-dotnet-core/" target="_blank">guide<md-icon class="external-link">launch</md-icon></a> on analysing an existing project and porting it.
+            </li>
+            <li>
+                Have your other dependencies been ported to .NET Standard. To do that, either upload your project's <code>package.config</code> files below
+                or download the <a href="" ui-sref="layout.console">command line tool</a>.
+            </li>
+
+        </ol>
+
     </p>
     <div layout="column" class="package-list">
         <div ng-repeat="item in vm.packageFiles" layout layout-align="center center">
@@ -55,5 +41,13 @@
                 Visualise Dependencies
             </md-button>
         </div>
+    </div>
+    <div>
+        <p>
+            We will analyse the uploaded <code>package.config</code> files and build a visualisation of the dependencies and whether 
+            .NET Standard versions are available on nuget.org.
+
+            To see a sample analysis, see the <a href="" ui-sref="layout.resultDemo">Demo</a> page.
+        </p>
     </div>
 </div>

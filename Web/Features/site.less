@@ -1,6 +1,4 @@
-* {
-    box-sizing: border-box;
-}
+
 
 @code-colour: #AD1457;
 @primary-hue: #2196f3;
@@ -8,7 +6,13 @@
 @hue2: #1565c0;
 @accent: #FFAB40;
 @link-colour: #551a8b;
-
+* {
+    box-sizing: border-box;
+}
+body
+{
+    line-height: 1.5em;
+}
 .accent {
     color: @accent;
 }
@@ -33,6 +37,7 @@ code {
     font-size: 12px;
     display: inline-block;
     vertical-align: text-bottom;
+    line-height: 1em;
 }
 
 code.block {

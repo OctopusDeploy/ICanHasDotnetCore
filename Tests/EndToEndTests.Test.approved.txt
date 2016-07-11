@@ -1,4 +1,4 @@
-﻿MyPackages   
+﻿MyPackages   [Your Project]
     Autofac   [Supported (Pre-Release)]
     NLog   [Supported (Pre-Release)]
         Microsoft.Extensions.PlatformAbstractions   [Supported]

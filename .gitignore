@@ -34,5 +34,5 @@ _ReSharper*/
 node_modules/
 bower_components/
 packages/
-*.received
+*.received.*
 Publish/

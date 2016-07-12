@@ -2,12 +2,20 @@
 
     class ViewModel {
 
+        private foundOnNuget = [
+            SupportType.Supported,
+            SupportType.PreRelease,
+            SupportType.Unsupported
+        ];
+
         type: string;
         allPackages: Result.IPackageResult[];
         packages: Result.IPackageResult[];
+        showNugetLink: boolean;
 
         constructor($scope: ng.IScope) {
             $scope.$watch('vm.allPackages', () => this.updatePackages());
+            this.showNugetLink = this.foundOnNuget.indexOf(SupportType[this.type]) >= 0;
         }
 
         updatePackages() {

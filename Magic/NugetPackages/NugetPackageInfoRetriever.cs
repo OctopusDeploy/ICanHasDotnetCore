@@ -39,12 +39,18 @@ namespace ICanHasDotnetCore.NugetPackages
             if (coreDeps != null)
             {
                 var dependencies = GetDependencies(coreDeps);
-                return new NugetPackage(id, dependencies, package.IsReleaseVersion() ? SupportType.Supported : SupportType.PreRelease);
+                return new NugetPackage(id, dependencies, package.IsReleaseVersion() ? SupportType.Supported : SupportType.PreRelease)
+                {
+                    ProjectUrl = package.ProjectUrl?.ToString()
+                };
             }
 
             var osDeps = GetOldSkoolDependencies(package);
 
-            return new NugetPackage(id, osDeps, SupportType.Unsupported);
+            return new NugetPackage(id, osDeps, SupportType.Unsupported)
+            {
+                ProjectUrl = package.ProjectUrl?.ToString()
+            };
         }
 
 

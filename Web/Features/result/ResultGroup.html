@@ -3,7 +3,10 @@
     <p>{{vm.description}}</p>
     <div class="list">
         <div class="list-item" ng-repeat="package in vm.packages" layout layout-align="start center">
-            <div flex="25" class="name">{{package.packageName}}</div>
+            <div flex="25" class="name">{{package.packageName}}
+                <a ng-show="vm.showNugetLink" href="https://www.nuget.org/packages/{{package.packageName}}/" target="_blank" title="Nuget Page"><md-icon class="external-link">search</md-icon></a>
+                <a ng-show="package.projectUrl" href="{{package.projectUrl}}" target="_blank" title="Project Site"><md-icon class="external-link">web</md-icon></a>
+            </div>
             <div flex-wrap>
                 <package-result-box ng-repeat="dep in vm.getDependencies(package)" type="dep.supportType" text="dep.packageName"></package-result-box>
             </div>

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace ICanHasDotnetCore.NugetPackages
@@ -18,5 +19,6 @@ namespace ICanHasDotnetCore.NugetPackages
         public IReadOnlyList<string> Dependencies { get; set; }
         public string Id { get; set; }
         public SupportType SupportType { get; set; }
+        public string ProjectUrl { get; set; }
     }
 }

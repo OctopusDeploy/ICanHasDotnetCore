@@ -14,7 +14,7 @@
             <div class="statistic" ng-repeat="stat in vm.statistics | filter: { latestSupportType: type }">
                 <div class="count-label">{{stat.count | number}}</div>
                 {{stat.name}}
-                <a href="https://www.nuget.org/packages?q={{stat.name}}" target="_blank"><md-icon class="external-link">search</md-icon></a>
+                <a href="https://www.nuget.org/packages/{{stat.name}}/" target="_blank"><md-icon class="external-link">search</md-icon></a>
             </div>
         </div>
     </div>

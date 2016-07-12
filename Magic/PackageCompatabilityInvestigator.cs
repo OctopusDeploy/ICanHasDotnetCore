@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ICanHasDotnetCore.NugetPackages;
+using Serilog;
 
 namespace ICanHasDotnetCore
 {
@@ -45,10 +46,11 @@ namespace ICanHasDotnetCore
             {
                 var dependencies = _packagesFileReader.ReadDependencies(file.Contents);
                 var dependencyResults = await GetDependencyResults(dependencies);
-                return PackageResult.Success(file.Name, dependencyResults, SupportType.InvestigationTarget);
+                return PackageResult.InvestigationTargetSuccess(file.Name, dependencyResults);
             }
             catch (Exception ex)
             {
+                Log.Error(ex, "Error processing supplied data file");
                 return PackageResult.Failed(file.Name, "An error occured - " + ex.Message);
             }
         }
@@ -74,10 +76,11 @@ namespace ICanHasDotnetCore
                 }
 
                 var dependencyResults = await GetDependencyResults(package.Dependencies);
-                return PackageResult.Success(id, dependencyResults, package.SupportType);
+                return PackageResult.Success(package, dependencyResults);
             }
             catch (Exception ex)
             {
+                Log.Error(ex, "Error processing package {package}", id);
                 return PackageResult.Failed(id, "An error occured - " + ex.Message);
             }
         }

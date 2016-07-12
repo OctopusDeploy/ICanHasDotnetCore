@@ -15,6 +15,7 @@ namespace ICanHasDotnetCore.Web.Features.result
         public string Error { get; set; }
         public SupportType SupportType { get; set; }
         public string[] Dependencies { get; set; }
+        public string ProjectUrl { get; set; }
     }
 
 }

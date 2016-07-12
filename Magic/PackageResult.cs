@@ -12,10 +12,12 @@ namespace ICanHasDotnetCore
         }
 
         public string PackageName { get; private set; }
+        public string ProjectUrl { get; private set; }
         public string Error { get; private set; }
         public IReadOnlyList<PackageResult> Dependencies { get; private set; }
         public bool WasSuccessful => SupportType != SupportType.Error;
         public SupportType SupportType { get; private set; }
+
 
         public static PackageResult Failed(string packageName, string error)
         {
@@ -28,13 +30,24 @@ namespace ICanHasDotnetCore
             };
         }
 
-        public static PackageResult Success(string packageName, IReadOnlyList<PackageResult> dependencies, SupportType supportType)
+        public static PackageResult InvestigationTargetSuccess(string name, IReadOnlyList<PackageResult> dependencies)
         {
             return new PackageResult()
             {
-                PackageName = packageName,
+                PackageName = name,
                 Dependencies = dependencies,
-                SupportType = supportType
+                SupportType = SupportType.InvestigationTarget
+            };
+        }
+
+        public static PackageResult Success(NugetPackage package, IReadOnlyList<PackageResult> dependencies)
+        {
+            return new PackageResult()
+            {
+                PackageName = package.Id,
+                Dependencies = dependencies,
+                SupportType = package.SupportType,
+                ProjectUrl = package.ProjectUrl
             };
         }
 
@@ -42,7 +55,7 @@ namespace ICanHasDotnetCore
         {
             if (maxLevels == 0)
                 return Dependencies;
-            return Dependencies.Concat(Dependencies.SelectMany(d => d.GetDependenciesResursive(maxLevels-1)));
+            return Dependencies.Concat(Dependencies.SelectMany(d => d.GetDependenciesResursive(maxLevels - 1)));
         }
     }
 }

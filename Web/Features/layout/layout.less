@@ -1,5 +1,9 @@
 @import (reference) "../site";
 
+md-toolbar:not(.md-menu-toolbar) {
+    background-color: @block-colour;
+}
+
 .md-toolbar-tools {
     margin: auto;
 
@@ -29,20 +33,29 @@
 }
 
 footer {
+    background-color: @block-colour;
     margin-top: 20px;
     padding-top: 10px;
     border-top: 1px solid #ddd;
     text-align: center;
-    color: #999;
+    color: white;
     font-size: 12px;
 
     img {
-        height: 1em;
+        height: 1.5em;
         margin-right: 5px;
-        vertical-align: bottom;
+        vertical-align: middle;
     }
 
     a {
-        color: #999;
+        color: white;
+    }
+
+    .footer-continuation {
+        width: 100%;
+        height: 1000px;
+        background-color: @block-colour;
+        position: fixed;
+        margin-top: -5px;
     }
 }

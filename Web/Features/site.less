@@ -5,6 +5,7 @@
 @accent: #FF8C00;
 @link-colour: @primary-hue;
 @block-colour: #0f2535;
+@shaded-colour:  #f0f0f0;
 
 * {
     box-sizing: border-box;
@@ -37,7 +38,7 @@ code {
     border-style: solid;
     border-color: #ccc;
     border-radius: 3px;
-    background: #f9f9f9;
+    background: @shaded-colour;
     padding: 1px 3px;
     font-size: 12px;
     display: inline-block;
@@ -77,6 +78,16 @@ md-icon.external-link {
 
 .zebra-stripe:nth-child(even) {
     background: #eee;
+}
+
+.white-stripe
+{
+    padding: 20px 0px;
+}
+.grey-stripe
+{
+    background-color: @shaded-colour;
+    padding: 20px 0px;
 }
 
 

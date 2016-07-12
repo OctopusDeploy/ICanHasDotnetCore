@@ -1,50 +1,59 @@
-<div class="max home">
-    <h1 class="md-headline">Can I port my application to .NET Core?</h1>
-    <p>Upload your project's <code>package.config</code> files for analysis and we will build a visualisation of the dependencies and whether
-        .NET Standard versions are available on nuget.org</p>
+<div class="home">
+    <div class="white-stripe">
+        <div class="max">
+            <h1 class="md-headline">Can I port my application to .NET Core?</h1>
+            <p>
+                Upload your project's <code>package.config</code> files for analysis and we will build a visualisation of the dependencies and whether
+                .NET Standard versions are available on nuget.org
+            </p>
 
-    <div layout="column" class="package-list">
-        <div ng-repeat="item in vm.packageFiles" layout layout-align="center center">
-            <md-input-container flex="40">
-                <input type="text" placeholder="Project Name" ng-model="item.name"/>
-            </md-input-container>
-            <div flex="30">
-                <input class="ng-hide" id="input-file-id-{{$index}}" multiple type="file" ng-file-model="item.file" accept=".config"/>
-                <label for="input-file-id-{{$index}}" class="choose-file md-button md-raised" ng-hide="item.file">Choose package.config File</label>
-                <div>
-                    <span class="package-file-name">{{ item.file.name}}</span>
-                    <md-button class="md-danger md-icon-button" title="Delete" ng-show="item.file" ng-click="vm.deletePackageFile(item)">
-                        <md-icon md-font-set="material-icons">delete</md-icon>
+            <div layout="column" class="package-list">
+                <div ng-repeat="item in vm.packageFiles" layout layout-align="center center">
+                    <md-input-container flex="40">
+                        <input type="text" placeholder="Project Name" ng-model="item.name" />
+                    </md-input-container>
+                    <div flex="30">
+                        <input class="ng-hide" id="input-file-id-{{$index}}" multiple type="file" ng-file-model="item.file" accept=".config" />
+                        <label for="input-file-id-{{$index}}" class="choose-file md-button md-raised" ng-hide="item.file">Choose package.config File</label>
+                        <div>
+                            <span class="package-file-name">{{ item.file.name}}</span>
+                            <md-button class="md-danger md-icon-button" title="Delete" ng-show="item.file" ng-click="vm.deletePackageFile(item)">
+                                <md-icon md-font-set="material-icons">delete</md-icon>
+                            </md-button>
+                        </div>
+                    </div>
+                </div>
+                <div layout layout-align="center center">
+                    <md-button class="md-primary md-raised" ng-disabled="vm.packageFiles.length <= 1" ng-click="vm.visualiseDependencies()">
+                        <md-icon md-font-set="material-icons">directions_run</md-icon>
+                        Visualise Dependencies
                     </md-button>
+                    or&nbsp;<a href="" ui-sref="layout.resultDemo">See Demo</a>
                 </div>
             </div>
         </div>
-        <div layout layout-align="center center">
-            <md-button class="md-primary md-raised" ng-disabled="vm.packageFiles.length <= 1" ng-click="vm.visualiseDependencies()">
-                <md-icon md-font-set="material-icons">directions_run</md-icon>
-                Visualise Dependencies
-            </md-button>
-            or&nbsp;<a href="" ui-sref="layout.resultDemo">See Demo</a>
+    </div>
+    <div class="grey-stripe">
+        <div class="max">
+            <p>
+                .NET Core is an overloaded term, but is most commonly used to refer to the <external-link href="https://docs.microsoft.com/en-us/dotnet/articles/standard/library">.NET Standard Library</external-link> (.NET Standard).
+                However it may also refer to the new tool stack. For more information, check out the <a href="" ui-sref="layout.faq">FAQ</a>.
+            </p>
+            <p>
+                There are two main aspects to determining whether you project can be ported to .NET Standard:
+                <ol>
+                    <li>
+                        Are any .NET BCL types and methods used that are not part of the standard. Michael Whelan has written an excellent
+                        <external-link href="http://www.michael-whelan.net/porting-dotnet-framework-library-to-dotnet-core/">guide</external-link> showing how to analyse an existing project and port it.
+                    </li>
+                    <li>
+                        Have your other dependencies been ported to .NET Standard. To do that, either upload your project's <code>package.config</code> files above
+                        or download the <a href="" ui-sref="layout.console">command line tool</a>.
+                    </li>
+
+                </ol>
+
+            </p>
         </div>
     </div>
-    <h2 class="md-title">More Information</h2>
-    <p>
-       .NET Core is an overloaded term, but is most commonly used to refer to the <external-link href="https://docs.microsoft.com/en-us/dotnet/articles/standard/library">.NET Standard Library</external-link> (.NET Standard).
-        However it may also refer to the new tool stack. For more information, check out the <a href="" ui-sref="layout.faq">FAQ</a>.
-    </p>
-    <p>
-        There are two main aspects to determining whether you project can be ported to .NET Standard:
-        <ol>
-            <li>
-                Are any .NET BCL types and methods used that are not part of the standard. Michael Whelan has written an excellent
-                <external-link href="http://www.michael-whelan.net/porting-dotnet-framework-library-to-dotnet-core/">guide</external-link> showing how to analyse an existing project and port it.
-            </li>
-            <li>
-                Have your other dependencies been ported to .NET Standard. To do that, either upload your project's <code>package.config</code> files above
-                or download the <a href="" ui-sref="layout.console">command line tool</a>.
-            </li>
-
-        </ol>
-
-    </p>
 </div>

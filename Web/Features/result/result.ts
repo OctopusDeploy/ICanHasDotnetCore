@@ -42,7 +42,6 @@ module ICanHasDotnetCore.Result {
         private loadingMessages = [
             "Reticulating Splines",
             "Unpacking Nuggets",
-            "Interrogating Byte Server",
             "Building Network",
             "Analysing Big Data",
             "Consulting the Internet of Things"

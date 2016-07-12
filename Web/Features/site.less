@@ -4,18 +4,21 @@
 @primary-hue: #2196f3;
 @hue1: #1976D2;
 @hue2: #1565c0;
-@accent: #FFAB40;
-@link-colour: #551a8b;
+@accent: #FF8C00;
+@link-colour: @primary-hue;
+
 * {
     box-sizing: border-box;
 }
-body{
-    letter-spacing: 0.01em
+
+body {
+    letter-spacing: 0.01em;
 }
-p, li
-{
+
+p, li {
     line-height: 1.6em;
 }
+
 .accent {
     color: @accent;
 }
@@ -79,6 +82,9 @@ md-icon.external-link {
 
 
 
-a md-icon {
+a {
     color: @link-colour;
+    md-icon {
+        color: @link-colour;
+    }
 }

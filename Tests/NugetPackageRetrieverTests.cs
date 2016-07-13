@@ -1,12 +1,12 @@
 ﻿using FluentAssertions;
 using ICanHasDotnetCore.NugetPackages;
-using NUnit.Framework;
+using Xunit;
 
 namespace ICanHasDotnetCore.Tests
 {
     public class NugetPackageRetrieverTests
     {
-        [Test]
+        [Fact]
         public void DependenciesCanBeParsedForSerilogSinkSeq()
         {
             var retriever = GetRetriever();
@@ -15,7 +15,7 @@ namespace ICanHasDotnetCore.Tests
             pkg.Dependencies.Should().Contain("Serilog.Sinks.RollingFile", "Serilog", "Serilog.Sinks.PeriodicBatching");
         }
 
-        [Test]
+        [Fact]
         public void DependenciesCanBeParsedForAutofac()
         {
             var retriever = GetRetriever();
@@ -29,7 +29,7 @@ namespace ICanHasDotnetCore.Tests
             return new NugetPackageInfoRetriever(new PackageRepositoryWrapper());
         }
 
-        [Test]
+        [Fact]
         public void CompatiblePackageCanBeIdentified()
         {
             var retriever = GetRetriever();
@@ -37,7 +37,7 @@ namespace ICanHasDotnetCore.Tests
             pkg.SupportType.Should().Be(SupportType.Supported);
         }
 
-        [Test]
+        [Fact]
         public void CompatiblePrereleasePackageCanBeIdentified()
         {
             var retriever = GetRetriever();
@@ -45,7 +45,7 @@ namespace ICanHasDotnetCore.Tests
             pkg.SupportType.Should().Be(SupportType.PreRelease);
         }
 
-        [Test]
+        [Fact]
         public void IncompatiblePackageCanBeIdentified()
         {
             var retriever = GetRetriever();
@@ -53,7 +53,7 @@ namespace ICanHasDotnetCore.Tests
             pkg.SupportType.Should().Be(SupportType.Unsupported);
         }
 
-        [Test]
+        [Fact]
         public void NonExistantPackageShouldBeNotFound()
         {
             var retriever = GetRetriever();

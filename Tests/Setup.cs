@@ -1,13 +1,11 @@
-﻿using NUnit.Framework;
+﻿using Xunit;
 using Serilog;
 
 namespace ICanHasDotnetCore.Tests
 {
-    [SetUpFixture]
-    public class Setup
+    public class Setup : ICollectionFixture<Setup>
     {
-        [SetUp]
-        public void RunBeforeAnyTests()
+        public Setup()
         {
             Log.Logger = new LoggerConfiguration().WriteTo.LiterateConsole().CreateLogger();
         }

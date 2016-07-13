@@ -1,5 +1,5 @@
 ﻿using ICanHasDotnetCore.Web.Helpers;
-using NUnit.Framework;
+using Xunit;
 using FluentAssertions;
 using ApprovalTests;
 using ApprovalTests.Reporters;
@@ -11,7 +11,7 @@ namespace Tests.DNC.Web.Helpers
     [UseReporter(typeof(DiffReporter))]
     public class DataUriConverterTest
     {
-        [Test]
+        [Fact]
         [MethodImpl(MethodImplOptions.NoInlining)]
         public void CanConvert()
         {

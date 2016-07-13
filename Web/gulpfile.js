@@ -1,4 +1,4 @@
-/// <binding AfterBuild='default' />
+/// <binding />
 var gulp = require("gulp");
 var $ = require("gulp-load-plugins")({pattern: ["gulp-*", "gulp.*", "del*", "path*"], lazy: true});
 

@@ -1,20 +1,25 @@
-<div class="max statistics">
-    <h1 class="md-headline">Statistics</h1>
-    <p>
-        We keep statistics on how many times each package shows up as a dependency. Only public packages found
-        on nuget.org are included. The statistics are grouped by detected .NET Standard support result the
-        last time the package was queried.
-    </p>
-    <p>
-        <external-link href="https://github.com/OctopusDeploy/ICanHasDotnetCore/blob/master/Web/Features/Statistics/StatisticsRepository.cs">See exactly how we collect statistics</external-link>.
-    </p>
-    <div class="group" ng-repeat="type in vm.typeGroups">
-        <package-result-box type="type"></package-result-box>
-        <div>
-            <div class="statistic" ng-repeat="stat in vm.statistics | filter: { latestSupportType: type }">
-                <div class="count-label">{{stat.count | number}}</div>
-                {{stat.name}}
-                <a href="https://www.nuget.org/packages/{{stat.name}}/" target="_blank"><md-icon class="external-link">search</md-icon></a>
+<div class="statistics">
+    <div class="max">
+        <h1 class="md-headline">Statistics</h1>
+        <p>
+            We keep statistics on how many times each package shows up as a dependency. Only public packages found
+            on nuget.org are included. The statistics are grouped by detected .NET Standard support result the
+            last time the package was queried.
+        </p>
+        <p>
+            <external-link href="https://github.com/OctopusDeploy/ICanHasDotnetCore/blob/master/Web/Features/Statistics/StatisticsRepository.cs">See exactly how we collect statistics</external-link>.
+        </p>
+    </div>
+
+    <div layout="column" layout-gt-md="row" layout-align-gt-md="center start" >
+        <div class="group" ng-repeat="type in vm.typeGroups">
+            <package-result-box type="type"></package-result-box>
+            <div>
+                <div class="statistic" ng-repeat="stat in vm.statistics | filter: { latestSupportType: type }">
+                    <div class="count-label">{{stat.count | number}}</div>
+                    {{stat.name}}
+                    <a href="https://www.nuget.org/packages/{{stat.name}}/" target="_blank"><md-icon class="external-link">search</md-icon></a>
+                </div>
             </div>
         </div>
     </div>

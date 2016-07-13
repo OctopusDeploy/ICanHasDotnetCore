@@ -1,33 +1,45 @@
+<script type="text/ng-template" id="menu-template">
+    <a href="" ui-sref="layout.home" menu-highlight>Home</a>
+    <a href="" ui-sref="layout.resultDemo" menu-highlight>Demo</a>
+    <a href="" ui-sref="layout.console" menu-highlight>Console</a>
+    <a href="" ui-sref="layout.faq" menu-highlight>FAQ</a>
+    <a href="" ui-sref="layout.statistics" menu-highlight>Stats</a>
+    <external-link href="https://github.com/OctopusDeploy/ICanHasDotnetCore">Source</external-link>
+</script>
 <div layout="column" ng-cloak>
     <md-toolbar layout="row">
         <div class="md-toolbar-tools max md-max">
+            <md-button hide-gt-xs class="md-icon-button" ng-click="vm.toggleSidebar()">
+                <md-icon>menu</md-icon>
+            </md-button>
             <a href="" ui-sref="layout.home">
-                <md-icon md-font-set="material-icons">track_changes</md-icon>
+                <md-icon>track_changes</md-icon>
                 <span flex class="page-title">I Can Has .NET Core</span>
             </a>
             <span flex></span>
-            <span class="menu">
-                <a href="" ui-sref="layout.home" menu-highlight>Home</a>
-                <a href="" ui-sref="layout.resultDemo" menu-highlight>Demo</a>
-                <a href="" ui-sref="layout.console" menu-highlight>Console</a>
-                <a href="" ui-sref="layout.faq" menu-highlight>FAQ</a>
-                <a href="" ui-sref="layout.statistics" menu-highlight>Stats</a>
-                <external-link href="https://github.com/OctopusDeploy/ICanHasDotnetCore">Source</external-link>
-            </span>
+            <nav-menu hide show-gt-xs></nav-menu>
         </div>
     </md-toolbar>
+    <md-sidenav ng-click="vm.toggleSidebar()"
+                md-component-id="left"
+                md-is-locked-open="false"
+                md-whiteframe>
+        <nav-menu></nav-menu>
+    </md-sidenav>
     <md-content class="container">
         <ui-view></ui-view>
     </md-content>
 
     <footer>
-        <img src="/images/octopus.png"/>
-        <p>An <a href="https://octopus.com">Octopus Deploy</a> project
-        </p>
-        <p><a href="https://twitter.com/OctopusDeploy"><img src="/images/twitter.png"/></a> <a href="https://twitter.com/OctopusDeploy">@OctopusDeploy</a>
+        <img src="/images/octopus.png" />
+        <p>
+            An <a href="https://octopus.com">Octopus Deploy</a> project
         </p>
         <p>
-            <img src="/images/github-circle.png"/><a href="https://github.com/OctopusDeploy/ICanHasDotnetCore">Source, suggestions and bugs</a>
+            <a href="https://twitter.com/OctopusDeploy"><img src="/images/twitter.png" /></a> <a href="https://twitter.com/OctopusDeploy">@OctopusDeploy</a>
+        </p>
+        <p>
+            <img src="/images/github-circle.png" /><a href="https://github.com/OctopusDeploy/ICanHasDotnetCore">Source, suggestions and bugs</a>
         </p>
         <p>
             v{{vm.version}}

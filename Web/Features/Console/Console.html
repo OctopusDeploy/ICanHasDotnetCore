@@ -4,7 +4,7 @@
         As an alternative to this website, you can download this console application that will scan your source and output
         textual and graph data.
     </p>
-    <div layout layout-align="center">
+    <div layout layout-xs="column" layout-align="center">
         <a class="md-button md-raised download" href="/Downloads/ICanHasDotnetCore.zip" target="_self"><md-icon>file_download</md-icon> Download</a>
     </div>
     <h2 class="md-title">Usage</h2>
@@ -42,31 +42,31 @@
         The possible statuses are:
     </p>
     <div class="statuses">
-        <div layout layout-align="start center">
+        <div layout layout-xs="column" layout-align="start center" layout-align-xs="">
             <package-result-box type="'InvestigationTarget'"></package-result-box>
             <div flex class="status-description">Your input <code>projects.config</code> files</div>
         </div>
-        <div layout layout-align="start center">
+        <div layout layout-xs="column" layout-align="start center" layout-align-xs="">
             <package-result-box type="'Supported'"></package-result-box>
             <div flex class="status-description">The latest release version of the package supports .NET Standard </div>
         </div>
-        <div layout layout-align="start center">
+        <div layout layout-xs="column" layout-align="start center" layout-align-xs="">
             <package-result-box type="'PreRelease'"></package-result-box>
             <div flex class="status-description"> The latest release version of the package does not support .NET Standard, but the latest pre-release version does </div>
         </div>
-        <div layout layout-align="start center">
+        <div layout layout-xs="column" layout-align="start center" layout-align-xs="">
             <package-result-box type="'KnownReplacementAvailable'"></package-result-box>
             <div flex class="status-description">We have identified that the packages as no longer being required on .NET Standard, or there is a a replacement package with a different name </div>
         </div>
-        <div layout layout-align="start center">
+        <div layout layout-xs="column" layout-align="start center" layout-align-xs="">
             <package-result-box type="'Unsupported'"></package-result-box>
             <div flex class="status-description"> The latest release and pre-release versions of the package do not support .NET Standard </div>
         </div>
-        <div layout layout-align="start center">
+        <div layout layout-xs="column" layout-align="start center" layout-align-xs="">
             <package-result-box type="'NotFound'"></package-result-box>
             <div flex class="status-description">This package could not be found on nuget.org, it is most likely from an internal nuget feed </div>
         </div>
-        <div layout layout-align="start center">
+        <div layout layout-xs="column" layout-align="start center" layout-align-xs="">
             <package-result-box type="'Error'"></package-result-box>
             <div flex class="status-description">Something went wrong when inspecting the package </div>
         </div>

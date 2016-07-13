@@ -15,18 +15,69 @@ md-toolbar:not(.md-menu-toolbar) {
         }
     }
 
-    .menu {
+    nav-menu {
         font-size: 14px;
 
         a {
+            padding-bottom: 3px;
             padding-left: 5px;
             padding-right: 5px;
-            padding-bottom: 3px;
 
             &.active {
                 border-bottom-style: solid;
                 border-width: 2px;
                 border-color: @accent;
+            }
+
+            > md-icon:first-child {
+                display: none;
+            }
+        }
+    }
+}
+
+md-sidenav {
+    padding: 0px;
+    min-width: 200px;
+    max-width: 200px;
+
+    nav-menu {
+        a {
+            display: block;
+            padding: 15px 30px;
+            border-bottom-style: solid;
+            border-width: 1px;
+            border-color: #eee;
+            color: @block-colour;
+            text-decoration: none;
+
+            md-icon {
+                color: @block-colour;
+            }
+
+            > md-icon:first-child {
+                margin-right: 10px;
+                vertical-align: bottom;
+            }
+
+            &.active {
+                background-color: @block-colour;
+                color: white;
+                border-color: @block-colour;
+
+                md-icon {
+                    color: white;
+                }
+            }
+
+            &:hover {
+                background-color: @accent;
+                color: white;
+                border-color: @accent;
+
+                md-icon {
+                    color: white;
+                }
             }
         }
     }

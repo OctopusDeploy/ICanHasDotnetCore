@@ -23,12 +23,12 @@
                         </div>
                     </div>
                 </div>
-                <div layout layout-align="center center">
+                <div layout layout-align="center center" layout-xs="column">
                     <md-button class="md-primary md-raised" ng-disabled="vm.packageFiles.length <= 1" ng-click="vm.visualiseDependencies()">
                         <md-icon md-font-set="material-icons">directions_run</md-icon>
                         Visualise Dependencies
                     </md-button>
-                    or&nbsp;<a href="" ui-sref="layout.resultDemo">See Demo</a>
+                    <span>or&nbsp;<a href="" ui-sref="layout.resultDemo">See Demo</a></span>
                 </div>
             </div>
         </div>

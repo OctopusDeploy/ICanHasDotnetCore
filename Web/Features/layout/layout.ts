@@ -3,7 +3,11 @@ module ICanHasDotnetCore.Layout {
     class ViewModel {
         version = ICanHasDotnetCore.version;
 
-        constructor() {
+        constructor(private $mdSidenav) {
+        }
+
+        toggleSidebar() {
+            this.$mdSidenav('left').toggle();
         }
 
     }

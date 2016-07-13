@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using ICanHasDotnetCore.Web.Plumbing.Extensions;
 
 namespace ICanHasDotnetCore.Web.Plumbing
 {
@@ -15,13 +16,13 @@ namespace ICanHasDotnetCore.Web.Plumbing
 
         public async Task Invoke(HttpContext context)
         {
-            if (context.Request.IsHttps)
+            if (context.Request.IsHttps || context.Request.Host.Host.EqualsOrdinalIgnoreCase("localhost"))
             {
                 await _next(context);
             }
             else
             {
-                var withHttps = Uri.UriSchemeHttps + Uri.SchemeDelimiter + context.Request.Host + context.Request.Path;
+                var withHttps = Uri.UriSchemeHttps + Uri.SchemeDelimiter + context.Request.Host.Host + context.Request.Path;
                 context.Response.Redirect(withHttps);
             }
         }

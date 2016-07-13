@@ -4,14 +4,17 @@
   "dependencies": {
     "ApprovalTests": "3.0.11",
     "ApprovalUtilities": "3.0.11",
+    "dotnet-test-nunit": "3.4.0-beta-1",
     "FluentAssertions": "4.9.1",
     "Magic": "1.0.0-*",
     "NETStandard.Library": "1.6.0",
     "NuGet.Core": "2.11.1",
-    "NUnit": "2.6.4",
+    "NUnit": "3.4.1",
     "System.Runtime": "4.0.20",
     "Web": "1.0.0-*"
   },
+
+  "testRunner": "nunit",
 
   "frameworks": {
     "net461": {

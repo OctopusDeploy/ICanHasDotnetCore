@@ -10,31 +10,37 @@ namespace ICanHasDotnetCore
 {
     public class PackageCompatabilityInvestigator
     {
-        private readonly PackagesFileReader _packagesFileReader;
         private readonly NugetPackageInfoRetriever _nugetPackageInfoRetriever;
-        private readonly ConcurrentDictionary<string, Task<PackageResult>> _results = new ConcurrentDictionary<string, Task<PackageResult>>();
-        public PackageCompatabilityInvestigator(PackagesFileReader packagesFileReader, NugetPackageInfoRetriever nugetPackageInfoRetriever)
+
+        private readonly ConcurrentDictionary<string, Task<PackageResult>> _results =
+            new ConcurrentDictionary<string, Task<PackageResult>>();
+
+        private readonly IPackagesFileReader[] packagesFileReaders =
         {
-            _packagesFileReader = packagesFileReader;
+            new PackagesFileReader(),
+            new ProjectJsonFileReader()
+        };
+
+        public PackageCompatabilityInvestigator(NugetPackageInfoRetriever nugetPackageInfoRetriever)
+        {
             _nugetPackageInfoRetriever = nugetPackageInfoRetriever;
         }
 
         public static PackageCompatabilityInvestigator Create()
         {
-           var repository = new PackageRepositoryWrapper();
+            var repository = new PackageRepositoryWrapper();
             return new PackageCompatabilityInvestigator(
-                new PackagesFileReader(),
                 new NugetPackageInfoRetriever(
                     repository
-                    )
-                );
+                )
+            );
         }
 
         public async Task<InvestigationResult> Go(IReadOnlyList<PackagesFileData> files)
         {
             for (int x = 0; x < files.Count; x++)
                 if (files[x].Name == null)
-                    files[x].Name = $"File {x+1}";
+                    files[x].Name = $"File {x + 1}";
 
             var results = files.Select(Process).ToArray();
             return new InvestigationResult(await Task.WhenAll(results));
@@ -44,7 +50,29 @@ namespace ICanHasDotnetCore
         {
             try
             {
-                var dependencies = _packagesFileReader.ReadDependencies(file.Contents);
+                Exception exception = null;
+                IReadOnlyList<string> dependencies = null;
+                foreach (var packagesFileReader in packagesFileReaders)
+                {
+                    try
+                    {
+                        dependencies = packagesFileReader.ReadDependencies(file.Contents);
+                        break;
+                    }
+                    catch (Exception e)
+                    {
+                        if (exception == null)
+                        {
+                            exception = e;
+                        }
+                    }
+                }
+
+                if (dependencies == null && exception != null)
+                {
+                    throw exception;
+                }
+
                 var dependencyResults = await GetDependencyResults(dependencies);
                 return PackageResult.InvestigationTargetSuccess(file.Name, dependencyResults);
             }

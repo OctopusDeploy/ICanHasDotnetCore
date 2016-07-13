@@ -2,6 +2,7 @@
   "version": "1.0.0-*",
 
   "dependencies": {
+    "Newtonsoft.JSON": "9.0.1", 
     "NuGet.Core": "2.11.1",
     "Serilog": "2.0.0",
     "System.Xml.XmlDocument": "4.0.1",

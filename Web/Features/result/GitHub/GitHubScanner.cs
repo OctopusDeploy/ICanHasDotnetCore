@@ -27,7 +27,7 @@ namespace ICanHasDotnetCore.Web.Features.Result.GitHub
         {
             try
             {
-                var match = Regex.Match(repoId, @"^\W*(\w+)/(\w+)\W*$");
+                var match = Regex.Match(repoId, @"^\W*([\w-]+)/([\w-]+)\W*$");
                 if (!match.Success)
                     return Result<PackagesFileData[]>.Failed($"{repoId} is not recognised as a GitHub repository name");
 

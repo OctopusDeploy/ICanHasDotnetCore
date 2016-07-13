@@ -45,6 +45,15 @@ namespace ICanHasDotnetCore.Tests.Web.Features.Result.GitHub
             result.ErrorString.Should().Be("OctopusDeploy/DoesNotExist does not exist or is not publically accessible");
         }
 
+        [Fact]
+        public async Task RepoHasHyphens()
+        {
+            var result = await CreateScanner().Scan("OctopusDeploy/Octopus-Samples");
+            result.WasSuccessful.Should().BeTrue(result.ErrorString);
+            var names = result.Value.Select(p => p.Name).ToArray();
+            names.ShouldAllBeEquivalentTo(new[] { "packages.config" });
+        }
+
         private GitHubScanner CreateScanner()
         {
             return new GitHubScanner(

@@ -12,7 +12,7 @@
                     <md-input-container flex="40">
                         <input type="text" placeholder="Project Name" ng-model="item.name" />
                     </md-input-container>
-                    <div flex="30">
+                    <div>
                         <input class="ng-hide" id="input-file-id-{{$index}}" multiple type="file" ng-file-model="item.file" accept=".config" />
                         <label for="input-file-id-{{$index}}" class="choose-file md-button md-raised" ng-hide="item.file">Choose package.config File</label>
                         <div>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Octokit;
@@ -38,7 +39,7 @@ namespace ICanHasDotnetCore.Web.Features.Result.GitHub
             catch (Exception ex)
             {
                 Log.Error(ex, "Exception scanning repository {name}", repoId);
-                return Result<PackagesFileData[]>.Failed($"{repoId} is not recognised as a GitHub repository name");
+                return Result<PackagesFileData[]>.Failed($"Something didn't quite right. The error has been logged.");
             }
         }
 
@@ -63,7 +64,8 @@ namespace ICanHasDotnetCore.Web.Features.Result.GitHub
         {
             return new GitHubClient(
                 new ProductHeaderValue("ICanHasDot.net", AssemblyVersion),
-                new InMemoryCredentialStore(new Credentials(_token))
+                 new InMemoryCredentialStore(_token == null ? Credentials.Anonymous : new Credentials(_token)
+                )
             );
         }
 

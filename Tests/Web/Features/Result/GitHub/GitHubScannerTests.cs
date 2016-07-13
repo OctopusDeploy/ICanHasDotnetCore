@@ -4,19 +4,21 @@ using ICanHasDotnetCore.Web.Features.Result.GitHub;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
+using Serilog;
 using Tests.DNC.Web.Helpers;
 
 namespace ICanHasDotnetCore.Tests.Web.Features.Result.GitHub
 {
     public class GitHubScannerTests
     {
+
         [Test]
         public async Task ICanHasDotnetRepository()
         {
             var result = await CreateScanner().Scan("/OctopusDeploy/ICanHasDotnetCore\\");
             result.WasSuccessful.Should().BeTrue(result.ErrorString);
             var names = result.Value.Select(p => p.Name).ToArray();
-            names.ShouldAllBeEquivalentTo("foo");
+            names.ShouldAllBeEquivalentTo(new[] { "packages.config"});
         }
 
         [Test]
@@ -47,6 +49,9 @@ namespace ICanHasDotnetCore.Tests.Web.Features.Result.GitHub
         {
             return new GitHubScanner(
                 new FakeConfigurationRoot()
+                {
+                    {"GitHubToken", null }
+                }
             );
         }
     }

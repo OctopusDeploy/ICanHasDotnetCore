@@ -52,6 +52,7 @@ namespace ICanHasDotnetCore.Web.Features.result
                 .Go(packagesFileDatas.Value);
 
             sw.Stop();
+            Log.Information("Generated results for GitHub repo {Repo}", request.Id);
             LogSummaryMessage(result, sw);
             LogErroredAndNotFoundPackages(request.Id, result);
             return Json(BuildResponse(result));

@@ -40,7 +40,9 @@ namespace ICanHasDotnetCore.Web.Features.result
                 .GroupBy(r => r.SupportType)
                 .ToDictionary(g => g.Key, g => g.Count());
 
-            Log.Information("Processed packages {Count} files in {Time}ms resulting in {Total} dependencies. Breakdown: {Breakdown}.", grouped[SupportType.InvestigationTarget], sw.ElapsedMilliseconds, grouped.Sum(g => g.Value), grouped);
+            int itCount;
+            grouped.TryGetValue(SupportType.InvestigationTarget, out itCount);
+            Log.Information("Processed packages {Count} files in {Time}ms resulting in {Total} dependencies. Breakdown: {Breakdown}.", itCount, sw.ElapsedMilliseconds, grouped.Sum(g => g.Value), grouped);
         }
 
         private static GetResultResponse BuildResponse(InvestigationResult result)
@@ -63,7 +65,7 @@ namespace ICanHasDotnetCore.Web.Features.result
         [HttpGet("/api/GetResult/Demo")]
         public async Task<GetResultResponse> Demo()
         {
-            var packagesFileDatas = new [] { new PackagesFileData("Our Project", Encoding.UTF8.GetBytes(DemoPackagesConfig))};
+            var packagesFileDatas = new[] { new PackagesFileData("Our Project", Encoding.UTF8.GetBytes(DemoPackagesConfig)) };
             var result = await PackageCompatabilityInvestigator.Create()
                 .Go(packagesFileDatas);
 

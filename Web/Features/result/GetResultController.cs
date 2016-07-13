@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ICanHasDotnetCore.NugetPackages;
 using ICanHasDotnetCore.Output;
+using ICanHasDotnetCore.Web.Features.Result.GitHub;
 using ICanHasDotnetCore.Web.Features.Statistics;
 using ICanHasDotnetCore.Web.Helpers;
 using Microsoft.AspNetCore.Mvc;
@@ -15,10 +16,12 @@ namespace ICanHasDotnetCore.Web.Features.result
     public class GetResultController : Controller
     {
         private readonly StatisticsRepository _statisticsRepository;
+        private readonly GitHubScanner _gitHubScanner;
 
-        public GetResultController(StatisticsRepository statisticsRepository)
+        public GetResultController(StatisticsRepository statisticsRepository, GitHubScanner gitHubScanner)
         {
             _statisticsRepository = statisticsRepository;
+            _gitHubScanner = gitHubScanner;
         }
 
         [HttpPost("/api/GetResult")]
@@ -30,11 +33,45 @@ namespace ICanHasDotnetCore.Web.Features.result
                 .Go(packagesFileDatas);
             sw.Stop();
             await _statisticsRepository.AddStatisticsForResult(result);
-            LogMessage(result, sw);
+            LogSummaryMessage(result, sw);
             return BuildResponse(result);
         }
 
-        private void LogMessage(InvestigationResult result, Stopwatch sw)
+        [HttpPost("/api/GetResult/GitHub")]
+        public async Task<ActionResult> GitHub([FromBody]GetGitHubRequest request)
+        {
+            var sw = Stopwatch.StartNew();
+            var packagesFileDatas = await _gitHubScanner.Scan(request.Id);
+
+            if (packagesFileDatas.WasFailure)
+            {
+                return BadRequest(packagesFileDatas.ErrorString);
+            }
+
+            var result = await PackageCompatabilityInvestigator.Create()
+                .Go(packagesFileDatas.Value);
+
+            sw.Stop();
+            LogSummaryMessage(result, sw);
+            LogErroredAndNotFoundPackages(request.Id, result);
+            return Json(BuildResponse(result));
+        }
+
+
+
+        [HttpPost("/api/GetResult/Demo")]
+        public async Task<GetResultResponse> Demo()
+        {
+            var packagesFileDatas = new[] { new PackagesFileData("Our Project", Encoding.UTF8.GetBytes(DemoPackagesConfig)) };
+            var result = await PackageCompatabilityInvestigator.Create()
+                .Go(packagesFileDatas);
+
+            return BuildResponse(result);
+        }
+
+
+
+        private void LogSummaryMessage(InvestigationResult result, Stopwatch sw)
         {
             var grouped = result.GetAllDistinctRecursive()
                 .GroupBy(r => r.SupportType)
@@ -42,7 +79,16 @@ namespace ICanHasDotnetCore.Web.Features.result
 
             int itCount;
             grouped.TryGetValue(SupportType.InvestigationTarget, out itCount);
-            Log.Information("Processed packages {Count} files in {Time}ms resulting in {Total} dependencies. Breakdown: {Breakdown}.", itCount, sw.ElapsedMilliseconds, grouped.Sum(g => g.Value), grouped);
+            Log.Information("Processed {Count} packages files in {Time}ms resulting in {Total} dependencies. Breakdown: {Breakdown}.", itCount, sw.ElapsedMilliseconds, grouped.Sum(g => g.Value), grouped);
+        }
+
+        private void LogErroredAndNotFoundPackages(string repoId, InvestigationResult result)
+        {
+            foreach(var package in result.GetAllDistinctRecursive().Where(p => p.SupportType == SupportType.Error))
+                Log.Error("Error occured with package {package} in GitHub repo {repoId}: {error}", package.PackageName, repoId, package.Error);
+
+            foreach (var package in result.GetAllDistinctRecursive().Where(p => p.SupportType == SupportType.NotFound))
+                Log.Warning("Package {package} in GitHub repo {repoId} was not found", package.PackageName, repoId);
         }
 
         private static GetResultResponse BuildResponse(InvestigationResult result)
@@ -61,16 +107,6 @@ namespace ICanHasDotnetCore.Web.Features.result
             };
         }
 
-
-        [HttpGet("/api/GetResult/Demo")]
-        public async Task<GetResultResponse> Demo()
-        {
-            var packagesFileDatas = new[] { new PackagesFileData("Our Project", Encoding.UTF8.GetBytes(DemoPackagesConfig)) };
-            var result = await PackageCompatabilityInvestigator.Create()
-                .Go(packagesFileDatas);
-
-            return BuildResponse(result);
-        }
 
 
         private const string DemoPackagesConfig = @"<?xml version=""1.0"" encoding=""utf-8""?>

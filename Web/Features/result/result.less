@@ -1,5 +1,6 @@
 .result {
     padding-bottom: 20px;
+
     dependency-graph {
         height: 300px;
         display: block;
@@ -50,17 +51,37 @@
         padding: 10px;
     }
 
-    .server-error {
+    .server-error{
+        max-width: 600px;
+        .error-icon {
+            color: red;
+        }
+
+        .error-message {
+            color: red;
+        }
+    }
+
+    
+    .bad-request{
+        .error-icon {
+            color: @accent;
+        }
+
+        .error-message {
+            color: @accent;
+        }
+    }
+
+    .server-error, .bad-request {
         margin-top: 30px;
         text-align: center;
         font-size: 18px;
-        max-width: 600px;
 
-        md-icon {
+        .error-icon {
             width: 100px;
             height: 100px;
             font-size: 80px;
-            color: red;
             display: block;
         }
     }

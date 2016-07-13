@@ -24,8 +24,13 @@
     </p>
     <h2 class="md-title">Do you keep any uploaded information?</h2>
     <p>
-        Yes, but in a non-identifying way. We keep a count of how many time a packages found on nuget.org is appears in a result set.
-        We do not track the names of packages that were not recognised, as these would typically be from internal nuget feeds.
+        For requests using the package file upload method, we keep some statistics in a non-identifying way. We keep a count of how many time a packages
+        found on nuget.org is appears in a result set. We do not track the names of packages that were not recognised, 
+        as these would typically be from internal nuget feeds.
+    </p>
+    <p>
+        For requests using the GitHub repository scanning method, we keep more information about the end result. The assumption is made that the
+        contents of these public GitHub repositories is not private.
     </p>
     <p>
         <external-link href="https://github.com/OctopusDeploy/ICanHasDotnetCore/blob/master/Web/Features/Statistics/StatisticsRepository.cs">See exactly how we collect statistics</external-link>

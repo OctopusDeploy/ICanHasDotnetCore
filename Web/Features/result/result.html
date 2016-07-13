@@ -2,10 +2,21 @@
 
     <md-progress-linear ng-hide="vm.response || vm.error" class="md-primary md-hue-2" md-mode="indeterminate"></md-progress-linear>
     <div ng-hide="vm.response || vm.error" class="md-title loading-message" layout layout-align="center center">{{vm.loadingMessage}}...</div>
-    <div ng-show="vm.error" class="max server-error">
-        <md-icon>sentiment_very_dissatisfied</md-icon>
-        <p>Oops! Something went very wrong. The error has been logged, and we will try and fix it, so come back tomorrow and try again.</p>
-        <p>In the meantime, <a href="https://www.google.com.au/search?q=teacup+pigs&tbm=isch" target="_blank">this</a> is a thing.</p>
+    <div ng-show="vm.error && !vm.errorMessage" class="max server-error">
+        <md-icon class="error-icon">sentiment_very_dissatisfied</md-icon>
+        <p>Oh no! Something went very wrong. The error has been logged, and we will try and fix it, so come back tomorrow and try again.</p>
+        <p>
+            In the meantime, <a href="https://www.google.com.au/search?q=teacup+pigs&tbm=isch" target="_blank">this</a> is a thing.
+        </p>
+    </div>
+    <div ng-show="vm.error && vm.errorMessage" class="max bad-request">
+        <md-icon class="error-icon">sentiment_dissatisfied</md-icon>
+        <p>Oops! Something went wrong. The error was:</p>
+        <p class="error-message">{{vm.errorMessage}}</p>
+        <p>
+            Hopefully that helps. If not, please submit an issue on our
+            <external-link href="https://github.com/OctopusDeploy/ICanHasDotnetCore/Issues">GitHub</external-link>.
+        </p>
     </div>
     <div ng-show="vm.response">
         <dependency-graph package-results="vm.response.result" data="vm.graphData" ng-class="{expanded: vm.graphExpanded}"></dependency-graph>

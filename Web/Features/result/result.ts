@@ -38,6 +38,7 @@ module ICanHasDotnetCore.Result {
         response: IGetResultResponse;
         loadingMessage;
         error: boolean;
+        errorMessage: string;
 
         private loadingMessages = [
             "Reticulating Splines",
@@ -50,22 +51,32 @@ module ICanHasDotnetCore.Result {
         constructor(private $http: ng.IHttpService, $state: ng.ui.IStateService, private $timeout: ng.ITimeoutService, $location: ng.ILocationService) {
             this.setLoadingMessage();
 
-            if ($state.current.name === demoState) {
-                $http.get<IGetResultResponse>("/api/GetResult/Demo", {})
-                    .then(response => this.response = response.data, () => this.error = true);
-                return;
-            }
+            var request: angular.IHttpPromise<IGetResultResponse>;
 
-            var packageFiles = <Home.IPackageFile[]>$state.params["data"];
-            if (!packageFiles) {
+            if ($state.current.name === demoState) {
+                request = $http.post<IGetResultResponse>("/api/GetResult/Demo", {});
+            } else if ($state.params["github"]) {
+                var data = {
+                    id: $state.params["github"]
+                };
+                request = $http.post<IGetResultResponse>("/api/GetResult/GitHub", data);
+            } else if ($state.params["data"]) {
+                var packageFiles = <Home.IPackageFile[]>$state.params["data"];
+
+                packageFiles = packageFiles.map(f => ({ name: f.name, contents: f.file.data }));
+                request = $http.post<IGetResultResponse>("/api/GetResult", <IGetResultRequest>{ packageFiles: packageFiles });
+            } else {
                 $state.go(Home.state);
                 return;
             }
-
-            packageFiles = packageFiles.map(f => ({ name: f.name, contents: f.file.data }));
-            $http.post<IGetResultResponse>("/api/GetResult", <IGetResultRequest>{ packageFiles: packageFiles })
-                .then(response => this.response = response.data, () => this.error = true);
-
+            request.then(
+                response => this.response = response.data,
+                response => {
+                    this.error = true;
+                    if (response.status === 400) {
+                        this.errorMessage = response.data;
+                    }
+                });
         }
 
         setLoadingMessage() {
@@ -101,9 +112,8 @@ module ICanHasDotnetCore.Result {
                 { packageName: "G", supportType: SupportType.NotFound, dependencies: [] }
             ]
         };
-
     }
 
-    addAngularState(state, "/result?demo", "Result", ViewModel, "result/result.html");
+    addAngularState(state, "/result?github", "Result", ViewModel, "result/result.html");
     addAngularState(demoState, "/result/demo", "Result Demo", ViewModel, "result/result.html");
 }

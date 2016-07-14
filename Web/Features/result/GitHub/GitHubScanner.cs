@@ -48,7 +48,7 @@ namespace ICanHasDotnetCore.Web.Features.Result.GitHub
                 var contents = await GetContentsRecursive(client, repo);
 
                 return contents
-                    .Select(c => new PackagesFileData(c.Name, Encoding.UTF8.GetBytes(c.Content)))
+                    .Select(c => new PackagesFileData(c.Path.Contains("/") ? c.Path.Substring(0, c.Path.LastIndexOf("/")) : c.Path, Encoding.UTF8.GetBytes(c.Content)))
                     .ToArray();
             }
             catch (NotFoundException nfe) when (nfe.Message == $"repos/{repo}/commits was not found.")

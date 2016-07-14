@@ -7,8 +7,6 @@
 
   "dependencies": {
     "Magic": "1.0.0-*",
-    "NUnit.Extension.TeamCityEventListener": "1.0.1",
-    "NUnit.Runners": "3.4.1",
     "Serilog": "2.0.0",
     "Serilog.Sinks.ColoredConsole": "2.0.0"
   },

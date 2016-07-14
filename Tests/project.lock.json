@@ -1504,6 +1504,24 @@
           "lib/net45/nunit.framework.dll": {}
         }
       },
+      "NUnit.ConsoleRunner/3.4.1": {
+        "type": "package"
+      },
+      "NUnit.Extension.NUnitProjectLoader/3.4.1": {
+        "type": "package"
+      },
+      "NUnit.Extension.NUnitV2Driver/3.4.1": {
+        "type": "package"
+      },
+      "NUnit.Extension.NUnitV2ResultWriter/3.4.1": {
+        "type": "package"
+      },
+      "NUnit.Extension.TeamCityEventListener/1.0.1": {
+        "type": "package"
+      },
+      "NUnit.Extension.VSProjectLoader/3.4.1": {
+        "type": "package"
+      },
       "NUnit.Portable.Agent/3.4.0-beta-1": {
         "type": "package",
         "frameworkAssemblies": [
@@ -1526,6 +1544,17 @@
         },
         "runtime": {
           "lib/net45/NUnit.Portable.Agent.dll": {}
+        }
+      },
+      "NUnit.Runners/3.4.1": {
+        "type": "package",
+        "dependencies": {
+          "NUnit.ConsoleRunner": "3.4.1",
+          "NUnit.Extension.NUnitProjectLoader": "3.4.1",
+          "NUnit.Extension.NUnitV2Driver": "3.4.1",
+          "NUnit.Extension.NUnitV2ResultWriter": "3.4.1",
+          "NUnit.Extension.TeamCityEventListener": "1.0.1",
+          "NUnit.Extension.VSProjectLoader": "3.4.1"
         }
       },
       "NUnit3TestAdapter/3.4.0": {
@@ -3937,6 +3966,92 @@
         "lib/portable-net45+win8+wp8+wpa81+Xamarin.Mac+MonoAndroid10+MonoTouch10+Xamarin.iOS10/nunit.framework.xml"
       ]
     },
+    "NUnit.ConsoleRunner/3.4.1": {
+      "sha512": "4x22v9JFVPtyVM70m1xD+ekqvkl2gPydwTsY+vrhEOx8YKRs8zgPpwPBT3zp9M6Yy1vQEjKtpJ08vTGneZOj+A==",
+      "type": "package",
+      "path": "NUnit.ConsoleRunner/3.4.1",
+      "files": [
+        "CHANGES.txt",
+        "LICENSE.txt",
+        "NOTICES.txt",
+        "NUnit.ConsoleRunner.3.4.1.nupkg.sha512",
+        "NUnit.ConsoleRunner.nuspec",
+        "tools/Mono.Cecil.dll",
+        "tools/nunit-agent-x86.exe",
+        "tools/nunit-agent-x86.exe.config",
+        "tools/nunit-agent.exe",
+        "tools/nunit-agent.exe.config",
+        "tools/nunit.engine.api.dll",
+        "tools/nunit.engine.api.xml",
+        "tools/nunit.engine.dll",
+        "tools/nunit.nuget.addins",
+        "tools/nunit3-console.exe",
+        "tools/nunit3-console.exe.config"
+      ]
+    },
+    "NUnit.Extension.NUnitProjectLoader/3.4.1": {
+      "sha512": "ULQpjnpw+WzQK+Uc4oUsshrqyFrwq4YGoa3Dm6N0CpljVC0qb3hMhqpZ1F4YsjkEsCIDkofVe60CHhTZiRmJYA==",
+      "type": "package",
+      "path": "NUnit.Extension.NUnitProjectLoader/3.4.1",
+      "files": [
+        "LICENSE.txt",
+        "NOTICES.txt",
+        "NUnit.Extension.NUnitProjectLoader.3.4.1.nupkg.sha512",
+        "NUnit.Extension.NUnitProjectLoader.nuspec",
+        "tools/nunit-project-loader.dll"
+      ]
+    },
+    "NUnit.Extension.NUnitV2Driver/3.4.1": {
+      "sha512": "B72rosuqOpYZc5rJxo/swA+BdZKyeJTRTDzRtiAtNbjHTfgWHT3CQ9AdknGjRCnzGoMaHlTWVxZnpzRkx/iwLg==",
+      "type": "package",
+      "path": "NUnit.Extension.NUnitV2Driver/3.4.1",
+      "files": [
+        "LICENSE.txt",
+        "NOTICES.txt",
+        "NUnit.Extension.NUnitV2Driver.3.4.1.nupkg.sha512",
+        "NUnit.Extension.NUnitV2Driver.nuspec",
+        "tools/nunit.core.dll",
+        "tools/nunit.core.interfaces.dll",
+        "tools/nunit.v2.driver.addins",
+        "tools/nunit.v2.driver.dll"
+      ]
+    },
+    "NUnit.Extension.NUnitV2ResultWriter/3.4.1": {
+      "sha512": "OnLWPXOp8d0mn3nWwZQGB+l/OICP+Tm6I268/oC28ZOzlBPnVVZe8JvggZJMnJoLq4Uh3h70biPOu8lwR6irhQ==",
+      "type": "package",
+      "path": "NUnit.Extension.NUnitV2ResultWriter/3.4.1",
+      "files": [
+        "LICENSE.txt",
+        "NOTICES.txt",
+        "NUnit.Extension.NUnitV2ResultWriter.3.4.1.nupkg.sha512",
+        "NUnit.Extension.NUnitV2ResultWriter.nuspec",
+        "tools/nunit-v2-result-writer.dll"
+      ]
+    },
+    "NUnit.Extension.TeamCityEventListener/1.0.1": {
+      "sha512": "qproD9KK1V/TSBpBImdXwkXQvkjp3uLxND0WodAHb19UJ8lesrH3gm2s+WbyjtzqBjRnliLN3tiPa5Af1WCNEQ==",
+      "type": "package",
+      "path": "NUnit.Extension.TeamCityEventListener/1.0.1",
+      "files": [
+        "LICENSE.txt",
+        "NOTICES.txt",
+        "NUnit.Extension.TeamCityEventListener.1.0.1.nupkg.sha512",
+        "NUnit.Extension.TeamCityEventListener.nuspec",
+        "tools/teamcity-event-listener.dll"
+      ]
+    },
+    "NUnit.Extension.VSProjectLoader/3.4.1": {
+      "sha512": "hMIIyO1vrglN7cnvdtAF2c6AnOIhLvVf4vgmgqXizF5THiq6I8Bc/5xe85F3G07GTS2nZv6Vr5t/8wM/Kg/hiA==",
+      "type": "package",
+      "path": "NUnit.Extension.VSProjectLoader/3.4.1",
+      "files": [
+        "LICENSE.txt",
+        "NOTICES.txt",
+        "NUnit.Extension.VSProjectLoader.3.4.1.nupkg.sha512",
+        "NUnit.Extension.VSProjectLoader.nuspec",
+        "tools/vs-project-loader.dll"
+      ]
+    },
     "NUnit.Portable.Agent/3.4.0-beta-1": {
       "sha512": "lYmhh1Qk95XQNe1zySqOQxJPE6F/RRUqKWNQwtRTp4eTRmn4TT3it5NAlujHPwH0gpvF+paQ2AhOObHkiqTJmA==",
       "type": "package",
@@ -3946,6 +4061,15 @@
         "NUnit.Portable.Agent.nuspec",
         "lib/net45/NUnit.Portable.Agent.dll",
         "lib/netstandard1.3/NUnit.Portable.Agent.dll"
+      ]
+    },
+    "NUnit.Runners/3.4.1": {
+      "sha512": "Yw771zaZLWL/xc1gjWqo//VpO2lj2ry1kq2JqIcx/w5MbRuLIgxojGJ4HstCEJKFTlb5vm6JutSmVPcXPi9eEQ==",
+      "type": "package",
+      "path": "NUnit.Runners/3.4.1",
+      "files": [
+        "NUnit.Runners.3.4.1.nupkg.sha512",
+        "NUnit.Runners.nuspec"
       ]
     },
     "NUnit3TestAdapter/3.4.0": {
@@ -7392,6 +7516,7 @@
       "Magic >= 1.0.0-*",
       "NETStandard.Library >= 1.6.0",
       "NUnit >= 3.4.1",
+      "NUnit.Runners >= 3.4.1",
       "NUnit3TestAdapter >= 3.4.0",
       "NuGet.Core >= 2.11.1",
       "System.Runtime >= 4.0.20",

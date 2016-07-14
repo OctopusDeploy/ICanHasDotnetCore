@@ -10,6 +10,7 @@
     "NETStandard.Library": "1.6.0",
     "NuGet.Core": "2.11.1",
     "NUnit": "3.4.1",
+    "NUnit.Runners": "3.4.1",
     "NUnit3TestAdapter": "3.4.0",
     "System.Runtime": "4.0.20",
     "Web": "1.0.0-*"
@@ -21,6 +22,11 @@
     }
   },
   "buildOptions": {
-    
+    "copyToOutput": {
+      "includeFiles": [
+        "nunit-project-loader.dll",
+        "teamcity-event-listener.dll"
+      ]
+    }
   }
 }

@@ -1,6 +1,6 @@
 {
   "version": "1.0.0-*",
-  "testRunner": "xunit",
+
   "dependencies": {
     "ApprovalTests": "3.0.11",
     "ApprovalUtilities": "3.0.11",
@@ -8,11 +8,9 @@
     "Magic": "1.0.0-*",
     "NETStandard.Library": "1.6.0",
     "NuGet.Core": "2.11.1",
-    "XUnit": "2.2.0-beta2-build3300",
-    "dotnet-test-xunit": "2.2.0-preview2-build1029",
+    "NUnit": "2.6.4",
     "System.Runtime": "4.0.20",
-    "Web": "1.0.0-*",
-    "xunit.runner.visualstudio": "2.2.0-beta2-build1149"
+    "Web": "1.0.0-*"
   },
 
   "frameworks": {

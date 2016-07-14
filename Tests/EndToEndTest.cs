@@ -3,13 +3,13 @@ using System.Text;
 using ApprovalTests;
 using ApprovalTests.Reporters;
 using ICanHasDotnetCore.Output;
-using Xunit;
+using NUnit.Framework;
 
 namespace ICanHasDotnetCore.Tests
 {
     public class EndToEndTests
     {
-        [Fact]
+        [Test]
         [UseReporter(typeof(DiffReporter))]
         [MethodImpl(MethodImplOptions.NoInlining)]
         public void Test()

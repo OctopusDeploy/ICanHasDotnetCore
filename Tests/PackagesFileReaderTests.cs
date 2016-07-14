@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 using FluentAssertions;
-using Xunit;
+using NUnit.Framework;
 
 namespace ICanHasDotnetCore.Tests
 {
@@ -23,28 +23,28 @@ namespace ICanHasDotnetCore.Tests
             result.Should().BeEquivalentTo("Antlr", "bootstrap");
         }
 
-        [Fact]
+        [Test]
         public void Utf8FileCanBeRead()
         {
             var encodedFile = Encoding.UTF8.GetPreamble().Concat(Encoding.UTF8.GetBytes(Contents)).ToArray();
             Execute(encodedFile);
         }
 
-        [Fact]
+        [Test]
         public void Utf16FileCanBeRead()
         {
             var encodedFile = Encoding.Unicode.GetPreamble().Concat(Encoding.Unicode.GetBytes(Contents)).ToArray();
             Execute(encodedFile);
         }
 
-        [Fact]
+        [Test]
         public void Utf32FileCanBeRead()
         {
             var encodedFile = Encoding.UTF32.GetPreamble().Concat(Encoding.UTF32.GetBytes(Contents)).ToArray();
             Execute(encodedFile);
         }
 
-        [Fact]
+        [Test]
         public void FileCanBeRead()
         {
             var encodedFile = Encoding.UTF8.GetBytes(Contents);

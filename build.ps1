@@ -36,7 +36,7 @@ function CheckExit()
 CheckExit
 
 "Building Tests"
-. dotnet build Tests
+. dotnet build Tests  -c Release
 CheckExit
 
 Push-Location

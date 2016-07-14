@@ -9,13 +9,6 @@ namespace ICanHasDotnetCore.NugetPackages
     {
         private readonly IPackageRepositoryWrapper _repository;
 
-        private static readonly string[] KnownReplacements = {
-            "Microsoft.Bcl",
-            "Microsoft.Bcl.Build",
-            "Microsoft.Net.Http",
-            "Microsoft.Bcl.Async"
-        };
-
         public NugetPackageInfoRetriever(IPackageRepositoryWrapper repository)
         {
             _repository = repository;
@@ -23,9 +16,6 @@ namespace ICanHasDotnetCore.NugetPackages
 
         public async Task<NugetPackage> Retrieve(string id, bool prerelease)
         {
-            if (KnownReplacements.Contains(id))
-                return Result.Success(new NugetPackage(id, new string[0], SupportType.KnownReplacementAvailable));
-
             var package = await _repository.GetLatestPackage(id, prerelease);
             if (package == null)
                 return new NugetPackage(id, new string[0], SupportType.NotFound);

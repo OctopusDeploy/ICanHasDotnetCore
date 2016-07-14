@@ -40,7 +40,7 @@ namespace ICanHasDotnetCore.Output
                     sb.AppendLine("[Your Project]");
                     break;
                 case SupportType.Error:
-                    sb.AppendLine(result.Error);
+                    sb.AppendLine(result.Message);
                     break;
                 default:
                     throw new ArgumentException();

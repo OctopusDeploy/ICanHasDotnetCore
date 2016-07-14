@@ -13,7 +13,7 @@ namespace ICanHasDotnetCore
 
         public string PackageName { get; private set; }
         public string ProjectUrl { get; private set; }
-        public string Error { get; private set; }
+        public string Message { get; private set; }
         public IReadOnlyList<PackageResult> Dependencies { get; private set; }
         public bool WasSuccessful => SupportType != SupportType.Error;
         public SupportType SupportType { get; private set; }
@@ -24,19 +24,31 @@ namespace ICanHasDotnetCore
             return new PackageResult()
             {
                 PackageName = packageName,
-                Error = error,
+                Message = error,
                 Dependencies = new PackageResult[0],
                 SupportType = SupportType.Error
             };
         }
 
-        public static PackageResult InvestigationTargetSuccess(string name, IReadOnlyList<PackageResult> dependencies)
+        public static PackageResult InvestigationTarget(string name, IReadOnlyList<PackageResult> dependencies)
         {
             return new PackageResult()
             {
                 PackageName = name,
                 Dependencies = dependencies,
                 SupportType = SupportType.InvestigationTarget
+            };
+        }
+
+        public static PackageResult KnownReplacement(string name, string replacementHint, string moreInfoUrl = null)
+        {
+            return new PackageResult()
+            {
+                PackageName = name,
+                Dependencies = new PackageResult[0],
+                SupportType = SupportType.KnownReplacementAvailable,
+                Message = replacementHint,
+                ProjectUrl = moreInfoUrl
             };
         }
 

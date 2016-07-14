@@ -21,16 +21,9 @@ namespace ICanHasDotnetCore.Tests.Web.Features.Result.GitHub
             names.ShouldAllBeEquivalentTo(new[] { "packages.config"});
         }
 
+        
         [Test]
-        public async Task InvalidId_SingleSegment()
-        {
-            var result = await CreateScanner().Scan("OctopusDeploy");
-            result.WasSuccessful.Should().BeFalse();
-            result.ErrorString.Should().Be("OctopusDeploy is not recognised as a GitHub repository name");
-        }
-
-        [Test]
-        public async Task InvalidId_ExtraSegments()
+        public async Task InvalidId_InvalidName()
         {
             var result = await CreateScanner().Scan("OctopusDeploy/Foo/Bar");
             result.WasSuccessful.Should().BeFalse();

@@ -99,11 +99,11 @@ namespace ICanHasDotnetCore.Web.Features.Result.GitHub
             }
             public static Option<RepositoryId> Parse(string repoId)
             {
-                var match = Regex.Match(repoId, @"^\W*([\w\-_\.]+)/([\w\-_\.]+)\W*$");
                 if(match.Success)
                     return new RepositoryId(match.Groups[1].Value, match.Groups[2].Value);
                 return Option<RepositoryId>.ToNone;
             }
+			
 
             public string Owner { get; }
             public string Name { get; }

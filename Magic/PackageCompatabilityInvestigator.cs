@@ -46,7 +46,7 @@ namespace ICanHasDotnetCore
             {
                 var dependencies = _packagesFileReader.ReadDependencies(file.Contents);
                 var dependencyResults = await GetDependencyResults(dependencies);
-                return PackageResult.InvestigationTargetSuccess(file.Name, dependencyResults);
+                return PackageResult.InvestigationTarget(file.Name, dependencyResults);
             }
             catch (Exception ex)
             {
@@ -66,6 +66,10 @@ namespace ICanHasDotnetCore
         {
             try
             {
+                var knownReplacement = KnownReplacements.Check(id);
+                if (knownReplacement.Some)
+                    return knownReplacement.Value;
+
                 var package = await _nugetPackageInfoRetriever.Retrieve(id, false);
 
                 if (package.SupportType == SupportType.Unsupported)

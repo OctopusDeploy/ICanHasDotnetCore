@@ -6,7 +6,7 @@ namespace ICanHasDotnetCore.Tests
     [SetUpFixture]
     public class Setup
     {
-        [SetUp]
+        [OneTimeSetUp]
         public void RunBeforeAnyTests()
         {
             Log.Logger = new LoggerConfiguration().WriteTo.LiterateConsole().CreateLogger();

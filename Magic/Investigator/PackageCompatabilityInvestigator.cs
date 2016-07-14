@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ICanHasDotnetCore.NugetPackages;
+using ICanHasDotnetCore.Plumbing.Extensions;
 using ICanHasDotnetCore.SourcePackageFileReaders;
 using Serilog;
 
@@ -11,16 +12,14 @@ namespace ICanHasDotnetCore.Investigator
 {
     public class PackageCompatabilityInvestigator
     {
+
+       
+
         private readonly NugetPackageInfoRetriever _nugetPackageInfoRetriever;
 
-        private readonly ConcurrentDictionary<string, Task<PackageResult>> _results =
-            new ConcurrentDictionary<string, Task<PackageResult>>();
+        private readonly ConcurrentDictionary<string, Task<PackageResult>> _results = new ConcurrentDictionary<string, Task<PackageResult>>();
 
-        private readonly ISourcePackagesFileReader[] _sourcePackagesFileReaders =
-        {
-            new PackagesConfigReader(),
-            new ProjectJsonFileReader()
-        };
+       
 
         public PackageCompatabilityInvestigator(NugetPackageInfoRetriever nugetPackageInfoRetriever)
         {
@@ -51,30 +50,11 @@ namespace ICanHasDotnetCore.Investigator
         {
             try
             {
-                Exception exception = null;
-                IReadOnlyList<string> dependencies = null;
-                foreach (var packagesFileReader in _sourcePackagesFileReaders)
-                {
-                    try
-                    {
-                        dependencies = packagesFileReader.ReadDependencies(file.Contents);
-                        break;
-                    }
-                    catch (Exception e)
-                    {
-                        if (exception == null)
-                        {
-                            exception = e;
-                        }
-                    }
-                }
+                var dependencies = SourcePackageFileReader.Read(file);
+                if(dependencies.WasFailure)
+                    return PackageResult.Failed(file.Name, dependencies.ErrorString);
 
-                if (dependencies == null && exception != null)
-                {
-                    throw exception;
-                }
-
-                var dependencyResults = await GetDependencyResults(dependencies);
+                var dependencyResults = await GetDependencyResults(dependencies.Value);
                 return PackageResult.InvestigationTarget(file.Name, dependencyResults);
             }
             catch (Exception ex)

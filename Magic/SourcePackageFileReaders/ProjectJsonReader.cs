@@ -7,7 +7,7 @@ using Newtonsoft.Json.Linq;
 
 namespace ICanHasDotnetCore.SourcePackageFileReaders
 {
-    public class ProjectJsonFileReader : ISourcePackagesFileReader
+    public class ProjectJsonReader : ISourcePackagesFileReader
     {
         public IReadOnlyList<string> ReadDependencies(byte[] contents)
         {
@@ -17,7 +17,7 @@ namespace ICanHasDotnetCore.SourcePackageFileReaders
                 var model = JsonConvert.DeserializeObject<JObject>(sr.ReadToEnd());
                 var value = model["dependencies"].Value<JObject>();
                 var dependencies = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(value.ToString());
-                return dependencies?.Keys.ToArray() ?? Array.Empty<string>();
+                return dependencies?.Keys.ToArray() ?? new string[0];
             }
         }
     }

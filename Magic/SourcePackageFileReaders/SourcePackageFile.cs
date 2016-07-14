@@ -2,13 +2,15 @@
 {
     public class SourcePackageFile
     {
-        public SourcePackageFile(string name, byte[] contents)
+        public SourcePackageFile(string name, string originalFileName, byte[] contents)
         {
             Name = name;
+            OriginalFileName = originalFileName;
             Contents = contents;
         }
 
         public string Name { get; set; }
-        public byte[] Contents { get; set; }
+        public string OriginalFileName { get;  }
+        public byte[] Contents { get; }
     }
 }

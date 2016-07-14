@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace ICanHasDotnetCore.Tests.Magic.SourcePackageFileReaders
 {
     [TestFixture]
-    public class ProjectJsonFileReaderTest : ReaderTestsBase
+    public class ProjectJsonReaderTest : ReaderTestsBase
     {
         protected override string Contents => @"{
   ""version"": ""1.0.0-*"",
@@ -26,7 +26,7 @@ namespace ICanHasDotnetCore.Tests.Magic.SourcePackageFileReaders
 
         protected override void Execute(byte[] encodedFile)
         {
-            var result = new ProjectJsonFileReader().ReadDependencies(encodedFile);
+            var result = new ProjectJsonReader().ReadDependencies(encodedFile);
             result.Count.Should().Be(2);
             result.Should().BeEquivalentTo("Antlr", "bootstrap");
         }

@@ -30,7 +30,7 @@ namespace ICanHasDotnetCore.Web.Features.result
         public async Task<GetResultResponse> Get([FromBody]GetResultRequest request)
         {
             var sw = Stopwatch.StartNew();
-            var packagesFileDatas = request.PackageFiles.Select(p => new SourcePackageFile(p.Name, DataUriConverter.ConvertFrom(p.Contents))).ToArray();
+            var packagesFileDatas = request.PackageFiles.Select(p => new SourcePackageFile(p.Name, SourcePackageFileReader.PackagesConfig, DataUriConverter.ConvertFrom(p.Contents))).ToArray();
             var result = await PackageCompatabilityInvestigator.Create()
                 .Go(packagesFileDatas);
             sw.Stop();
@@ -65,7 +65,7 @@ namespace ICanHasDotnetCore.Web.Features.result
         [HttpPost("/api/GetResult/Demo")]
         public async Task<GetResultResponse> Demo()
         {
-            var packagesFileDatas = new[] { new SourcePackageFile("Our Project", Encoding.UTF8.GetBytes(DemoPackagesConfig)) };
+            var packagesFileDatas = new[] { new SourcePackageFile("Our Project", SourcePackageFileReader.PackagesConfig, Encoding.UTF8.GetBytes(DemoPackagesConfig)) };
             var result = await PackageCompatabilityInvestigator.Create()
                 .Go(packagesFileDatas);
 

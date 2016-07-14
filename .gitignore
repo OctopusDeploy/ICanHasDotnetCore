@@ -36,4 +36,3 @@ bower_components/
 packages/
 *.received.*
 Publish/
-project.lock.json

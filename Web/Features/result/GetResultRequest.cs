@@ -9,5 +9,6 @@
     {
         public string Name { get; set; }
         public string Contents { get; set; }
+        public string OriginalFileName { get; set; }
     }
 }

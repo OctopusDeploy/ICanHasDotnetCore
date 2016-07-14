@@ -26,7 +26,8 @@
 
         getDependencies(pkg: Result.IPackageResult) {
             return this.allPackages
-                .filter(p => pkg.dependencies.filter(d => p.packageName === d).length > 0)
+                .filter(p => p.supportType !== SupportType.InvestigationTarget)
+                .filter(p => pkg.dependencies.filter(d => p.packageName === d).length > 0);
         }
     }
 

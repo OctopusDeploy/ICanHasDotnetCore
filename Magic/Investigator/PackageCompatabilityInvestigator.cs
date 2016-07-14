@@ -13,13 +13,13 @@ namespace ICanHasDotnetCore.Investigator
     public class PackageCompatabilityInvestigator
     {
 
-       
+
 
         private readonly NugetPackageInfoRetriever _nugetPackageInfoRetriever;
 
         private readonly ConcurrentDictionary<string, Task<PackageResult>> _results = new ConcurrentDictionary<string, Task<PackageResult>>();
 
-       
+
 
         public PackageCompatabilityInvestigator(NugetPackageInfoRetriever nugetPackageInfoRetriever)
         {
@@ -38,12 +38,33 @@ namespace ICanHasDotnetCore.Investigator
 
         public async Task<InvestigationResult> Go(IReadOnlyList<SourcePackageFile> files)
         {
-            for (int x = 0; x < files.Count; x++)
-                if (files[x].Name == null)
-                    files[x].Name = $"File {x + 1}";
+            MakeNamesUnique(files);
 
             var results = files.Select(Process).ToArray();
             return new InvestigationResult(await Task.WhenAll(results));
+        }
+
+        private static void MakeNamesUnique(IReadOnlyList<SourcePackageFile> files)
+        {
+            for (int x = 0; x < files.Count; x++)
+            {
+                if (files[x].Name == null)
+                    files[x].Name = $"File {x + 1}";
+            }
+
+            var usedNamed = new HashSet<string>();
+            foreach (var file in files)
+            {
+                var originalName = file.Name;
+                var x = 0;
+                while (usedNamed.Contains(file.Name))
+                {
+                    x++;
+                    file.Name = $"{originalName} {x}";
+                }
+                usedNamed.Add(file.Name);
+            }
+
         }
 
         private async Task<PackageResult> Process(SourcePackageFile file)
@@ -51,7 +72,7 @@ namespace ICanHasDotnetCore.Investigator
             try
             {
                 var dependencies = SourcePackageFileReader.Read(file);
-                if(dependencies.WasFailure)
+                if (dependencies.WasFailure)
                     return PackageResult.Failed(file.Name, dependencies.ErrorString);
 
                 var dependencyResults = await GetDependencyResults(dependencies.Value);

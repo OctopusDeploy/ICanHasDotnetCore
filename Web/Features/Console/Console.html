@@ -10,7 +10,7 @@
     <h2 class="md-title">Usage</h2>
     <p>
         Specify the output directory and one or more directories to scan. The application will recursively scan the speciifed
-        directories looking for <code>packages.config</code> files.
+        directories looking for <code>packages.config</code>, <code>project.json</code> and <code>paket.dependencies</code> files.
     </p>
     <p>
         <code class="block">CanIHazDotnetCore.exe &lt;output_directory&gt; &lt;dir_to_scan_1&gt; [dir_to_scan_2] ... [dir_to_scan_n]</code>
@@ -25,7 +25,7 @@
     </p>
     <h2 class="md-title">Output</h2>
     <p>
-        Each found <code>packages.config</code> file is tagged with the name of the directory it was found in as the 'Project' name.
+        Each found packages file is tagged with the name of the directory it was found in as the 'Project' name.
         The application will output:
         <ul>
             <li><code>Flat.txt</code> - A flat list of the dependencies</li>

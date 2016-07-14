@@ -63,7 +63,7 @@ module ICanHasDotnetCore.Result {
             } else if ($state.params["data"]) {
                 var packageFiles = <Home.IPackageFile[]>$state.params["data"];
 
-                packageFiles = packageFiles.map(f => ({ name: f.name, contents: f.file.data }));
+                packageFiles = packageFiles.map(f => ({ name: f.name, contents: f.file.data, originalFileName: f.file.name }));
                 request = $http.post<IGetResultResponse>("/api/GetResult", <IGetResultRequest>{ packageFiles: packageFiles });
             } else {
                 $state.go(Home.state);

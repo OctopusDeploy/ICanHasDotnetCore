@@ -36,7 +36,7 @@ namespace ICanHasDotnetCore.Web.Features.result.GitHub
             catch (Exception ex)
             {
                 Log.Error(ex, "Exception scanning repository {name}", repoId);
-                return Result<SourcePackageFile[]>.Failed($"Something didn't quite right. The error has been logged.");
+                return Result<SourcePackageFile[]>.Failed($"Something didn't go quite right. The error has been logged.");
             }
         }
 
@@ -48,7 +48,7 @@ namespace ICanHasDotnetCore.Web.Features.result.GitHub
                 var contents = await GetContentsRecursive(client, repo);
 
                 return contents
-                    .Select(c => new SourcePackageFile(c.Path.Contains("/") ? c.Path.Substring(0, c.Path.LastIndexOf("/")) : c.Path, c.Name, Encoding.UTF8.GetBytes(c.Content)))
+                    .Select(c => new SourcePackageFile(c.Path.Contains("/") ? c.Path.Substring(0, c.Path.LastIndexOf("/")) : "<root>", c.Name, Encoding.UTF8.GetBytes(c.Content)))
                     .ToArray();
             }
             catch (NotFoundException nfe) when (nfe.Message == $"repos/{repo}/commits was not found.")
@@ -57,7 +57,7 @@ namespace ICanHasDotnetCore.Web.Features.result.GitHub
             }
         }
 
-     
+
 
         private GitHubClient GetClient()
         {
@@ -79,7 +79,10 @@ namespace ICanHasDotnetCore.Web.Features.result.GitHub
 
             var getFileTasks = treeResponse.Tree
                 .Where(t => t.Type == TreeType.Blob)
-                .Where(t => t.Path.EndsWith("/packages.config", StringComparison.InvariantCultureIgnoreCase))
+                .Where(t => SourcePackageFileReader.SupportedFiles.Any(
+                        f => t.Path.Equals(f, StringComparison.OrdinalIgnoreCase) || 
+                        t.Path.EndsWith($"/{f}", StringComparison.OrdinalIgnoreCase))
+                )
                 .Select(t => client.Repository.Content.GetAllContents(repo.Owner, repo.Name, t.Path))
                 .ToArray();
 
@@ -100,7 +103,7 @@ namespace ICanHasDotnetCore.Web.Features.result.GitHub
             public static Option<RepositoryId> Parse(string repoId)
             {
                 var match = Regex.Match(repoId, @"^\W*([\w\-_\.]+)/([\w\-_\.]+)\W*$");
-                if(match.Success)
+                if (match.Success)
                     return new RepositoryId(match.Groups[1].Value, match.Groups[2].Value);
                 return Option<RepositoryId>.ToNone;
             }

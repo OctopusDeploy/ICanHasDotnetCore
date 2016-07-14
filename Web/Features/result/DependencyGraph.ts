@@ -17,11 +17,17 @@
             }
         };
 
-
+        var getUniqueName = (result: IPackageResult) => {
+            if (result.supportType === SupportType.InvestigationTarget) {
+                return "Target-" + result.packageName;
+            } else {
+                return result.packageName;
+            }
+        }
 
         var createNode = (result: IPackageResult) => (
             {
-                id: result.packageName,
+                id: getUniqueName(result),
                 label: result.packageName,
                 color: supportTypeService.getColours(result.supportType),
             }
@@ -29,7 +35,7 @@
 
         var createEdge = (from: IPackageResult, to: string) => (
             {
-                from: from.packageName,
+                from: getUniqueName(from),
                 to: to
             }
         );

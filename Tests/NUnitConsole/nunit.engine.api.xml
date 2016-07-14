@@ -184,6 +184,11 @@
             to serve as an extension.
             </summary>
         </member>
+        <member name="M:NUnit.Engine.Extensibility.ExtensionAttribute.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:NUnit.Engine.Extensibility.ExtensionAttribute"/> class.
+            </summary>
+        </member>
         <member name="P:NUnit.Engine.Extensibility.ExtensionAttribute.Path">
             <summary>
             A unique string identifying the ExtensionPoint for which this Extension is 
@@ -194,6 +199,17 @@
         <member name="P:NUnit.Engine.Extensibility.ExtensionAttribute.Description">
             <summary>
             An optional description of what the extension does.
+            </summary>
+        </member>
+        <member name="P:NUnit.Engine.Extensibility.ExtensionAttribute.Enabled">
+            <summary>
+            Flag indicating whether the extension is enabled.
+            </summary>
+            <value><c>true</c> if enabled; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:NUnit.Engine.Extensibility.ExtensionAttribute.EngineVersion">
+            <summary>
+            The minimum Engine version for which this extension is designed
             </summary>
         </member>
         <member name="T:NUnit.Engine.Extensibility.ExtensionPointAttribute">
@@ -382,6 +398,74 @@
             Cancel the ongoing test run. If no  test is running, the call is ignored.
             </summary>
             <param name="force">If true, cancel any ongoing test threads, otherwise wait for them to complete.</param>
+        </member>
+        <member name="T:NUnit.Engine.Extensibility.IExtensionPoint">
+            <summary>
+            An ExtensionPoint represents a single point in the TestEngine
+            that may be extended by user addins and extensions.
+            </summary>
+        </member>
+        <member name="P:NUnit.Engine.Extensibility.IExtensionPoint.Path">
+            <summary>
+            Gets the unique path identifying this extension point.
+            </summary>
+        </member>
+        <member name="P:NUnit.Engine.Extensibility.IExtensionPoint.Description">
+            <summary>
+            Gets the description of this extension point. May be null.
+            </summary>
+        </member>
+        <member name="P:NUnit.Engine.Extensibility.IExtensionPoint.TypeName">
+            <summary>
+            Gets the FullName of the Type required for any extension to be installed at this extension point.
+            </summary>
+        </member>
+        <member name="P:NUnit.Engine.Extensibility.IExtensionPoint.Extensions">
+            <summary>
+            Gets an enumeration of IExtensionNodes for extensions installed on this extension point.
+            </summary>
+        </member>
+        <member name="T:NUnit.Engine.Extensibility.IExtensionNode">
+            <summary>
+            The IExtensionNode interface is implemented by a class that represents a 
+            single extension being installed on a particular extension point.
+            </summary>
+        </member>
+        <member name="P:NUnit.Engine.Extensibility.IExtensionNode.TypeName">
+            <summary>
+            Gets the full name of the Type of the extension object.
+            </summary>
+        </member>
+        <member name="P:NUnit.Engine.Extensibility.IExtensionNode.Enabled">
+            <summary>
+            Gets a value indicating whether this <see cref="T:NUnit.Engine.Extensibility.IExtensionNode"/> is enabled.
+            </summary>
+            <value><c>true</c> if enabled; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:NUnit.Engine.Extensibility.IExtensionNode.Path">
+            <summary>
+            Gets the unique string identifying the ExtensionPoint for which 
+            this Extension is intended. This identifier may be supplied by the attribute
+            marking the extension or deduced by NUnit from the Type of the extension class.
+            </summary>
+        </member>
+        <member name="P:NUnit.Engine.Extensibility.IExtensionNode.Description">
+            <summary>
+            Gets an optional description of what the extension does.
+            </summary>
+        </member>
+        <member name="P:NUnit.Engine.Extensibility.IExtensionNode.PropertyNames">
+            <summary>
+            Gets a collection of the names of all this extension's properties
+            </summary>
+        </member>
+        <member name="M:NUnit.Engine.Extensibility.IExtensionNode.GetValues(System.String)">
+            <summary>
+            Gets a collection of the values of a particular named property
+            If none are present, returns an empty enumerator.
+            </summary>
+            <param name="name">The property name</param>
+            <returns>A collection of values</returns>
         </member>
         <member name="T:NUnit.Engine.IRuntimeFramework">
             <summary>
@@ -998,6 +1082,38 @@
             </summary>
             <param name="timeout">A <see cref="T:System.Int32"/> that represents the number of milliseconds to wait or -1 milliseconds to wait indefinitely. </param>
             <returns>True if the run completed</returns>
+        </member>
+        <member name="T:NUnit.Engine.IExtensionService">
+            <summary>
+            The IExtensionService interface allows a runner to manage extensions.
+            </summary>
+        </member>
+        <member name="P:NUnit.Engine.IExtensionService.ExtensionPoints">
+            <summary>
+            Gets an enumeration of all ExtensionPoints in the engine.
+            </summary>
+        </member>
+        <member name="P:NUnit.Engine.IExtensionService.Extensions">
+            <summary>
+            Gets an enumeration of all installed Extensions.
+            </summary>
+        </member>
+        <member name="M:NUnit.Engine.IExtensionService.GetExtensionPoint(System.String)">
+            <summary>
+            Get an ExtensionPoint based on it's unique identifying path.
+            </summary>
+        </member>
+        <member name="M:NUnit.Engine.IExtensionService.GetExtensionNodes(System.String)">
+            <summary>
+            Get an enumeration of ExtensionNodes based on their identifying path.
+            </summary>
+        </member>
+        <member name="M:NUnit.Engine.IExtensionService.EnableExtension(System.String,System.Boolean)">
+            <summary>
+            Enable or disable an extension
+            </summary>
+            <param name="typeName"></param>
+            <param name="enabled"></param>
         </member>
     </members>
 </doc>

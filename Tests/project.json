@@ -22,11 +22,5 @@
     }
   },
   "buildOptions": {
-    "copyToOutput": {
-      "includeFiles": [
-        "nunit-project-loader.dll",
-        "teamcity-event-listener.dll"
-      ]
-    }
   }
 }

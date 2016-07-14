@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ICanHasDotnetCore.NugetPackages;
 
-namespace ICanHasDotnetCore
+namespace ICanHasDotnetCore.Investigator
 {
     public class PackageResult
     {

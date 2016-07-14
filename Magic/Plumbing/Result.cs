@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ICanHasDotnetCore
+namespace ICanHasDotnetCore.Plumbing
 {
     public interface IResult
     {

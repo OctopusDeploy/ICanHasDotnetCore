@@ -5,9 +5,9 @@ using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace ICanHasDotnetCore
+namespace ICanHasDotnetCore.SourcePackageFileReaders
 {
-    public class ProjectJsonFileReader : IPackagesFileReader
+    public class ProjectJsonFileReader : ISourcePackagesFileReader
     {
         public IReadOnlyList<string> ReadDependencies(byte[] contents)
         {

@@ -3,9 +3,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ICanHasDotnetCore.Investigator;
 using ICanHasDotnetCore.NugetPackages;
 using ICanHasDotnetCore.Output;
-using ICanHasDotnetCore.Web.Features.Result.GitHub;
+using ICanHasDotnetCore.SourcePackageFileReaders;
+using ICanHasDotnetCore.Web.Features.result.GitHub;
 using ICanHasDotnetCore.Web.Features.Statistics;
 using ICanHasDotnetCore.Web.Helpers;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +30,7 @@ namespace ICanHasDotnetCore.Web.Features.result
         public async Task<GetResultResponse> Get([FromBody]GetResultRequest request)
         {
             var sw = Stopwatch.StartNew();
-            var packagesFileDatas = request.PackageFiles.Select(p => new PackagesFileData(p.Name, DataUriConverter.ConvertFrom(p.Contents))).ToArray();
+            var packagesFileDatas = request.PackageFiles.Select(p => new SourcePackageFile(p.Name, DataUriConverter.ConvertFrom(p.Contents))).ToArray();
             var result = await PackageCompatabilityInvestigator.Create()
                 .Go(packagesFileDatas);
             sw.Stop();
@@ -63,7 +65,7 @@ namespace ICanHasDotnetCore.Web.Features.result
         [HttpPost("/api/GetResult/Demo")]
         public async Task<GetResultResponse> Demo()
         {
-            var packagesFileDatas = new[] { new PackagesFileData("Our Project", Encoding.UTF8.GetBytes(DemoPackagesConfig)) };
+            var packagesFileDatas = new[] { new SourcePackageFile("Our Project", Encoding.UTF8.GetBytes(DemoPackagesConfig)) };
             var result = await PackageCompatabilityInvestigator.Create()
                 .Go(packagesFileDatas);
 

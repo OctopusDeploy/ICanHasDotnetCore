@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Octokit;
-using Serilog;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using ICanHasDotnetCore.Plumbing;
+using ICanHasDotnetCore.SourcePackageFileReaders;
 using Microsoft.Extensions.Configuration;
+using Octokit;
 using Octokit.Internal;
+using Serilog;
 
-namespace ICanHasDotnetCore.Web.Features.Result.GitHub
+namespace ICanHasDotnetCore.Web.Features.result.GitHub
 {
     public class GitHubScanner
     {
@@ -22,24 +23,24 @@ namespace ICanHasDotnetCore.Web.Features.Result.GitHub
             _token = configuration["GitHubToken"];
         }
 
-        public async Task<Result<PackagesFileData[]>> Scan(string repoId)
+        public async Task<Result<SourcePackageFile[]>> Scan(string repoId)
         {
             try
             {
                 var repo = RepositoryId.Parse(repoId);
                 if (repo.None)
-                    return Result<PackagesFileData[]>.Failed($"{repoId} is not recognised as a GitHub repository name");
+                    return Result<SourcePackageFile[]>.Failed($"{repoId} is not recognised as a GitHub repository name");
 
                 return await Scan(repo.Value);
             }
             catch (Exception ex)
             {
                 Log.Error(ex, "Exception scanning repository {name}", repoId);
-                return Result<PackagesFileData[]>.Failed($"Something didn't quite right. The error has been logged.");
+                return Result<SourcePackageFile[]>.Failed($"Something didn't quite right. The error has been logged.");
             }
         }
 
-        private async Task<Result<PackagesFileData[]>> Scan(RepositoryId repo)
+        private async Task<Result<SourcePackageFile[]>> Scan(RepositoryId repo)
         {
             try
             {
@@ -47,12 +48,12 @@ namespace ICanHasDotnetCore.Web.Features.Result.GitHub
                 var contents = await GetContentsRecursive(client, repo);
 
                 return contents
-                    .Select(c => new PackagesFileData(c.Path.Contains("/") ? c.Path.Substring(0, c.Path.LastIndexOf("/")) : c.Path, Encoding.UTF8.GetBytes(c.Content)))
+                    .Select(c => new SourcePackageFile(c.Path.Contains("/") ? c.Path.Substring(0, c.Path.LastIndexOf("/")) : c.Path, Encoding.UTF8.GetBytes(c.Content)))
                     .ToArray();
             }
             catch (NotFoundException nfe) when (nfe.Message == $"repos/{repo}/commits was not found.")
             {
-                return Result<PackagesFileData[]>.Failed($"{repo} does not exist or is not publically accessible");
+                return Result<SourcePackageFile[]>.Failed($"{repo} does not exist or is not publically accessible");
             }
         }
 

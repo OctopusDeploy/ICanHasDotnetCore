@@ -2,10 +2,12 @@
 using System.Text;
 using ApprovalTests;
 using ApprovalTests.Reporters;
+using ICanHasDotnetCore.Investigator;
 using ICanHasDotnetCore.Output;
+using ICanHasDotnetCore.SourcePackageFileReaders;
 using NUnit.Framework;
 
-namespace ICanHasDotnetCore.Tests
+namespace ICanHasDotnetCore.Tests.Magic
 {
     public class EndToEndTests
     {
@@ -29,7 +31,7 @@ namespace ICanHasDotnetCore.Tests
             var result = PackageCompatabilityInvestigator.Create()
                 .Go(new[]
                 {
-                    new PackagesFileData("MyPackages", Encoding.UTF8.GetBytes(contents))
+                    new SourcePackageFile("MyPackages", Encoding.UTF8.GetBytes(contents))
                 })
                 .Result;
 

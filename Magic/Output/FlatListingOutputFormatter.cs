@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using ICanHasDotnetCore.Investigator;
 using ICanHasDotnetCore.NugetPackages;
 
 namespace ICanHasDotnetCore.Output

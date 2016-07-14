@@ -1,8 +1,8 @@
-﻿namespace ICanHasDotnetCore
+﻿namespace ICanHasDotnetCore.SourcePackageFileReaders
 {
-    public class PackagesFileData
+    public class SourcePackageFile
     {
-        public PackagesFileData(string name, byte[] contents)
+        public SourcePackageFile(string name, byte[] contents)
         {
             Name = name;
             Contents = contents;

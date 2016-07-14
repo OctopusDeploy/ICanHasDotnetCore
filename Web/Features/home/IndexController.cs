@@ -2,7 +2,7 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ICanHasDotnetCore.Web.Controllers
+namespace ICanHasDotnetCore.Web.Features.home
 {
     [Route("{*url}")]
     public class IndexController : Controller

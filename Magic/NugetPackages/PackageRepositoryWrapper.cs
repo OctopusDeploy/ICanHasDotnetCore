@@ -1,10 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using ICanHasDotnetCore.Plumbing;
 using NuGet;
 using Serilog;
 
-namespace ICanHasDotnetCore
+namespace ICanHasDotnetCore.NugetPackages
 {
     public interface IPackageRepositoryWrapper
     {

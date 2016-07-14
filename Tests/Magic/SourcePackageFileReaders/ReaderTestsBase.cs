@@ -1,34 +1,12 @@
 ﻿using System.Linq;
 using System.Text;
-using FluentAssertions;
 using NUnit.Framework;
 
-namespace ICanHasDotnetCore.Tests
+namespace ICanHasDotnetCore.Tests.Magic.SourcePackageFileReaders
 {
-    [TestFixture]
-    public class ProjectJsonFileReaderTest
+    public abstract class ReaderTestsBase
     {
-        private const string Contents = @"{
-  ""version"": ""1.0.0-*"",
-
-  ""dependencies"": {
-    ""Antlr"": ""3.0.11"",
-    ""bootstrap"": ""3.0.11""
-  },
-
-  ""frameworks"": {
-    ""net461"": {
-    }
-  }
-}";
-
-
-        private static void Execute(byte[] encodedFile)
-        {
-            var result = new ProjectJsonFileReader().ReadDependencies(encodedFile);
-            result.Count.Should().Be(2);
-            result.Should().BeEquivalentTo("Antlr", "bootstrap");
-        }
+        protected abstract string Contents { get; }
 
         [Test]
         public void Utf8FileCanBeRead()
@@ -57,5 +35,8 @@ namespace ICanHasDotnetCore.Tests
             var encodedFile = Encoding.UTF8.GetBytes(Contents);
             Execute(encodedFile);
         }
+
+        protected abstract void Execute(byte[] encodedFile);
+
     }
 }

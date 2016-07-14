@@ -2,7 +2,7 @@
 using ICanHasDotnetCore.NugetPackages;
 using NUnit.Framework;
 
-namespace ICanHasDotnetCore.Tests
+namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
 {
     public class NugetPackageRetrieverTests
     {

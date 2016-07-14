@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using ICanHasDotnetCore.Investigator;
 
 namespace ICanHasDotnetCore.Output
 {

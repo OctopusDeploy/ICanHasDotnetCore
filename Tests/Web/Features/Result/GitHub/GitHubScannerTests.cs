@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
 using FluentAssertions;
-using ICanHasDotnetCore.Web.Features.Result.GitHub;
 using System.Linq;
+using ICanHasDotnetCore.Tests.Web.Helpers;
+using ICanHasDotnetCore.Web.Features.result.GitHub;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 using Serilog;
-using Tests.DNC.Web.Helpers;
 
 namespace ICanHasDotnetCore.Tests.Web.Features.Result.GitHub
 {

@@ -1,5 +1,7 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
+using ICanHasDotnetCore.NugetPackages;
+using ICanHasDotnetCore.Plumbing;
 using NuGet;
 
 namespace ICanHasDotnetCore.Tests.TestPackages

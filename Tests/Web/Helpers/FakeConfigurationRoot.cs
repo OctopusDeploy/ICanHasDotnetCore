@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
 
-namespace Tests.DNC.Web.Helpers
+namespace ICanHasDotnetCore.Tests.Web.Helpers
 {
     public class FakeConfigurationRoot : Dictionary<string, string>, IConfigurationRoot
     {

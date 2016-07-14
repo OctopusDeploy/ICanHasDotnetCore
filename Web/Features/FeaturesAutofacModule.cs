@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using ICanHasDotnetCore.Web.Features.Result.GitHub;
+using ICanHasDotnetCore.Web.Features.result.GitHub;
 using ICanHasDotnetCore.Web.Features.Statistics;
 
 namespace ICanHasDotnetCore.Web.Features

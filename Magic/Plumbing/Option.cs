@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ICanHasDotnetCore
+namespace ICanHasDotnetCore.Plumbing
 {
     public class Option<T>
     {

@@ -1,12 +1,11 @@
-﻿using ICanHasDotnetCore.Web.Helpers;
-using NUnit.Framework;
-using FluentAssertions;
+﻿using System.Runtime.CompilerServices;
+using System.Text;
 using ApprovalTests;
 using ApprovalTests.Reporters;
-using System.Runtime.CompilerServices;
-using System.Text;
+using ICanHasDotnetCore.Web.Helpers;
+using NUnit.Framework;
 
-namespace Tests.DNC.Web.Helpers
+namespace ICanHasDotnetCore.Tests.Web.Helpers
 {
     [UseReporter(typeof(DiffReporter))]
     public class DataUriConverterTest

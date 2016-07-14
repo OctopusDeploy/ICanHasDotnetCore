@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ICanHasDotnetCore.NugetPackages;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ICanHasDotnetCore.Web.Features.KnownReplacements

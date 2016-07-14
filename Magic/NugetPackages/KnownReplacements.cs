@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using ICanHasDotnetCore.Plumbing;
 using ICanHasDotnetCore.Plumbing.Extensions;
 
-namespace ICanHasDotnetCore
+namespace ICanHasDotnetCore.NugetPackages
 {
     public class KnownReplacement
     {

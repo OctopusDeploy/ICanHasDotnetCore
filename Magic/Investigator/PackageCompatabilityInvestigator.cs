@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ICanHasDotnetCore.NugetPackages;
+using ICanHasDotnetCore.SourcePackageFileReaders;
 using Serilog;
 
-namespace ICanHasDotnetCore
+namespace ICanHasDotnetCore.Investigator
 {
     public class PackageCompatabilityInvestigator
     {
@@ -15,9 +16,9 @@ namespace ICanHasDotnetCore
         private readonly ConcurrentDictionary<string, Task<PackageResult>> _results =
             new ConcurrentDictionary<string, Task<PackageResult>>();
 
-        private readonly IPackagesFileReader[] packagesFileReaders =
+        private readonly ISourcePackagesFileReader[] _sourcePackagesFileReaders =
         {
-            new PackagesFileReader(),
+            new PackagesConfigReader(),
             new ProjectJsonFileReader()
         };
 
@@ -36,7 +37,7 @@ namespace ICanHasDotnetCore
             );
         }
 
-        public async Task<InvestigationResult> Go(IReadOnlyList<PackagesFileData> files)
+        public async Task<InvestigationResult> Go(IReadOnlyList<SourcePackageFile> files)
         {
             for (int x = 0; x < files.Count; x++)
                 if (files[x].Name == null)
@@ -46,13 +47,13 @@ namespace ICanHasDotnetCore
             return new InvestigationResult(await Task.WhenAll(results));
         }
 
-        private async Task<PackageResult> Process(PackagesFileData file)
+        private async Task<PackageResult> Process(SourcePackageFile file)
         {
             try
             {
                 Exception exception = null;
                 IReadOnlyList<string> dependencies = null;
-                foreach (var packagesFileReader in packagesFileReaders)
+                foreach (var packagesFileReader in _sourcePackagesFileReaders)
                 {
                     try
                     {

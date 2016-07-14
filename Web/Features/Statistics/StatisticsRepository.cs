@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using ICanHasDotnetCore.Investigator;
 using ICanHasDotnetCore.NugetPackages;
 using Microsoft.Extensions.Configuration;
 using Serilog;

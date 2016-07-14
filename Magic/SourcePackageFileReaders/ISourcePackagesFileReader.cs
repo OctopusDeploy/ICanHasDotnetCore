@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace ICanHasDotnetCore
+namespace ICanHasDotnetCore.SourcePackageFileReaders
 {
-    public interface IPackagesFileReader
+    public interface ISourcePackagesFileReader
     {
         IReadOnlyList<string> ReadDependencies(byte[] contents);
     }

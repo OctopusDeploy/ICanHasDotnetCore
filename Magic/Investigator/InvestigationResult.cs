@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace ICanHasDotnetCore
+namespace ICanHasDotnetCore.Investigator
 {
     public class InvestigationResult
     {

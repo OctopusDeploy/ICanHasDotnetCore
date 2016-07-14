@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using ICanHasDotnetCore.Web.Features.Result.GitHub;
+using ICanHasDotnetCore.Web.Features.result.GitHub;
 using NUnit.Framework;
 
 namespace ICanHasDotnetCore.Tests.Web.Features.Result.GitHub

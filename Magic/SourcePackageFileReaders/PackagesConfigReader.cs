@@ -2,11 +2,11 @@
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
-using ICanHasDotnetCore.PackagesFile;
+using ICanHasDotnetCore.SourcePackageFileReaders.PackagesConfig;
 
-namespace ICanHasDotnetCore
+namespace ICanHasDotnetCore.SourcePackageFileReaders
 {
-    public class PackagesFileReader : IPackagesFileReader
+    public class PackagesConfigReader : ISourcePackagesFileReader
     {
         public IReadOnlyList<string> ReadDependencies(byte[] contents)
         {

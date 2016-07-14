@@ -28,6 +28,11 @@ namespace ICanHasDotnetCore
                 return _value;
             }
         }
+
+        public static implicit operator Option<T>(T value)
+        {
+            return ToSome(value);
+        }
     }
 
     public static class OptionExtensions

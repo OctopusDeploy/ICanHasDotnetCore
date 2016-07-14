@@ -27,14 +27,11 @@ namespace ICanHasDotnetCore.Web.Features.Result.GitHub
         {
             try
             {
-                var match = Regex.Match(repoId, @"^\W*(\w+)/(\w+)\W*$");
-                if (!match.Success)
+                var repo = RepositoryId.Parse(repoId);
+                if (repo.None)
                     return Result<PackagesFileData[]>.Failed($"{repoId} is not recognised as a GitHub repository name");
 
-                var owner = match.Groups[1].Value;
-                var name = match.Groups[2].Value;
-
-                return await Scan(owner, name);
+                return await Scan(repo.Value);
             }
             catch (Exception ex)
             {
@@ -43,22 +40,24 @@ namespace ICanHasDotnetCore.Web.Features.Result.GitHub
             }
         }
 
-        private async Task<Result<PackagesFileData[]>> Scan(string owner, string name)
+        private async Task<Result<PackagesFileData[]>> Scan(RepositoryId repo)
         {
             try
             {
                 var client = GetClient();
-                var contents = await GetContentsRecursive(client, owner, name);
+                var contents = await GetContentsRecursive(client, repo);
 
                 return contents
                     .Select(c => new PackagesFileData(c.Name, Encoding.UTF8.GetBytes(c.Content)))
                     .ToArray();
             }
-            catch (NotFoundException nfe) when (nfe.Message == $"repos/{owner}/{name}/commits was not found.")
+            catch (NotFoundException nfe) when (nfe.Message == $"repos/{repo}/commits was not found.")
             {
-                return Result<PackagesFileData[]>.Failed($"{owner}/{name} does not exist or is not publically accessible");
+                return Result<PackagesFileData[]>.Failed($"{repo} does not exist or is not publically accessible");
             }
         }
+
+     
 
         private GitHubClient GetClient()
         {
@@ -69,25 +68,50 @@ namespace ICanHasDotnetCore.Web.Features.Result.GitHub
             );
         }
 
-        private async Task<IReadOnlyList<RepositoryContent>> GetContentsRecursive(GitHubClient client, string owner, string name)
+        private async Task<IReadOnlyList<RepositoryContent>> GetContentsRecursive(GitHubClient client, RepositoryId repo)
         {
-            var commits = await client.Repository.Commit.GetAll(owner, name);
+            var commits = await client.Repository.Commit.GetAll(repo.Owner, repo.Name);
             var head = commits.First();
-            var treeResponse = await client.Git.Tree.GetRecursive(owner, name, head.Sha);
+            var treeResponse = await client.Git.Tree.GetRecursive(repo.Owner, repo.Name, head.Sha);
 
             if (treeResponse.Truncated)
-                Log.Warning("Result truncated for {owner}/{name}", owner, name);
+                Log.Warning("Result truncated for {repo}", repo);
 
             var getFileTasks = treeResponse.Tree
                 .Where(t => t.Type == TreeType.Blob)
                 .Where(t => t.Path.EndsWith("/packages.config", StringComparison.InvariantCultureIgnoreCase))
-                .Select(t => client.Repository.Content.GetAllContents(owner, name, t.Path))
+                .Select(t => client.Repository.Content.GetAllContents(repo.Owner, repo.Name, t.Path))
                 .ToArray();
 
             return (await Task.WhenAll(getFileTasks))
                 .SelectMany(r => r)
                 .ToArray();
 
+        }
+
+        public class RepositoryId
+        {
+
+            public RepositoryId(string owner, string name)
+            {
+                Owner = owner;
+                Name = name;
+            }
+            public static Option<RepositoryId> Parse(string repoId)
+            {
+                var match = Regex.Match(repoId, @"^\W*([\w\-_\.]+)/([\w\-_\.])\W*$");
+                if(match.Success)
+                    return new RepositoryId(match.Groups[1].Value, match.Groups[2].Value);
+                return Option<RepositoryId>.ToNone;
+            }
+
+            public string Owner { get; }
+            public string Name { get; }
+
+            public override string ToString()
+            {
+                return $"{Owner}/{Name}";
+            }
         }
     }
 }

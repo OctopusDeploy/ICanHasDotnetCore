@@ -70,9 +70,13 @@ namespace ICanHasDotnetCore.Console
         {
             foreach (var directory in directories.Where(d => !ExcludeDirectories.Contains(Path.GetFileName(d))))
             {
-                var configFile = Path.Combine(directory, "packages.config");
-                if (File.Exists(configFile))
-                    yield return new PackagesFileData(new DirectoryInfo(directory).Name, File.ReadAllBytes(configFile));
+                var configFile = new FileInfo(Path.Combine(directory, "packages.config"));
+                if (configFile.Exists)
+                    yield return new PackagesFileData(configFile.DirectoryName, File.ReadAllBytes(configFile.FullName));
+
+                var jsonFile = new FileInfo(Path.Combine(directory, "project.json"));
+                if (jsonFile.Exists)
+                    yield return new PackagesFileData(jsonFile.DirectoryName, File.ReadAllBytes(jsonFile.FullName));
 
                 foreach (var packageFile in FindFiles(Directory.EnumerateDirectories(directory)))
                     yield return packageFile;

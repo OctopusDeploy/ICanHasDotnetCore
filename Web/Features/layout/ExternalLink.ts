@@ -10,7 +10,7 @@
             },
             transclude: true,
             link: (scope: ng.IScope, element, attr, ctrl, transclude) => {
-                element.prepend(transclude());
+                transclude(clone =>  element.prepend(clone));
             }
         }
     }

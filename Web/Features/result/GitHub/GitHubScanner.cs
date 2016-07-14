@@ -7,7 +7,6 @@ using Octokit;
 using Serilog;
 using System.Linq;
 using System.Text;
-using ICanHasDotnetCore.Web.Plumbing.Extensions;
 using Microsoft.Extensions.Configuration;
 using Octokit.Internal;
 
@@ -63,7 +62,7 @@ namespace ICanHasDotnetCore.Web.Features.Result.GitHub
         {
             return new GitHubClient(
                 new ProductHeaderValue("ICanHasDot.net", AssemblyVersion),
-                 new InMemoryCredentialStore(_token == null ? Credentials.Anonymous : new Credentials(_token)
+                 new InMemoryCredentialStore(string.IsNullOrEmpty(_token) ? Credentials.Anonymous : new Credentials(_token)
                 )
             );
         }

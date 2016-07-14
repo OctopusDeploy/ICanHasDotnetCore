@@ -1,0 +1,7 @@
+﻿DELETE FROM PackageStatistics WHERE Name like 'Microsoft.AspNet.%'
+DELETE FROM PackageStatistics WHERE Name like 'EntityFramework.%'
+DELETE FROM PackageStatistics WHERE Name like 'Microsoft.Data.Entity.%'
+DELETE FROM PackageStatistics WHERE Name = 'Microsoft.Web.Infrastructure'
+DELETE FROM PackageStatistics WHERE Name = 'Owin'
+DELETE FROM PackageStatistics WHERE Name = 'Microsoft.Owin'
+DELETE FROM PackageStatistics WHERE Name like 'Microsoft.Owin.*'

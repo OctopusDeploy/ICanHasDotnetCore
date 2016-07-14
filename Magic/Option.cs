@@ -54,6 +54,12 @@ namespace ICanHasDotnetCore
                     return item.Some();
             }
             return Option<TSource>.ToNone;
-        } 
+        }
+
+        public static Option<T> IfNone<T>(this Option<T> option, Func<Option<T>> ifNone)
+        {
+            return option.Some ? option : ifNone();
+        }
+
     }
 }

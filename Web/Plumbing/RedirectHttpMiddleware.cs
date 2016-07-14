@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using ICanHasDotnetCore.Plumbing.Extensions;
 using Microsoft.AspNetCore.Http;
-using ICanHasDotnetCore.Web.Plumbing.Extensions;
 
 namespace ICanHasDotnetCore.Web.Plumbing
 {

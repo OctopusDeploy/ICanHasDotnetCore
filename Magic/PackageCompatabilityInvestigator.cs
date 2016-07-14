@@ -21,7 +21,7 @@ namespace ICanHasDotnetCore
 
         public static PackageCompatabilityInvestigator Create()
         {
-           var repository = new PackageRepositoryWrapper();
+            var repository = new PackageRepositoryWrapper();
             return new PackageCompatabilityInvestigator(
                 new PackagesFileReader(),
                 new NugetPackageInfoRetriever(
@@ -34,7 +34,7 @@ namespace ICanHasDotnetCore
         {
             for (int x = 0; x < files.Count; x++)
                 if (files[x].Name == null)
-                    files[x].Name = $"File {x+1}";
+                    files[x].Name = $"File {x + 1}";
 
             var results = files.Select(Process).ToArray();
             return new InvestigationResult(await Task.WhenAll(results));
@@ -66,9 +66,9 @@ namespace ICanHasDotnetCore
         {
             try
             {
-                var knownReplacement = KnownReplacements.Check(id);
+                var knownReplacement = KnownReplacement.Check(id);
                 if (knownReplacement.Some)
-                    return knownReplacement.Value;
+                    return PackageResult.KnownReplacement(id, knownReplacement.Value.Message, knownReplacement.Value.Url);
 
                 var package = await _nugetPackageInfoRetriever.Retrieve(id, false);
 

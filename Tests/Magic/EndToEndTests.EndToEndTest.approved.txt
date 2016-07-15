@@ -23,8 +23,8 @@
     Sprache   [Unsupported]
     SSH.NET   [Unsupported]
 ProjectJson   [Your Project]
-    Antlr   [Unsupported]
-    bootstrap   [Unsupported]
-        jQuery   [Unsupported]
+    Antlr   [Unsupported] Often this package is not referenced directly, but as a dependency of WebGrease - GitHub Issue tracking .NET Core support: https://github.com/antlr/antlrcs/issues/42
+    bootstrap   [Unsupported] We are working on correctly detecting non-.NET packages - GitHub Issue: https://github.com/OctopusDeploy/ICanHasDotnetCore/issues/9
+        jQuery   [Unsupported] We are working on correctly detecting non-.NET packages - GitHub Issue: https://github.com/OctopusDeploy/ICanHasDotnetCore/issues/9
 Paket   [Your Project]
     DotNetZip   [Unsupported]

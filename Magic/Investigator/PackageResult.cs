@@ -40,6 +40,7 @@ namespace ICanHasDotnetCore.Investigator
                 PackageName = name,
                 Dependencies = dependencies,
                 SupportType = SupportType.InvestigationTarget,
+                MoreInformation = Option<MoreInformation>.ToNone
             };
         }
 

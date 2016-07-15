@@ -50,14 +50,16 @@ namespace ICanHasDotnetCore.Output
             if (result.MoreInformation.Some)
             {
                 var info = result.MoreInformation.Value;
+
                 if (info.Message != null)
                     sb.Append(" ").Append(info.Message);
+
                 if (info.Url != null)
                 {
                     sb.Append(" - ");
                     if (info.LinkText != null)
                         sb.Append(info.LinkText).Append(": ");
-                    sb.Append(info.LinkText);
+                    sb.Append(info.Url);
                 }
             }
 

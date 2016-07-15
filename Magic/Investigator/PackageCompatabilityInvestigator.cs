@@ -97,7 +97,7 @@ namespace ICanHasDotnetCore.Investigator
 
                 var knownReplacement = KnownReplacementsRepository.Get(id);
                 if (knownReplacement.Some)
-                    return PackageResult.KnownReplacement(id, knownReplacement.Value.Message, knownReplacement.Value.Url, moreInformation);
+                    return PackageResult.KnownReplacement(id, knownReplacement.Value);
 
                 var package = await _nugetPackageInfoRetriever.Retrieve(id, false);
 

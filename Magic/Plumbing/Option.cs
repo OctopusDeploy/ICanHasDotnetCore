@@ -58,12 +58,12 @@ namespace ICanHasDotnetCore.Plumbing
 
         public static Option<T> IfNone<T>(this Option<T> option, Func<Option<T>> ifNone)
         {
-            return option.Some ? option : ifNone();
+            return option != null && option.Some ? option : ifNone();
         }
 
         public static T ValueOrNull<T>(this Option<T> option) where T : class
         {
-            return option.Some ? option.Value : null;
+            return option != null && option.Some ? option.Value : null;
         }
     }
 }

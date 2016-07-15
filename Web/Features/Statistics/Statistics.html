@@ -11,14 +11,19 @@
         </p>
     </div>
 
-    <div layout="column" layout-gt-md="row" layout-align-gt-md="center start" >
-        <div class="group" ng-repeat="type in vm.typeGroups">
+    <div layout="column" layout-gt-md="row" layout-align-gt-md="center start">
+        <div flex="30" class="group" ng-repeat="type in vm.typeGroups">
             <package-result-box type="type"></package-result-box>
             <div>
-                <div class="statistic" ng-repeat="stat in vm.statistics | filter: { latestSupportType: type }">
-                    <div class="count-label">{{stat.count | number}}</div>
-                    {{stat.name}}
-                    <a href="https://www.nuget.org/packages/{{stat.name}}/" target="_blank"><md-icon class="external-link">search</md-icon></a>
+                <div class="statistic" ng-repeat="item in vm.statsFor(type)">
+                    <div class="count-label">{{item.statistic.count | number}}</div>
+                    {{item.statistic.name}}
+                    <a href="https://www.nuget.org/packages/{{item.statistic.name}}/" target="_blank"><md-icon class="external-link">search</md-icon></a>
+                    <small ng-show="item.moreInformation">
+                        <br/>
+                        {{item.moreInformation.message}}
+                        <external-link ng-show="item.moreInformation.url" href="{{item.moreInformation.url}}">[{{ info.linkText || 'More Information'}}]</external-link>
+                    </small>
                 </div>
             </div>
         </div>

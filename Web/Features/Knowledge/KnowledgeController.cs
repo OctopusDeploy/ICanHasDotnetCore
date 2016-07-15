@@ -16,7 +16,7 @@ namespace ICanHasDotnetCore.Web.Features.Knowledge
         [HttpGet("/api/Knowledge/MoreInformation")]
         public IReadOnlyList<MoreInformation> GetMoreInformation()
         {
-            return KnownReplacementsRepository.All;
+            return MoreInformationRepository.All;
         }
     }
 }

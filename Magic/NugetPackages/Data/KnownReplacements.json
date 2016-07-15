@@ -2,46 +2,76 @@
   {
     "id": "Microsoft.Bcl",
     "message": "This package was introduced to provide async support to pre-.NET 4.5 platforms",
+    "linkText": "About the package",
     "url": "https://blogs.msdn.microsoft.com/bclteam/2012/10/22/using-asyncawait-without-net-framework-4-5/"
   },
   {
     "id": "Microsoft.Bcl.Async",
     "message": "This package was introduced to provide async support to pre-.NET 4.5 platforms",
+    "linkText": "About the package",
     "url": "https://blogs.msdn.microsoft.com/bclteam/2012/10/22/using-asyncawait-without-net-framework-4-5/"
   },
   {
     "id": "Microsoft.Bcl.Build",
     "message": "This package provided build time support for Microsoft.Bcl",
+    "linkText": "About the package",
     "url": "https://blogs.msdn.microsoft.com/bclteam/2012/10/22/using-asyncawait-without-net-framework-4-5/"
   },
   {
     "id": "Microsoft.Net.Http",
     "message": "This package backported HttpClient to pre-.NET 4.5 platforms",
+    "linkText": "About the package",
     "url": "https://blogs.msdn.microsoft.com/bclteam/2013/02/18/portable-httpclient-for-net-framework-and-windows-phone/"
   },
   {
     "id": "Microsoft.Net.Http",
     "message": "This package backported HttpClient to pre-.NET 4.5 platforms",
+    "linkText": "About the package",
     "url": "https://blogs.msdn.microsoft.com/bclteam/2013/02/18/portable-httpclient-for-net-framework-and-windows-phone/"
   },
   {
     "id": "EntityFramework.MicrosoftSqlServer",
     "message": "Replaced by Microsoft.EntityFrameworkCore.SqlServer",
+    "linkText": "ASP.NET Core Package id Changes",
     "url": "https://docs.asp.net/en/latest/migration/rc1-to-rtm.html#namespace-and-package-id-changes"
   },
   {
     "id": "Microsoft.AspNet.Diagnostics.Entity",
     "message": "Replaced by Microsoft.AspNetCore.Dianostics.EntityFrameworkCore",
+    "linkText": "ASP.NET Core Package id Changes",
     "url": "https://docs.asp.net/en/latest/migration/rc1-to-rtm.html#namespace-and-package-id-changes"
   },
   {
     "id": "Microsoft.AspNet.Identity.EntityFramework",
     "message": "Replaced by Microsoft.AspNetCore.Identity.EntityFrameworkCore",
+    "linkText": "ASP.NET Core Package id Changes",
     "url": "https://docs.asp.net/en/latest/migration/rc1-to-rtm.html#namespace-and-package-id-changes"
+  },
+  {
+    "id": "Microsoft.AspNet.",
+    "message": "Microsoft.AspNet.* packages have been replaced with Microsoft.AspNetCore.*",
+    "linkText": "ASP.NET Core Package id Changes",
+    "url": "https://docs.asp.net/en/latest/migration/rc1-to-rtm.html#namespace-and-package-id-changes",
+    "startsWith": true
+  },
+  {
+    "id": "EntityFramework.",
+    "message": "EntityFramework.* packages have been replaced with Microsoft.EntityFrameworkCore.*",
+    "linkText": "ASP.NET Core Package id Changes",
+    "url": "https://docs.asp.net/en/latest/migration/rc1-to-rtm.html#namespace-and-package-id-changes",
+    "startsWith": true
+  },
+  {
+    "id": "Microsoft.Data.Entity.",
+    "message": "Microsoft.Data.Entity.* packages have been replaced with Microsoft.EntityFrameworkCore.*",
+    "linkText": "ASP.NET Core Package id Changes",
+    "url": "https://docs.asp.net/en/latest/migration/rc1-to-rtm.html#namespace-and-package-id-changes",
+    "startsWith": true
   },
   {
     "id": "Microsoft.AspNet.Tooling.Razor",
     "message": "Replaced by Microsoft.AspNetCore.Razor.Tools",
+    "linkText": "ASP.NET Core Package id Changes",
     "url": "https://docs.asp.net/en/latest/migration/rc1-to-rtm.html#namespace-and-package-id-changes"
   },
   {
@@ -51,35 +81,20 @@
   {
     "id": "Owin",
     "message": "Owin has been replaced by Microsoft.AspNetCore.Owin",
+    "linkText": "Using OWIN with ASP.NET Core",
     "url": "https://docs.asp.net/en/latest/fundamentals/owin.html"
   },
   {
     "id": "Microsoft.Owin",
     "message": "Owin has been replaced by Microsoft.AspNetCore.Owin",
+    "linkText": "Using OWIN with ASP.NET Core",
     "url": "https://docs.asp.net/en/latest/fundamentals/owin.html"
   },
   {
     "id": "Microsoft.Owin.",
     "message": "Owin has been replaced by Microsoft.AspNetCore.Owin",
+    "linkText": "Using OWIN with ASP.NET Core",
     "url": "https://docs.asp.net/en/latest/fundamentals/owin.html",
-    "startsWith": true
-  },
-  {
-    "id": "Microsoft.AspNet.",
-    "message": "Microsoft.AspNet.* packages have been replaced with Microsoft.AspNetCore.*",
-    "url": "https://docs.asp.net/en/latest/migration/rc1-to-rtm.html#namespace-and-package-id-changes",
-    "startsWith": true
-  },
-  {
-    "id": "EntityFramework.",
-    "message": "EntityFramework.* packages have been replaced with Microsoft.EntityFrameworkCore.*",
-    "url": "https://docs.asp.net/en/latest/migration/rc1-to-rtm.html#namespace-and-package-id-changes",
-    "startsWith": true
-  },
-  {
-    "id": "Microsoft.Data.Entity.",
-    "message": "Microsoft.Data.Entity.* packages have been replaced with Microsoft.EntityFrameworkCore.*",
-    "url": "https://docs.asp.net/en/latest/migration/rc1-to-rtm.html#namespace-and-package-id-changes",
     "startsWith": true
   }
 ]

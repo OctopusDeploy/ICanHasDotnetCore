@@ -14,7 +14,7 @@ namespace ICanHasDotnetCore.Investigator
 
         public string PackageName { get; private set; }
         public string ProjectUrl { get; private set; }
-        public string Message { get; private set; }
+        public string Error { get; private set; }
         public IReadOnlyList<PackageResult> Dependencies { get; private set; }
         public bool WasSuccessful => SupportType != SupportType.Error;
         public SupportType SupportType { get; private set; }
@@ -26,9 +26,10 @@ namespace ICanHasDotnetCore.Investigator
             return new PackageResult()
             {
                 PackageName = packageName,
-                Message = error,
+                Error = error,
                 Dependencies = new PackageResult[0],
-                SupportType = SupportType.Error
+                SupportType = SupportType.Error,
+                MoreInformation = Option<MoreInformation>.ToNone
             };
         }
 
@@ -42,15 +43,13 @@ namespace ICanHasDotnetCore.Investigator
             };
         }
 
-        public static PackageResult KnownReplacement(string name, string replacementHint, string moreInfoUrl, Option<MoreInformation> moreInformation)
+        public static PackageResult KnownReplacement(string name, MoreInformation moreInformation)
         {
             return new PackageResult()
             {
                 PackageName = name,
                 Dependencies = new PackageResult[0],
                 SupportType = SupportType.KnownReplacementAvailable,
-                Message = replacementHint,
-                ProjectUrl = moreInfoUrl,
                 MoreInformation = moreInformation
             };
         }

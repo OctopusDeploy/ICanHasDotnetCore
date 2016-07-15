@@ -10,7 +10,7 @@ namespace ICanHasDotnetCore.NugetPackages
     {
         static MoreInformationRepository()
         {
-            using (var s = typeof(KnownReplacementsRepository).Assembly.GetManifestResourceStream($"Magic.NugetPackages.Data.KnownReplacements.json"))
+            using (var s = typeof(KnownReplacementsRepository).Assembly.GetManifestResourceStream($"Magic.NugetPackages.Data.MoreInformation.json"))
             using (var sr = new StreamReader(s))
             {
                 All = JsonConvert.DeserializeObject<MoreInformation[]>(sr.ReadToEnd())

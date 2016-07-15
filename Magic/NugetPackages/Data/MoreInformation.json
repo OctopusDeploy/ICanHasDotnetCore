@@ -1,7 +1,46 @@
 ﻿[
   {
     "id": "Antlr",
+    "message": "Often this package is not referenced directly, but as a dependency of WebGrease",
     "linkText": "GitHub Issue tracking .NET Core support",
     "url": "https://github.com/antlr/antlrcs/issues/42"
+  },
+  {
+    "id": "WebGrease",
+    "message": "Provides javascript, css and image optimisation and minification. ASP.NET Core defaults to gulp for these tasks.",
+    "linkText": "Forum question on whether .NET Core will be supported",
+    "url": "http://webgrease.codeplex.com/discussions/641500"
+  },
+  {
+    "id": "JQuery",
+    "message": "We are working on correctly detecting non-.NET packages",
+    "linkText": "GitHub Issue",
+    "url": "https://github.com/OctopusDeploy/ICanHasDotnetCore/issues/9",
+    "startsWith": true
+  },
+  {
+    "id": "Bootstrap",
+    "message": "We are working on correctly detecting non-.NET packages",
+    "linkText": "GitHub Issue",
+    "url": "https://github.com/OctopusDeploy/ICanHasDotnetCore/issues/9",
+    "startsWith": true
+  },
+  {
+    "id": "Modernizr",
+    "message": "We are working on correctly detecting non-.NET packages",
+    "linkText": "GitHub Issue",
+    "url": "https://github.com/OctopusDeploy/ICanHasDotnetCore/issues/9"
+  },
+  {
+    "id": "KnockoutJS",
+    "message": "We are working on correctly detecting non-.NET packages",
+    "linkText": "GitHub Issue",
+    "url": "https://github.com/OctopusDeploy/ICanHasDotnetCore/issues/9"
+  },
+  {
+    "id": "MomentJS",
+    "message": "We are working on correctly detecting non-.NET packages",
+    "linkText": "GitHub Issue",
+    "url": "https://github.com/OctopusDeploy/ICanHasDotnetCore/issues/9"
   }
 ]

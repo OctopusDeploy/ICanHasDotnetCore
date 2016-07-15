@@ -1,21 +1,23 @@
 <div class="knowledge">
     <div class="max">
         <h1 class="md-headline">Knowledge</h1>
-        Below is some further information on the current plans for .NET Standard support for some popular packages, as well as
-        a list of packages that have replacements available. Find out <a href="https://github.com/OctopusDeploy/ICanHasDotnetCore/tree/master/Magic/NugetPackages/Data">How to contribute</a>
-        <md-tabs>
+        <p>
+            Below is some further information on the current plans for .NET Standard support for some popular packages, as well as
+            a list of packages that have replacements available. Find out <external-link href="https://github.com/OctopusDeploy/ICanHasDotnetCore/tree/master/Magic/NugetPackages/Data">how to contribute</external-link>.
+        </p>
+        <md-tabs md-dynamic-height>
             <md-tab label="Information">
                 <p class="more-information" ng-repeat="info in vm.moreInformation">
                     <strong>{{info.id}}<span ng-show="info.startsWith">*</span></strong><br/>
                     <span ng-show="info.message">{{info.message}}<br /></span>
-                    <external-link ng-show="info.url" href="{{info.url}}"><span>{{ info.linkText ?? 'More Information'}}</span></external-link>
+                    <external-link ng-show="info.url" href="{{info.url}}">{{ info.linkText || 'More Information'}}</external-link>
                 </p>
             </md-tab>
             <md-tab label="Replacements">
                 <p class="more-information" ng-repeat="info in vm.replacements">
                     <strong>{{info.id}}<span ng-show="info.startsWith">*</span></strong><br />
                     <span ng-show="info.message">{{info.message}}<br /></span>
-                    <external-link ng-show="info.url" href="{{info.url}}"><span>{{ info.linkText ?? 'Details'}}</span></external-link>
+                    <external-link ng-show="info.url" href="{{info.url}}">{{ info.linkText || 'Details'}}</external-link>
                 </p>
             </md-tab>
         </md-tabs>

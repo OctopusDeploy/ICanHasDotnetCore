@@ -89,7 +89,7 @@ namespace ICanHasDotnetCore.Web.Features.result
         private void LogErroredAndNotFoundPackages(string repoId, InvestigationResult result)
         {
             foreach(var package in result.GetAllDistinctRecursive().Where(p => p.SupportType == SupportType.Error))
-                Log.Error("Error occured with package {package} in GitHub repo {repoId}: {error}", package.PackageName, repoId, package.Message);
+                Log.Error("Error occured with package {package} in GitHub repo {repoId}: {error}", package.PackageName, repoId, package.Error);
 
             foreach (var package in result.GetAllDistinctRecursive().Where(p => p.SupportType == SupportType.NotFound))
                 Log.Warning("Package {package} in GitHub repo {repoId} was not found", package.PackageName, repoId);
@@ -103,7 +103,7 @@ namespace ICanHasDotnetCore.Web.Features.result
                 {
                     PackageName = r.PackageName,
                     SupportType = r.SupportType,
-                    Error = r.Message,
+                    Error = r.Error,
                     Dependencies = r.Dependencies?.Select(d => d.PackageName).ToArray(),
                     ProjectUrl = r.ProjectUrl,
                     MoreInformation = r.MoreInformation.ValueOrNull()

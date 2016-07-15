@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using DbUp;
+using ICanHasDotnetCore.Database.AlwaysRun;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.PlatformAbstractions;
 
@@ -35,6 +37,12 @@ namespace ICanHasDotnetCore.Database
                 Console.ResetColor();
                 Debugger.Break();
                 return -1;
+            }
+
+            using (var con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                RemoveKnownReplacementsFromStatistics.Run(con);
             }
 
             Console.ForegroundColor = ConsoleColor.Green;

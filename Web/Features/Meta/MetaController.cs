@@ -12,7 +12,8 @@ namespace ICanHasDotnetCore.Web.Features.Meta
         [HttpGet("robots.txt")]
         public ContentResult RobotsTxt()
         {
-            return Content($@"Sitemap: {BaseUrl}/sitemap.xml", "text/plain", Encoding.UTF8);
+            return Content($@"User-agent:*
+Sitemap: {BaseUrl}/sitemap.xml", "text/plain", Encoding.UTF8);
         }
 
         [HttpGet("sitemap.xml")]

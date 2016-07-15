@@ -8,15 +8,15 @@ namespace ICanHasDotnetCore.Web.Features.Knowledge
     {
 
         [HttpGet("/api/Knowledge/KnownReplacements")]
-        public IReadOnlyList<KnownReplacement> GetKnownReplacements()
+        public IReadOnlyList<MoreInformation> GetKnownReplacements()
         {
-            return KnownReplacement.All;
+            return KnownReplacementsRepository.All;
         }
 
         [HttpGet("/api/Knowledge/MoreInformation")]
         public IReadOnlyList<MoreInformation> GetMoreInformation()
         {
-            return MoreInformation.All;
+            return KnownReplacementsRepository.All;
         }
     }
 }

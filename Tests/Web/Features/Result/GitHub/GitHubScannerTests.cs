@@ -18,7 +18,7 @@ namespace ICanHasDotnetCore.Tests.Web.Features.Result.GitHub
             var result = await CreateScanner().Scan("/OctopusDeploy/ICanHasDotnetCore\\");
             result.WasSuccessful.Should().BeTrue(result.ErrorString);
             var names = result.Value.Select(p => p.Name).ToArray();
-            names.ShouldAllBeEquivalentTo(new[] { "Magic"});
+            names.ShouldAllBeEquivalentTo(new[] { "Magic", "Database", "Console", "Tests", "Web"});
         }
 
         

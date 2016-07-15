@@ -93,9 +93,9 @@ namespace ICanHasDotnetCore.Investigator
         {
             try
             {
-                var moreInformation = MoreInformation.Get(id);
+                var moreInformation = MoreInformationRepository.Get(id);
 
-                var knownReplacement = KnownReplacement.Check(id);
+                var knownReplacement = KnownReplacementsRepository.Get(id);
                 if (knownReplacement.Some)
                     return PackageResult.KnownReplacement(id, knownReplacement.Value.Message, knownReplacement.Value.Url, moreInformation);
 

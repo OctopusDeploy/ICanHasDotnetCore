@@ -24,7 +24,7 @@ namespace ICanHasDotnetCore.Web.Features.Statistics
                 .Select(p => new PackageStatisticResponse()
                 {
                     Statistic = p,
-                    MoreInformation = MoreInformation.Get(p.Name).ValueOrNull()
+                    MoreInformation = MoreInformationRepository.Get(p.Name).ValueOrNull()
                 })
                 .ToArray();
         }

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using ICanHasDotnetCore.Plumbing;
+﻿using ICanHasDotnetCore.Plumbing.Extensions;
 
 namespace ICanHasDotnetCore.NugetPackages
 {
@@ -11,23 +10,12 @@ namespace ICanHasDotnetCore.NugetPackages
         public string Url { get; set; }
         public bool StartsWith { get; set; }
 
-        private MoreInformation(string id)
+        public MoreInformation(string id)
         {
             Id = id;
         }
 
-        public static readonly IReadOnlyList<MoreInformation> All = new[]
-        {
-            new MoreInformation("Antlr")
-            {
-                LinkText = "GitHub Issue tracking .NET Core support",
-                Url = "https://github.com/antlr/antlrcs/issues/42"
-            }
-        };
+        public bool AppliesTo(string id) => StartsWith ? id.StartsWithOrdinalIgnoreCase(Id) : id.EqualsOrdinalIgnoreCase(Id);
 
-        public static Option<MoreInformation> Get(string id)
-        {
-            return All.FirstOrNone(m => m.Id == id);
-        }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ICanHasDotnetCore.NugetPackages;
+using ICanHasDotnetCore.Plumbing;
 
 namespace ICanHasDotnetCore.Investigator
 {
@@ -18,6 +19,7 @@ namespace ICanHasDotnetCore.Investigator
         public bool WasSuccessful => SupportType != SupportType.Error;
         public SupportType SupportType { get; private set; }
 
+        public Option<MoreInformation> MoreInformation { get; set; }
 
         public static PackageResult Failed(string packageName, string error)
         {
@@ -36,11 +38,11 @@ namespace ICanHasDotnetCore.Investigator
             {
                 PackageName = name,
                 Dependencies = dependencies,
-                SupportType = SupportType.InvestigationTarget
+                SupportType = SupportType.InvestigationTarget,
             };
         }
 
-        public static PackageResult KnownReplacement(string name, string replacementHint, string moreInfoUrl = null)
+        public static PackageResult KnownReplacement(string name, string replacementHint, string moreInfoUrl, Option<MoreInformation> moreInformation)
         {
             return new PackageResult()
             {
@@ -48,18 +50,22 @@ namespace ICanHasDotnetCore.Investigator
                 Dependencies = new PackageResult[0],
                 SupportType = SupportType.KnownReplacementAvailable,
                 Message = replacementHint,
-                ProjectUrl = moreInfoUrl
+                ProjectUrl = moreInfoUrl,
+                MoreInformation = moreInformation
             };
         }
 
-        public static PackageResult Success(NugetPackage package, IReadOnlyList<PackageResult> dependencies)
+
+
+        public static PackageResult Success(NugetPackage package, IReadOnlyList<PackageResult> dependencies, Option<MoreInformation> moreInformation)
         {
             return new PackageResult()
             {
                 PackageName = package.Id,
                 Dependencies = dependencies,
                 SupportType = package.SupportType,
-                ProjectUrl = package.ProjectUrl
+                ProjectUrl = package.ProjectUrl,
+                MoreInformation = moreInformation
             };
         }
 

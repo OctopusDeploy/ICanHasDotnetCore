@@ -100,4 +100,13 @@ module ICanHasDotnetCore {
         app.config(($stateProvider: angular.ui.IStateProvider) =>
             $stateProvider.state(id, stateConfig));
     }
+
+    export function redirect(id: string, url: string, redirectToState: string) {
+        app.config(($stateProvider: angular.ui.IStateProvider) =>
+            $stateProvider.state(id, {
+                url: url,
+                onEnter: ($state) => $state.go(redirectToState)
+            })
+        );
+    }
 }

@@ -12,6 +12,7 @@ using ICanHasDotnetCore.Web.Features.Statistics;
 using ICanHasDotnetCore.Web.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
+using ICanHasDotnetCore.Plumbing;
 
 namespace ICanHasDotnetCore.Web.Features.result
 {
@@ -104,7 +105,8 @@ namespace ICanHasDotnetCore.Web.Features.result
                     SupportType = r.SupportType,
                     Error = r.Message,
                     Dependencies = r.Dependencies?.Select(d => d.PackageName).ToArray(),
-                    ProjectUrl = r.ProjectUrl
+                    ProjectUrl = r.ProjectUrl,
+                    MoreInformation = r.MoreInformation.ValueOrNull()
                 }).ToArray(),
                 GraphViz = GraphVizOutputFormatter.Format(result),
             };

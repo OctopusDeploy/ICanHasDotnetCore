@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using ICanHasDotnetCore.NugetPackages;
+using ICanHasDotnetCore.Plumbing;
 
 namespace ICanHasDotnetCore.Web.Features.Statistics
 {
@@ -14,11 +16,16 @@ namespace ICanHasDotnetCore.Web.Features.Statistics
         }
 
         [HttpGet("api/Statistics")]
-        public IReadOnlyList<PackageStatistic> Get()
+        public IReadOnlyList<PackageStatisticResponse> Get()
         {
             return _statisticsRepository.GetAllPackageStatistics()
                 .OrderByDescending(p => p.Count)
                 .ThenBy(p => p.Name)
+                .Select(p => new PackageStatisticResponse()
+                {
+                    Statistic = p,
+                    MoreInformation = MoreInformation.Get(p.Name).ValueOrNull()
+                })
                 .ToArray();
         }
     }

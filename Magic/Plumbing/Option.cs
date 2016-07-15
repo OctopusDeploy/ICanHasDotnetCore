@@ -61,5 +61,9 @@ namespace ICanHasDotnetCore.Plumbing
             return option.Some ? option : ifNone();
         }
 
+        public static T ValueOrNull<T>(this Option<T> option) where T : class
+        {
+            return option.Some ? option.Value : null;
+        }
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ICanHasDotnetCore.NugetPackages;
+using ICanHasDotnetCore.Plumbing;
 using ICanHasDotnetCore.Plumbing.Extensions;
 using ICanHasDotnetCore.SourcePackageFileReaders;
 using Serilog;
@@ -13,13 +14,9 @@ namespace ICanHasDotnetCore.Investigator
     public class PackageCompatabilityInvestigator
     {
 
-
-
         private readonly NugetPackageInfoRetriever _nugetPackageInfoRetriever;
 
         private readonly ConcurrentDictionary<string, Task<PackageResult>> _results = new ConcurrentDictionary<string, Task<PackageResult>>();
-
-
 
         public PackageCompatabilityInvestigator(NugetPackageInfoRetriever nugetPackageInfoRetriever)
         {
@@ -96,9 +93,11 @@ namespace ICanHasDotnetCore.Investigator
         {
             try
             {
+                var moreInformation = MoreInformation.Get(id);
+
                 var knownReplacement = KnownReplacement.Check(id);
                 if (knownReplacement.Some)
-                    return PackageResult.KnownReplacement(id, knownReplacement.Value.Message, knownReplacement.Value.Url);
+                    return PackageResult.KnownReplacement(id, knownReplacement.Value.Message, knownReplacement.Value.Url, moreInformation);
 
                 var package = await _nugetPackageInfoRetriever.Retrieve(id, false);
 
@@ -110,7 +109,7 @@ namespace ICanHasDotnetCore.Investigator
                 }
 
                 var dependencyResults = await GetDependencyResults(package.Dependencies);
-                return PackageResult.Success(package, dependencyResults);
+                return PackageResult.Success(package, dependencyResults, moreInformation);
             }
             catch (Exception ex)
             {

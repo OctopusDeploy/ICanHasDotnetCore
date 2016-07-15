@@ -12,6 +12,12 @@
     "url": "http://webgrease.codeplex.com/discussions/641500"
   },
   {
+    "id": "OctoPack",
+    "message": "Until the build tooling stabilised (ie going back to msbuild), there is an alternative way of packaging.",
+    "linkText": "Octopus - Deploying ASP.NET Core Web Applications",
+    "url": "http://docs.octopusdeploy.com/display/OD/Deploying+ASP.NET+Core+Web+Applications"
+  },
+  {
     "id": "JQuery",
     "message": "We are working on correctly detecting non-.NET packages",
     "linkText": "GitHub Issue",

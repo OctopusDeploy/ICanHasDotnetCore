@@ -15,7 +15,8 @@ namespace ICanHasDotnetCore.NugetPackages
             using (var sr = new StreamReader(s))
             {
                 All = JsonConvert.DeserializeObject<MoreInformation[]>(sr.ReadToEnd())
-                    .OrderBy(r => r.StartsWith) // false first
+                    .OrderBy(r => r.Id)
+                    .ThenBy(r => r.StartsWith) // false first
                     .ToArray();
             }
         }

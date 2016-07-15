@@ -55,6 +55,12 @@
     "startsWith": true
   },
   {
+    "id": "EntityFramework",
+    "message": "EntityFramework has been replaced with Microsoft.EntityFrameworkCore",
+    "linkText": "ASP.NET Core Package id Changes",
+    "url": "https://docs.asp.net/en/latest/migration/rc1-to-rtm.html#namespace-and-package-id-changes"
+  },
+  {
     "id": "EntityFramework.",
     "message": "EntityFramework.* packages have been replaced with Microsoft.EntityFrameworkCore.*",
     "linkText": "ASP.NET Core Package id Changes",

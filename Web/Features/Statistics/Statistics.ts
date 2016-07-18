@@ -33,5 +33,9 @@ module ICanHasDotnetCore.Statistics {
         }
     }
 
-    addAngularState(state, "/Stats", "Statistics", ViewModel, "Statistics/Statistics.html");
+    addAngularState(state, "/Stats", ViewModel, "Statistics/Statistics.html",
+    {
+        title: "Statistics",
+        description: "The most popular packages submitted and their support status"
+    });
 }

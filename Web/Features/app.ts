@@ -3,12 +3,12 @@ declare var vis;
 module ICanHasDotnetCore {
 
     interface IRouteState extends angular.ui.IState {
-        params: IRouteParams
+        data: IRouteData
     }
 
-    interface IRouteParams extends angular.ui.IStateOptions {
-        title: string;
-        data: any;
+    interface IRouteData {
+        title?: string;
+        description?: string;
     }
 
     function httpErrorHandler($httpProvider: ng.IHttpProvider) {
@@ -61,6 +61,26 @@ module ICanHasDotnetCore {
             }]
         );
 
+    app.run(($window, $rootScope: ng.IRootScopeService, $location: ng.ILocationService) => {
+        $rootScope.$on('$stateChangeSuccess',
+            (evt, toState) => {
+                var title = "I Can Has .NET Core";
+                var description = "Analyse your nuget dependencies to determine whether they support .NET Standard";
+                if (toState.data) {
+                    if (toState.data.title) {
+                        title = toState.data.title + " - " + title;
+                    }
+                    if (toState.data.description) {
+                        description = toState.data.description;
+                    }
+                };
+                $window.document.title = title;
+                $("meta[name='description']").attr("content", description);
+                $("meta[property='og:title']").attr("content", title);
+                $("meta[property='og:description']").attr("content", description);
+            });
+    });
+
     app.config($mdThemingProvider => {
         $mdThemingProvider.theme('default')
             .primaryPalette('blue')
@@ -89,13 +109,14 @@ module ICanHasDotnetCore {
     });
 
 
-    export function addAngularState(id: string, url: string, title: string, controller: Function, template: string) {
+    export function addAngularState(id: string, url: string, controller: Function, template: string, data: IRouteData, params?: any) {
         var stateConfig: IRouteState = {
             url: url,
             templateUrl: "app/" + template,
             controller: controller,
             controllerAs: "vm",
-            params: { title: title, data: null }
+            data: data,
+            params: params
         };
         app.config(($stateProvider: angular.ui.IStateProvider) =>
             $stateProvider.state(id, stateConfig));

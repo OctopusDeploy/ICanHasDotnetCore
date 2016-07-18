@@ -16,5 +16,9 @@ module ICanHasDotnetCore.Knowledge {
     }
 
     redirect("layout.knownReplacements", "/Replacements", state);
-    addAngularState(state, "/Knowledge", "Knowledge", ViewModel, "Knowledge/Knowledge.html");
+    addAngularState(state, "/Knowledge", ViewModel, "Knowledge/Knowledge.html",
+    {
+        title: "Knowledge",
+        description: "List of direct substitues and information on .NET Standard support plans for popular packages"
+    });
 }

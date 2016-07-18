@@ -73,5 +73,9 @@ module ICanHasDotnetCore.Home {
         }
     }
 
-    addAngularState(state, "/", "Home", ViewModel, "home/home.html");
+    addAngularState(state, "/", ViewModel, "home/home.html",
+    {
+        title: "Home",
+        description: "Can you port your application to .NET Core? Submit your GitHub repository or package files to see whether your nuget dependencies support .NET Standard"  
+    });
 }

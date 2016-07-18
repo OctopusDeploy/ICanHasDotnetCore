@@ -12,5 +12,5 @@ module ICanHasDotnetCore.Layout {
 
     }
 
-    addAngularState("layout", null, null, ViewModel, "layout/layout.html");
+    addAngularState("layout", null, ViewModel, "layout/layout.html", {});
 }

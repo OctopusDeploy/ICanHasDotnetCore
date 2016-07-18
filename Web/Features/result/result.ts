@@ -114,6 +114,15 @@ module ICanHasDotnetCore.Result {
         };
     }
 
-    addAngularState(state, "/result?github", "Result", ViewModel, "result/result.html");
-    addAngularState(demoState, "/result/demo", "Result Demo", ViewModel, "result/result.html");
+    addAngularState(state, "/result?github", ViewModel, "result/result.html",
+    {
+        title: "Result", 
+        description: "The result of your query",
+        },
+        { data: null });
+    addAngularState(demoState, "/result/demo", ViewModel, "result/result.html",
+    {
+        title: "Demo",
+        description: "Demonstration of the information output after submitting your GitHub repository or package files"
+    });
 }

@@ -5,5 +5,9 @@ module ICanHasDotnetCore.Faq {
     class ViewModel {
     }
 
-    addAngularState(state, "/faq", "Faq", ViewModel, "faq/faq.html");
+    addAngularState(state, "/faq", ViewModel, "faq/faq.html",
+    {
+        title: "FAQ", 
+        description: "Frequently Asked Questions"
+    });
 }

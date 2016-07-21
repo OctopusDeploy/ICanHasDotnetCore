@@ -10,7 +10,8 @@ namespace ICanHasDotnetCore.NugetPackages
     public interface IPackageRepositoryWrapper
     {
         Task<IPackage> GetLatestPackage(string id, bool prerelease);
-        Task<Result<byte[]>> DownloadPackage(IPackageName package);
+        Task<IPackage> GetPackage(string id, SemanticVersion version);
+        Task<Result<ZipPackage>> DownloadPackage(IPackageName package);
     }
 
     public class PackageRepositoryWrapper : IPackageRepositoryWrapper
@@ -18,28 +19,32 @@ namespace ICanHasDotnetCore.NugetPackages
         private readonly DataServicePackageRepository _repository = new DataServicePackageRepository(new Uri("https://www.nuget.org/api/v2"));
         public Task<IPackage> GetLatestPackage(string id, bool prerelease)
         {
-            return Task.Run(() => _repository.FindPackage(id, (IVersionSpec) null, prerelease, false));
+            return Task.Run(() => _repository.FindPackage(id, (IVersionSpec)null, prerelease, false));
         }
 
-        public Task<Result<byte[]>> DownloadPackage(IPackageName package)
+        public Task<IPackage> GetPackage(string id, SemanticVersion version)
+        {
+            return Task.Run(() => _repository.FindPackage(id, new VersionSpec(version), true, false));
+        }
+
+        public Task<Result<ZipPackage>> DownloadPackage(IPackageName package)
         {
             return Task.Run(() => DownloadPackageTask(package));
         }
 
-        private Result<byte[]> DownloadPackageTask(IPackageName package)
+        private Result<ZipPackage> DownloadPackageTask(IPackageName package)
         {
             var dataServicePackage = package as DataServicePackage;
             if (dataServicePackage == null)
             {
                 Log.Information("Package {id} is an unrecognised type: {type}", package.Id, package.GetType());
-                return Result<byte[]>.Failed($"Error processing package {package.Id}");
+                return Result<ZipPackage>.Failed($"Error processing package {package.Id}");
             }
 
-            using (var ms = new MemoryStream())
-            {
-                _repository.PackageDownloader.DownloadPackage(dataServicePackage.DownloadUrl, dataServicePackage, ms);
-                return ms.ToArray();
-            }
+            var ms = new MemoryStream();
+            _repository.PackageDownloader.DownloadPackage(dataServicePackage.DownloadUrl, dataServicePackage, ms);
+            ms.Position = 0;
+            return new ZipPackage(ms);
         }
     }
 }

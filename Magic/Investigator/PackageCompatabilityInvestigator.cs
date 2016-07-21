@@ -99,16 +99,11 @@ namespace ICanHasDotnetCore.Investigator
                 if (knownReplacement.Some)
                     return PackageResult.KnownReplacement(id, knownReplacement.Value);
 
-                var package = await _nugetPackageInfoRetriever.Retrieve(id, false);
+                var package = await GetReleaseOrPrereleasePackage(id);
+                if (package.WasFailure)
+                    return PackageResult.Failed(id, package.ErrorString);
 
-                if (package.SupportType == SupportType.Unsupported)
-                {
-                    var prerelease = await _nugetPackageInfoRetriever.Retrieve(id, true);
-                    if (prerelease.SupportType == SupportType.PreRelease)
-                        package = prerelease;
-                }
-
-                var dependencyResults = await GetDependencyResults(package.Dependencies);
+                var dependencyResults = await GetDependencyResults(package.Value.Dependencies);
                 return PackageResult.Success(package, dependencyResults, moreInformation);
             }
             catch (Exception ex)
@@ -116,6 +111,25 @@ namespace ICanHasDotnetCore.Investigator
                 Log.Error(ex, "Error processing package {package}", id);
                 return PackageResult.Failed(id, "An error occured - " + ex.Message);
             }
+        }
+
+        private async Task<Result<NugetPackage>> GetReleaseOrPrereleasePackage(string id)
+        {
+            var package = await _nugetPackageInfoRetriever.Retrieve(id, false);
+            if (package.WasFailure)
+                return package;
+
+            if (package.Value.SupportType != SupportType.Unsupported)
+                return package;
+
+            var prerelease = await _nugetPackageInfoRetriever.Retrieve(id, true);
+            if (prerelease.WasFailure)
+                return prerelease;
+
+            if (prerelease.Value.SupportType == SupportType.PreRelease)
+                return prerelease;
+
+            return package;
         }
     }
 }

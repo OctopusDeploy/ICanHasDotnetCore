@@ -6,8 +6,9 @@ namespace ICanHasDotnetCore.NugetPackages
         Supported = 1,
         PreRelease = 2,
         Unsupported = 3,
-        KnownReplacementAvailable = 4,
-        InvestigationTarget = 5,
-        Error = 6
+        NonDotNet = 4,
+        KnownReplacementAvailable = 5,
+        InvestigationTarget = 6,
+        Error = 7
     }
 }

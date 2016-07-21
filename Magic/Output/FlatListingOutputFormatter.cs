@@ -43,6 +43,9 @@ namespace ICanHasDotnetCore.Output
                 case SupportType.Error:
                     sb.Append(result.Error);
                     break;
+                case SupportType.NonDotNet:
+                    sb.Append("[Not a .NET Library]");
+                    break;
                 default:
                     throw new ArgumentException();
             }

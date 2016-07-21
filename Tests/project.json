@@ -15,8 +15,6 @@
     "System.Runtime": "4.0.20",
     "Web": "1.0.0-*"
   },
-  "testRunner": "nunit",
-
 
   "frameworks": {
     "net461": {

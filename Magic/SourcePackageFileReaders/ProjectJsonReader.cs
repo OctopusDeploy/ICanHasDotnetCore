@@ -15,7 +15,9 @@ namespace ICanHasDotnetCore.SourcePackageFileReaders
             using (var sr = new StreamReader(ms))
             {
                 var model = JsonConvert.DeserializeObject<JObject>(sr.ReadToEnd());
-                var value = model["dependencies"].Value<JObject>();
+                var value = model["dependencies"]?.Value<JObject>();
+                if (value == null)
+                    return new string[0];
                 var dependencies = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(value.ToString());
                 return dependencies?.Keys.ToArray() ?? new string[0];
             }

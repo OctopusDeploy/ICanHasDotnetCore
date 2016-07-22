@@ -1,11 +1,10 @@
 using System;
-using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using ICanHasDotnetCore.Plumbing;
 using ICanHasDotnetCore.Plumbing.Extensions;
 using NuGet;
-using Serilog;
 
 namespace ICanHasDotnetCore.NugetPackages
 {
@@ -13,6 +12,7 @@ namespace ICanHasDotnetCore.NugetPackages
     public class NugetPackageInfoRetriever
     {
         private readonly IPackageRepositoryWrapper _repository;
+
 
         private static readonly string[] SupportedTargetFrameworksInOrderOfPriority = new[]
         {
@@ -27,76 +27,97 @@ namespace ICanHasDotnetCore.NugetPackages
             _repository = repository;
         }
 
-        public async Task<Result<NugetPackage>> Retrieve(string id, bool includePrerelease)
+        public async Task<NugetPackage> Retrieve(string id, bool includePrerelease)
         {
             var package = await _repository.GetLatestPackage(id, includePrerelease);
             return Retrieve(id, package);
         }
 
-        public async Task<Result<NugetPackage>> Retrieve(string id, SemanticVersion version)
+        public async Task<NugetPackage> Retrieve(string id, SemanticVersion version)
         {
             var package = await _repository.GetPackage(id, version);
             return Retrieve(id, package);
         }
 
-        public Result<NugetPackage> Retrieve(string id, IPackage package)
+        private NugetPackage Retrieve(string id, IPackage package)
         {
             if (package == null)
                 return new NugetPackage(id, new string[0], SupportType.NotFound);
-            
+
+            return LookForSupportedFrameworks(package)
+                .IfNone(() => CheckToolAndNoDotNetLibraries(package))
+                .ValueOr(() => FallbackToOldSkool(package));
+        }
+
+
+        private Option<NugetPackage> CheckToolAndNoDotNetLibraries(IPackage package)
+        {
             var supportedFrameworks = package.GetSupportedFrameworks().ToArray();
             var hasDllReferences = package.AssemblyReferences.Any(r => r.Name.EndsWith(".dll", StringComparison.OrdinalIgnoreCase));
-            if (!supportedFrameworks.Any() && !hasDllReferences)
-                return new NugetPackage(id, new string[0], SupportType.NonDotNet);
 
-            var supported = supportedFrameworks
-                .Any(f => SupportedTargetFrameworksInOrderOfPriority.Contains(f.Identifier));
-            if (supported)
-            {
-                var netStdDeps = GetNetStandardDependencySet(package);
-                return new NugetPackage(id, netStdDeps.ValueOrNull() ?? new string[0], package.IsReleaseVersion() ? SupportType.Supported : SupportType.PreRelease)
-                {
-                    ProjectUrl = package.ProjectUrl?.ToString()
-                };
-            }
+            if (supportedFrameworks.Any() || hasDllReferences)
+                return Option<NugetPackage>.ToNone;
 
-            var osDeps = GetOldSkoolDependencies(package);
-            return new NugetPackage(id, osDeps, SupportType.Unsupported)
+            var deps = package.DependencySets.FirstOrNone()
+                .IfSome(s => GetDependencies(s).Some())
+                .ValueOr(new string[0]);
+
+            return new NugetPackage(package.Id, deps, SupportType.NoDotNetLibraries);
+        }
+
+        private Option<NugetPackage> LookForSupportedFrameworks(IPackage package)
+        {
+            var supportedFramework = GetBestFramework(package);
+            if (supportedFramework.None)
+                return Option<NugetPackage>.ToNone;
+
+            var depSet = package.DependencySets
+                .Where(s => s.TargetFramework != null)
+                .Where(s => s.TargetFramework.Identifier.EqualsOrdinalIgnoreCase(supportedFramework.Value.Identifier))
+                .OrderByDescending(s => s.TargetFramework.Version)
+                .FirstOrNone()
+                .IfSome(s => GetDependencies(s).Some())
+                .ValueOr(() => new string[0]);
+
+            return new NugetPackage(package.Id, depSet, package.IsReleaseVersion() ? SupportType.Supported : SupportType.PreRelease)
             {
                 ProjectUrl = package.ProjectUrl?.ToString()
             };
         }
 
-
-        private Option<string[]> GetNetStandardDependencySet(IPackage package)
+        public Option<FrameworkName> GetBestFramework(IPackage package)
         {
-            if (package.DependencySets == null)
-                return Option<string[]>.ToNone;
+            var frameworks = package.DependencySets.Select(s => s.TargetFramework)
+            .Union(package.DependencySets.SelectMany(s => s.SupportedFrameworks))
+            .Union(package.GetSupportedFrameworks())
+            .Where(f => f != null)
+            .ToArray();
 
-            var orderedDeps = package.DependencySets
-                .Where(s => s.TargetFramework != null)
-                .OrderByDescending(s => s.TargetFramework.Version)
-                .ToArray();
-
-            foreach (var framework in SupportedTargetFrameworksInOrderOfPriority)
+            foreach (var name in SupportedTargetFrameworksInOrderOfPriority)
             {
-                var dep = orderedDeps.FirstOrNone(s => framework.EqualsOrdinalIgnoreCase(s.TargetFramework?.Identifier));
-                if (dep.Some)
-                    return GetDependencies(dep.Value);
+                var match = frameworks.FirstOrNone(f => f.Identifier.EqualsOrdinalIgnoreCase(name));
+                if (match.Some)
+                    return match;
             }
-            return Option<string[]>.ToNone;
+
+            return frameworks.FirstOrNone(f => f.IsPortableFramework() && PclProfileCompatabilityChecker.Check(f.Profile));
         }
 
 
-        private static string[] GetOldSkoolDependencies(IPackage package)
-        {
-            var oldSkoolDeps = package.DependencySets
-                .Where(s => s.TargetFramework?.Identifier == ".NETFramework")
-                .OrderByDescending(s => s.TargetFramework.Version)
-                .FirstOrDefault()
-                               ?? package.DependencySets.FirstOrDefault();
 
-            return oldSkoolDeps == null ? new string[0] : GetDependencies(oldSkoolDeps);
+        private NugetPackage FallbackToOldSkool(IPackage package)
+        {
+            var set = package.DependencySets
+              .Where(s => s.TargetFramework?.Identifier == ".NETFramework")
+              .OrderByDescending(s => s.TargetFramework.Version)
+              .FirstOrDefault()
+                             ?? package.DependencySets.FirstOrDefault();
+
+            var deps = set == null ? new string[0] : GetDependencies(set);
+            return new NugetPackage(package.Id, deps, SupportType.Unsupported)
+            {
+                ProjectUrl = package.ProjectUrl?.ToString()
+            };
         }
 
 

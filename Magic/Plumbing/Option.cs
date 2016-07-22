@@ -23,7 +23,7 @@ namespace ICanHasDotnetCore.Plumbing
         {
             get
             {
-                if(!Some)
+                if (!Some)
                     throw new InvalidOperationException("This option doesn't have a value, check HasValue before calling Value");
                 return _value;
             }
@@ -38,9 +38,17 @@ namespace ICanHasDotnetCore.Plumbing
     public static class OptionExtensions
     {
         public static Option<T> Some<T>(this T value) => Option<T>.ToSome(value);
-        public static Option<T> None<T>(this T value) => Option<T>.ToNone;	
+        public static Option<T> None<T>(this T value) => Option<T>.ToNone;
 
-             
+        public static Option<TSource> FirstOrNone<TSource>(this IEnumerable<TSource> source)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+
+            foreach (TSource item in source)
+                return item.Some();
+            return Option<TSource>.ToNone;
+        }
         public static Option<TSource> FirstOrNone<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
             if (source == null)
@@ -59,6 +67,23 @@ namespace ICanHasDotnetCore.Plumbing
         public static Option<T> IfNone<T>(this Option<T> option, Func<Option<T>> ifNone)
         {
             return option != null && option.Some ? option : ifNone();
+        }
+
+        public static T ValueOr<T>(this Option<T> option, Func<T> ifNone)
+        {
+            return option != null && option.Some ? option.Value : ifNone();
+        }
+
+        public static T ValueOr<T>(this Option<T> option, T ifNone)
+        {
+            return option != null && option.Some ? option.Value : ifNone;
+        }
+
+        public static Option<TOut> IfSome<TIn, TOut>(this Option<TIn> option, Func<TIn, Option<TOut>> ifSome)
+        {
+            return option != null && option.Some
+                ? ifSome(option.Value)
+                : Option<TOut>.ToNone;
         }
 
         public static T ValueOrNull<T>(this Option<T> option) where T : class

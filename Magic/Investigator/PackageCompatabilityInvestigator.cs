@@ -100,10 +100,7 @@ namespace ICanHasDotnetCore.Investigator
                     return PackageResult.KnownReplacement(id, knownReplacement.Value);
 
                 var package = await GetReleaseOrPrereleasePackage(id);
-                if (package.WasFailure)
-                    return PackageResult.Failed(id, package.ErrorString);
-
-                var dependencyResults = await GetDependencyResults(package.Value.Dependencies);
+                var dependencyResults = await GetDependencyResults(package.Dependencies);
                 return PackageResult.Success(package, dependencyResults, moreInformation);
             }
             catch (Exception ex)
@@ -113,20 +110,14 @@ namespace ICanHasDotnetCore.Investigator
             }
         }
 
-        private async Task<Result<NugetPackage>> GetReleaseOrPrereleasePackage(string id)
+        private async Task<NugetPackage> GetReleaseOrPrereleasePackage(string id)
         {
             var package = await _nugetPackageInfoRetriever.Retrieve(id, false);
-            if (package.WasFailure)
-                return package;
-
-            if (package.Value.SupportType != SupportType.Unsupported)
+            if (package.SupportType != SupportType.Unsupported)
                 return package;
 
             var prerelease = await _nugetPackageInfoRetriever.Retrieve(id, true);
-            if (prerelease.WasFailure)
-                return prerelease;
-
-            if (prerelease.Value.SupportType == SupportType.PreRelease)
+            if (prerelease.SupportType == SupportType.PreRelease)
                 return prerelease;
 
             return package;

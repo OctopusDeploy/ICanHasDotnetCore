@@ -48,13 +48,15 @@ namespace ICanHasDotnetCore.Output
                 case SupportType.Supported:
                     return "#A5D6A7"; // green
                 case SupportType.PreRelease:
-                    return "#80CBC4";
+                    return "#80CBC4"; // teal
                 case SupportType.Unsupported:
                     return "#FFCC80"; // orange
                 case SupportType.KnownReplacementAvailable:
                     return "#81D4FA"; //blue
                 case SupportType.InvestigationTarget:
                     return "#B39DDB"; // purple
+                case SupportType.NoDotNetLibraries:
+                    return "#B0BEC5"; // blue grey
                 case SupportType.Error:
                     return "#ef9a9a"; // red
                 default:

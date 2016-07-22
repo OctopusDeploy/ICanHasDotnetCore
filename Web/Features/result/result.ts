@@ -9,9 +9,10 @@ module ICanHasDotnetCore.Result {
         Supported = 1,
         PreRelease = 2,
         Unsupported = 3,
-        KnownReplacementAvailable = 4,
-        InvestigationTarget = 5,
-        Error = 6
+        NoDotNetLibraries = 4,
+        KnownReplacementAvailable = 5,
+        InvestigationTarget = 6,
+        Error = 7
     }
 
     export interface IGetResultRequest {
@@ -100,18 +101,6 @@ module ICanHasDotnetCore.Result {
             return this.response.result.filter(p => p.supportType === type);
         }
 
-        private demoResponse: IGetResultResponse = {
-            graphViz: "Test data",
-            result: [
-                { packageName: "A", supportType: SupportType.InvestigationTarget, dependencies: ["B", "C"] },
-                { packageName: "B", supportType: SupportType.Unsupported, dependencies: ["C", "D", "F"] },
-                { packageName: "C", supportType: SupportType.KnownReplacementAvailable, dependencies: ["D"] },
-                { packageName: "D", supportType: SupportType.Supported, dependencies: ["E"] },
-                { packageName: "E", error: "Oops, something really really went wrong!!", supportType: SupportType.Error, dependencies: [] },
-                { packageName: "F", supportType: SupportType.PreRelease, dependencies: ["G"] },
-                { packageName: "G", supportType: SupportType.NotFound, dependencies: [] }
-            ]
-        };
     }
 
     addAngularState(state, "/result?github", ViewModel, "result/result.html",

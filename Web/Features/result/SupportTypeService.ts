@@ -29,6 +29,8 @@
                     return { border: "#00897B", background: "#80CBC4", highlight: { border: "#00897B", background: "#B2DFDB" } };
                 case SupportType.Unsupported: //orange
                     return { border: "#FF9800", background: "#FFCC80", highlight: { border: "#FF9800", background: "#FFE0B2" } };
+                case SupportType.NoDotNetLibraries: //blue grey
+                    return { border: "#78909C", background: "#B0BEC5", highlight: { border: "#78909C", background: "#CFD8DC" } };
                 case SupportType.Error: // red
                     return { border: "#b71c1c", background: "#ef9a9a", highlight: { border: "#b71c1c", background: "#ffcdd2" } };
                 default: // B&W
@@ -48,6 +50,8 @@
                     return "Supported";
                 case SupportType.PreRelease:
                     return "Supported (Pre-release)";
+                case SupportType.NoDotNetLibraries:
+                    return "Not a .NET Library";
                 case SupportType.Unsupported:
                     return "Unsupported";
                 case SupportType.Error:

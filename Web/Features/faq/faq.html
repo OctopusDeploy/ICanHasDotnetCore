@@ -19,8 +19,7 @@
     <h2 class="md-title">How does this work?</h2>
     <p>
         We read your <code>packages.config</code>, <code>project.json</code> and <code>paket.dependencies</code> files and recursively lookup up those packages and their dependencies on
-        nuget.org. We then look at whether there are any <code>.NETStandard</code> dependencies. Since what was the base class
-        library is now referenced via nuget, the majority of .NETStandard assemblies reference at least one package.
+        nuget.org. We then look at whether the package targets a compatible framework (.NET Standard or PCL)
     </p>
     <h2 class="md-title">Do you keep any uploaded information?</h2>
     <p>

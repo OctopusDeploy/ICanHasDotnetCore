@@ -1,6 +1,6 @@
 ﻿using System;
-using ICanHasDotnetCore.NugetPackages;
 using System.Data.SqlClient;
+using ICanHasDotnetCore.NugetPackages;
 
 namespace ICanHasDotnetCore.Database.AlwaysRun
 {

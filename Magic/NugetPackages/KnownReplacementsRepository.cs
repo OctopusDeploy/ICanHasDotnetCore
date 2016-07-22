@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using ICanHasDotnetCore.Plumbing;
-using ICanHasDotnetCore.Plumbing.Extensions;
 using Newtonsoft.Json;
 
 namespace ICanHasDotnetCore.NugetPackages

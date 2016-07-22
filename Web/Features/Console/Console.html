@@ -63,6 +63,10 @@
             <div flex class="status-description"> The latest release and pre-release versions of the package do not support .NET Standard </div>
         </div>
         <div layout layout-xs="column" layout-align="start center" layout-align-xs="">
+            <package-result-box type="'NoDotNetLibraries'"></package-result-box>
+            <div flex class="status-description">The package does not contain .NET assemblies and is most likely HTML/JS files, a development tool or aggregates other packages</div>
+        </div>
+        <div layout layout-xs="column" layout-align="start center" layout-align-xs="">
             <package-result-box type="'NotFound'"></package-result-box>
             <div flex class="status-description">This package could not be found on nuget.org, it is most likely from an internal nuget feed </div>
         </div>

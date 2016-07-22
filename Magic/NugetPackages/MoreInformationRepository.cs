@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using ICanHasDotnetCore.Plumbing;
 using Newtonsoft.Json;
-using System.Linq;
 
 namespace ICanHasDotnetCore.NugetPackages
 {

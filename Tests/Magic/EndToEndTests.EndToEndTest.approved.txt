@@ -24,6 +24,6 @@
     SSH.NET   [Unsupported]
 ProjectJson   [Your Project]
     Antlr   [Unsupported] Often this package is not referenced directly, but as a dependency of WebGrease - GitHub Issue tracking .NET Core support: https://github.com/antlr/antlrcs/issues/42
-    bootstrap   [Not a .NET Library] We are working on correctly detecting non-.NET packages - GitHub Issue: https://github.com/OctopusDeploy/ICanHasDotnetCore/issues/9
+    bootstrap   [Not a .NET Library]
 Paket   [Your Project]
     DotNetZip   [Unsupported]

@@ -27,6 +27,7 @@
             <package-result-box type="'PreRelease'" ng-show="vm.hasPackages('PreRelease')"></package-result-box>
             <package-result-box type="'KnownReplacementAvailable'" ng-show="vm.hasPackages('KnownReplacementAvailable')"></package-result-box>
             <package-result-box type="'Unsupported'" ng-show="vm.hasPackages('Unsupported')"></package-result-box>
+            <package-result-box type="'NoDotNetLibraries'" ng-show="vm.hasPackages('NoDotNetLibraries')"></package-result-box>
             <package-result-box type="'NotFound'" ng-show="vm.hasPackages('NotFound')"></package-result-box>
             <package-result-box type="'Error'" ng-show="vm.hasPackages('Error')"></package-result-box>
         </div>
@@ -51,6 +52,8 @@
                 <result-group type="Unsupported" all-packages="vm.response.result"
                               description="The latest released version of these packages do not support .NET Standard, and
                     there is no pre-release package that does"></result-group>
+                <result-group type="NoDotNetLibraries" all-packages="vm.response.result"
+                              description="These packages do not contain .NET assemblies. The package is most likely for HTML/JS, development tools or aggregating other packages"></result-group>
                 <result-group type="NotFound" all-packages="vm.response.result"
                               description="These packages could not be found on nuget.org, most likely they are from an internal
                     nuget feed"></result-group>

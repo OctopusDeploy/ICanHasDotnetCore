@@ -59,11 +59,14 @@ namespace ICanHasDotnetCore.Investigator
 
         public static PackageResult Success(NugetPackage package, IReadOnlyList<PackageResult> dependencies, Option<MoreInformation> moreInformation)
         {
+            var isAggregationPackage = package.SupportType == SupportType.NoDotNetLibraries && 
+                dependencies.All(d => d.SupportType == SupportType.PreRelease || d.SupportType == SupportType.Supported);
+
             return new PackageResult()
             {
                 PackageName = package.Id,
                 Dependencies = dependencies,
-                SupportType = package.SupportType,
+                SupportType = isAggregationPackage ? SupportType.Supported : package.SupportType,
                 ProjectUrl = package.ProjectUrl,
                 MoreInformation = moreInformation
             };

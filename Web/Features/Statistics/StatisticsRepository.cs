@@ -100,5 +100,20 @@ WHEN NOT MATCHED THEN
             }
             return stats;
         }
+
+        public void UpdateSupportTypeFor(PackageStatistic stat, SupportType supportType)
+        {
+            const string sql = "UPDATE dbo.[PackageStatistics] SET LatestSupportType = @LatestSupportType WHERE Name = @Name";
+            using (var con = new SqlConnection(_connectionString))
+            {
+                con.Open();
+                using (var cmd = new SqlCommand(sql, con))
+                {
+                    cmd.Parameters.AddWithValue("Name", stat.Name);
+                    cmd.Parameters.AddWithValue("LatestSupportType", supportType.ToString());
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

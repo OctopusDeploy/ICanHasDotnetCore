@@ -10,6 +10,7 @@ namespace ICanHasDotnetCore.Web.Features
         {
             builder.RegisterType<StatisticsRepository>().AsSelf().SingleInstance();
             builder.RegisterType<GitHubScanner>().AsSelf().SingleInstance();
+            builder.RegisterType<RequeryStatisticsPackageSupport>().As<IStartable>().SingleInstance();
         }
     }
 }

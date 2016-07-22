@@ -84,12 +84,12 @@ namespace ICanHasDotnetCore.Investigator
 
         private async Task<IReadOnlyList<PackageResult>> GetDependencyResults(IReadOnlyList<string> dependencies)
         {
-            var tasks = dependencies.Select(d => _results.GetOrAdd(d, GetPackageAndDependencies));
+            var tasks = dependencies.Select(d => _results.GetOrAdd(d, id => GetPackage(id, true)));
             return await Task.WhenAll(tasks);
         }
 
 
-        private async Task<PackageResult> GetPackageAndDependencies(string id)
+        public async Task<PackageResult> GetPackage(string id, bool includeDependencies)
         {
             try
             {
@@ -100,7 +100,9 @@ namespace ICanHasDotnetCore.Investigator
                     return PackageResult.KnownReplacement(id, knownReplacement.Value);
 
                 var package = await GetReleaseOrPrereleasePackage(id);
-                var dependencyResults = await GetDependencyResults(package.Dependencies);
+                var dependencyResults = includeDependencies
+                    ? await GetDependencyResults(package.Dependencies)
+                    : new List<PackageResult>();
                 return PackageResult.Success(package, dependencyResults, moreInformation);
             }
             catch (Exception ex)

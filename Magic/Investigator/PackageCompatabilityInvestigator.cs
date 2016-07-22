@@ -113,12 +113,15 @@ namespace ICanHasDotnetCore.Investigator
         private async Task<NugetPackage> GetReleaseOrPrereleasePackage(string id)
         {
             var package = await _nugetPackageInfoRetriever.Retrieve(id, false);
-            if (package.SupportType != SupportType.Unsupported)
-                return package;
+            if (package.SupportType == SupportType.Unsupported ||
+                package.SupportType == SupportType.NotFound ||
+                package.SupportType == SupportType.NoDotNetLibraries)
+            {
+                var prerelease = await _nugetPackageInfoRetriever.Retrieve(id, true);
+                if (prerelease.SupportType == SupportType.PreRelease)
+                    return prerelease;
+            }
 
-            var prerelease = await _nugetPackageInfoRetriever.Retrieve(id, true);
-            if (prerelease.SupportType == SupportType.PreRelease)
-                return prerelease;
 
             return package;
         }

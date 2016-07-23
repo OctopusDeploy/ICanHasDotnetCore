@@ -18,10 +18,10 @@ namespace ICanHasDotnetCore.Web.Features.result
 {
     public class GetResultController : Controller
     {
-        private readonly StatisticsRepository _statisticsRepository;
+        private readonly IStatisticsRepository _statisticsRepository;
         private readonly GitHubScanner _gitHubScanner;
 
-        public GetResultController(StatisticsRepository statisticsRepository, GitHubScanner gitHubScanner)
+        public GetResultController(IStatisticsRepository statisticsRepository, GitHubScanner gitHubScanner)
         {
             _statisticsRepository = statisticsRepository;
             _gitHubScanner = gitHubScanner;

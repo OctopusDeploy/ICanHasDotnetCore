@@ -8,9 +8,9 @@ namespace ICanHasDotnetCore.Web.Features
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<StatisticsRepository>().AsSelf().SingleInstance();
+            builder.RegisterType<StatisticsRepository>().As<IStatisticsRepository>().SingleInstance();
             builder.RegisterType<GitHubScanner>().AsSelf().SingleInstance();
-            builder.RegisterType<RequeryStatisticsPackageSupport>().As<IStartable>().SingleInstance();
+            builder.RegisterType<RequerySupportTypeForStatisticsPackagesTask>().As<IStartable>().SingleInstance();
         }
     }
 }

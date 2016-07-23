@@ -8,9 +8,9 @@ namespace ICanHasDotnetCore.Web.Features.Statistics
 {
     public class StatisticsController : Controller
     {
-        private readonly StatisticsRepository _statisticsRepository;
+        private readonly IStatisticsRepository _statisticsRepository;
 
-        public StatisticsController(StatisticsRepository statisticsRepository)
+        public StatisticsController(IStatisticsRepository statisticsRepository)
         {
             _statisticsRepository = statisticsRepository;
         }

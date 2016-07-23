@@ -38,11 +38,11 @@ namespace ICanHasDotnetCore.NugetPackages
             var package = await _repository.GetPackage(id, version);
             return Retrieve(id, package);
         }
-
+        
         private NugetPackage Retrieve(string id, IPackage package)
         {
             if (package == null)
-                return new NugetPackage(id, new string[0], SupportType.NotFound);
+                return new NugetPackage(id, new string[0], SupportType.NotFound, Option<SemanticVersion>.ToNone);
 
             return LookForSupportedFrameworks(package)
                 .IfNone(() => CheckToolAndNoDotNetLibraries(package))
@@ -62,7 +62,7 @@ namespace ICanHasDotnetCore.NugetPackages
                 .IfSome(s => GetDependencies(s).Some())
                 .ValueOr(new string[0]);
 
-            return new NugetPackage(package.Id, deps, SupportType.NoDotNetLibraries);
+            return new NugetPackage(package.Id, deps, SupportType.NoDotNetLibraries, package.Version);
         }
 
         private Option<NugetPackage> LookForSupportedFrameworks(IPackage package)
@@ -79,7 +79,7 @@ namespace ICanHasDotnetCore.NugetPackages
                 .IfSome(s => GetDependencies(s).Some())
                 .ValueOr(() => new string[0]);
 
-            return new NugetPackage(package.Id, depSet, package.IsReleaseVersion() ? SupportType.Supported : SupportType.PreRelease)
+            return new NugetPackage(package.Id, depSet, package.IsReleaseVersion() ? SupportType.Supported : SupportType.PreRelease, package.Version)
             {
                 ProjectUrl = package.ProjectUrl?.ToString()
             };
@@ -114,7 +114,7 @@ namespace ICanHasDotnetCore.NugetPackages
                              ?? package.DependencySets.FirstOrDefault();
 
             var deps = set == null ? new string[0] : GetDependencies(set);
-            return new NugetPackage(package.Id, deps, SupportType.Unsupported)
+            return new NugetPackage(package.Id, deps, SupportType.Unsupported, package.Version)
             {
                 ProjectUrl = package.ProjectUrl?.ToString()
             };

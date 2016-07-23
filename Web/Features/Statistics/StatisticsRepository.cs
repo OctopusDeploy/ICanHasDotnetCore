@@ -12,7 +12,14 @@ using Serilog;
 
 namespace ICanHasDotnetCore.Web.Features.Statistics
 {
-    public class StatisticsRepository
+    public interface IStatisticsRepository
+    {
+        Task AddStatisticsForResult(InvestigationResult result);
+        IReadOnlyList<PackageStatistic> GetAllPackageStatistics();
+        void UpdateSupportTypeFor(PackageStatistic stat, SupportType supportType);
+    }
+
+    public class StatisticsRepository : IStatisticsRepository
     {
         // Only log packages found on Nuget.org
         private static readonly SupportType[] AddStatisticsFor = { SupportType.Unsupported, SupportType.Supported, SupportType.PreRelease };

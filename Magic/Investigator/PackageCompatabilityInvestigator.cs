@@ -72,8 +72,7 @@ namespace ICanHasDotnetCore.Investigator
                 if (dependencies.WasFailure)
                     return PackageResult.Failed(file.Name, dependencies.ErrorString);
 
-                var dependencyResults = await GetDependencyResults(dependencies.Value);
-                return PackageResult.InvestigationTarget(file.Name, dependencyResults);
+                return await Process(file.Name, dependencies.Value);
             }
             catch (Exception ex)
             {
@@ -82,14 +81,28 @@ namespace ICanHasDotnetCore.Investigator
             }
         }
 
+        public async Task<PackageResult> Process(string targetName, IReadOnlyList<string> dependencies)
+        {
+            try
+            {
+                var dependencyResults = await GetDependencyResults(dependencies);
+                return PackageResult.InvestigationTarget(targetName, dependencyResults);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error processing supplied data file");
+                return PackageResult.Failed(targetName, "An error occured - " + ex.Message);
+            }
+        }
+
         private async Task<IReadOnlyList<PackageResult>> GetDependencyResults(IReadOnlyList<string> dependencies)
         {
-            var tasks = dependencies.Select(d => _results.GetOrAdd(d, id => GetPackage(id, true)));
+            var tasks = dependencies.Select(d => _results.GetOrAdd(d, GetPackageAndDependencies));
             return await Task.WhenAll(tasks);
         }
 
 
-        public async Task<PackageResult> GetPackage(string id, bool includeDependencies)
+        private async Task<PackageResult> GetPackageAndDependencies(string id)
         {
             try
             {
@@ -100,9 +113,7 @@ namespace ICanHasDotnetCore.Investigator
                     return PackageResult.KnownReplacement(id, knownReplacement.Value);
 
                 var package = await GetReleaseOrPrereleasePackage(id);
-                var dependencyResults = includeDependencies
-                    ? await GetDependencyResults(package.Dependencies)
-                    : new List<PackageResult>();
+                var dependencyResults = await GetDependencyResults(package.Dependencies);
                 return PackageResult.Success(package, dependencyResults, moreInformation);
             }
             catch (Exception ex)

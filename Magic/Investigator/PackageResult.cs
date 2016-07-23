@@ -56,18 +56,28 @@ namespace ICanHasDotnetCore.Investigator
         }
 
 
-
         public static PackageResult Success(NugetPackage package, IReadOnlyList<PackageResult> dependencies, Option<MoreInformation> moreInformation)
         {
             var isAggregationPackage = package.SupportType == SupportType.NoDotNetLibraries &&
                 dependencies.Any() &&
-                dependencies.All(d => d.SupportType == SupportType.PreRelease || d.SupportType == SupportType.Supported);
+                dependencies.All(d => d.SupportType == SupportType.PreRelease || 
+                d.SupportType == SupportType.Supported ||
+                d.SupportType == SupportType.KnownReplacementAvailable ||
+                d.SupportType == SupportType.Unsupported
+            );
+
+            var isSupportedAggregationPackage = isAggregationPackage &&
+                 dependencies.All(d => d.SupportType == SupportType.PreRelease || d.SupportType == SupportType.Supported);
+
+            var supportType = isSupportedAggregationPackage
+                ? (package.IsPrerelease ? SupportType.Supported : SupportType.PreRelease)
+                : (isAggregationPackage ? SupportType.Unsupported : package.SupportType);
 
             return new PackageResult()
             {
                 PackageName = package.Id,
                 Dependencies = dependencies,
-                SupportType = isAggregationPackage ? SupportType.Supported : package.SupportType,
+                SupportType = supportType,
                 ProjectUrl = package.ProjectUrl,
                 MoreInformation = moreInformation
             };

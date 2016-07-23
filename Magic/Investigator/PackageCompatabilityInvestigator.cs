@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using ICanHasDotnetCore.NugetPackages;
 using ICanHasDotnetCore.Plumbing;
@@ -17,6 +18,8 @@ namespace ICanHasDotnetCore.Investigator
         private readonly NugetPackageInfoRetriever _nugetPackageInfoRetriever;
 
         private readonly ConcurrentDictionary<string, Task<PackageResult>> _results = new ConcurrentDictionary<string, Task<PackageResult>>();
+
+        private readonly SemaphoreSlim _maxParrallelism = new SemaphoreSlim(3, 3);
 
         public PackageCompatabilityInvestigator(NugetPackageInfoRetriever nugetPackageInfoRetriever)
         {
@@ -125,18 +128,26 @@ namespace ICanHasDotnetCore.Investigator
 
         private async Task<NugetPackage> GetReleaseOrPrereleasePackage(string id)
         {
-            var package = await _nugetPackageInfoRetriever.Retrieve(id, false);
-            if (package.SupportType == SupportType.Unsupported ||
-                package.SupportType == SupportType.NotFound ||
-                package.SupportType == SupportType.NoDotNetLibraries)
+            await _maxParrallelism.WaitAsync();
+            try
             {
-                var prerelease = await _nugetPackageInfoRetriever.Retrieve(id, true);
-                if (prerelease.SupportType == SupportType.PreRelease)
-                    return prerelease;
+                var package = await _nugetPackageInfoRetriever.Retrieve(id, false);
+                if (package.SupportType == SupportType.Unsupported ||
+                    package.SupportType == SupportType.NotFound ||
+                    package.SupportType == SupportType.NoDotNetLibraries)
+                {
+                    var prerelease = await _nugetPackageInfoRetriever.Retrieve(id, true);
+                    if (prerelease.SupportType == SupportType.PreRelease)
+                        return prerelease;
+                }
+
+
+                return package;
             }
-
-
-            return package;
+            finally
+            {
+                _maxParrallelism.Release();
+            }
         }
     }
 }

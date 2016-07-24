@@ -71,7 +71,7 @@ namespace ICanHasDotnetCore.Web.Features.Statistics
             {
                 Log.Information("Error occured for retrieving {package}: {error}", stat.Name, packageResult.Error);
             }
-            else if (stat.LatestSupportType != packageResult.SupportType)
+            else if (stat.LatestSupportType != packageResult.SupportType && packageResult.SupportType != SupportType.Error)
             {
                 Log.Information("Updating support type for {package} from {from} to {to}", stat.Name, stat.LatestSupportType,
                     packageResult.SupportType);

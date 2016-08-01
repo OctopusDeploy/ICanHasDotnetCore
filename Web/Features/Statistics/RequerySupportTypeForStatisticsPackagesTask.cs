@@ -13,9 +13,10 @@ using ICanHasDotnetCore.Plumbing.Extensions;
 
 namespace ICanHasDotnetCore.Web.Features.Statistics
 {
-    public class RequerySupportTypeForStatisticsPackagesTask : IStartable
+    public class RequerySupportTypeForStatisticsPackagesTask : IStartable, IDisposable
     {
         private readonly IStatisticsRepository _statisticsRepository;
+        private Timer _timer;
 
         public RequerySupportTypeForStatisticsPackagesTask(IStatisticsRepository statisticsRepository)
         {
@@ -24,39 +25,37 @@ namespace ICanHasDotnetCore.Web.Features.Statistics
 
         public void Start()
         {
-            Task.Run(async () =>
-            {
-                Log.Information("Requery Statistics Package Support Task Init");
-                await Task.Delay(TimeSpan.FromSeconds(10));
-                while (true)
-                {
-                    try
-                    {
-                        await Run();
-                        await Task.Delay(TimeSpan.FromDays(1));
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.Error(ex, "Requery Statistics Package Support Task failed");
-                    }
-                }
-            });
+            Log.Information("Starting Requery Statistics Package Support Task timer");
+            _timer = new Timer(_ => Run().Wait(), null, TimeSpan.FromMinutes(10), TimeSpan.FromDays(1));
+        }
+
+
+        public void Dispose()
+        {
+            _timer?.Dispose();
         }
 
         public async Task Run()
         {
             var sw = Stopwatch.StartNew();
-            Log.Information("Requery Statistics Package Support Task Started");
-            var stats = _statisticsRepository.GetAllPackageStatistics();
-            var packageNames = stats.Select(s => s.Name).ToArray();
-
-            var result = await PackageCompatabilityInvestigator.Create(new NoNugetResultCache())
-                .Process("Requery", packageNames);
-
-            foreach (var stat in stats)
+            try
             {
-                var packageResult = result.Dependencies.FirstOrDefault(f => f.PackageName.EqualsOrdinalIgnoreCase(stat.Name));
-                UpdatePackage(packageResult, stat);
+                Log.Information("Requery Statistics Package Support Task Started");
+                var stats = _statisticsRepository.GetAllPackageStatistics();
+                var packageNames = stats.Select(s => s.Name).ToArray();
+
+                var result = await PackageCompatabilityInvestigator.Create(new NoNugetResultCache())
+                    .Process("Requery", packageNames);
+
+                foreach (var stat in stats)
+                {
+                    var packageResult = result.Dependencies.FirstOrDefault(f => f.PackageName.EqualsOrdinalIgnoreCase(stat.Name));
+                    UpdatePackage(packageResult, stat);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Requery Statistics Package Support Task failed");
             }
             Log.Information("Requery Statistics Package Support Task Finished in {time}", sw.Elapsed);
         }
@@ -78,5 +77,6 @@ namespace ICanHasDotnetCore.Web.Features.Statistics
                 _statisticsRepository.UpdateSupportTypeFor(stat, packageResult.SupportType);
             }
         }
+
     }
 }

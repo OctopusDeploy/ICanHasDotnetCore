@@ -1,8 +1,8 @@
 ﻿CREATE TABLE [dbo].[NugetResultCache](
 	[Id] [nvarchar](300) NOT NULL,
 	[Version] [nvarchar](150) NOT NULL,
-	[LatestSupportType] [nvarchar](20) NOT NULL,
-	[ProjectUrl] [nvarchar](1000) NOT NULL,
+	[SupportType] [nvarchar](20) NOT NULL,
+	[ProjectUrl] [nvarchar](1000) NULL,
 	[Dependencies] [nvarchar](max) NOT NULL,
 	[Frameworks] [nvarchar](max) NOT NULL,
  CONSTRAINT [PK_NugetResultCache] PRIMARY KEY CLUSTERED 

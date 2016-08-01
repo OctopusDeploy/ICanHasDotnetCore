@@ -35,15 +35,26 @@ namespace ICanHasDotnetCore.Web.Features.result.Cache
                     con.Open();
                     using (var cmd = new SqlCommand(sql, con))
                     {
+                        cmd.Parameters.AddWithValue("Id", id);
+                        cmd.Parameters.AddWithValue("Version", version.ToNormalizedString());
                         var reader = cmd.ExecuteReader();
                         if (reader.Read())
                         {
+                            var dependencies = ((string)reader["Dependencies"])
+                                .Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+
+                            var frameworks = ((string)reader["Frameworks"])
+                                .Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries)
+                                .Select(n => new FrameworkName(n)).ToArray();
+
+                            var supportType = (SupportType)Enum.Parse(typeof(SupportType), (string)reader["SupportType"]);
+
                             return new NugetPackage(
                                 (string)reader["Id"],
-                                ((string)reader["Dependencies"]).Split('|'),
-                                (SupportType)Enum.Parse(typeof(SupportType), (string)reader["LatestSupportType"]),
+                                dependencies,
+                                supportType,
                                 SemanticVersion.Parse((string)reader["Version"]),
-                                ((string)reader["Frameworks"]).Split('|').Select(n => new FrameworkName(n)).ToArray()
+                                frameworks
                             )
                             {
                                 ProjectUrl = reader["ProjectUrl"] as string
@@ -69,16 +80,16 @@ namespace ICanHasDotnetCore.Web.Features.result.Cache
                 return;
             try
             {
-                const string sql = "INSERT INTO dbo.NugetResultCache (Id, SupportType, Version, ProjectUrl, Dependencies) VALUES (@Id, @SupportType, @Version, @ProjectUrl, @Dependencies, @Frameworks)";
+                const string sql = "INSERT INTO dbo.NugetResultCache (Id, SupportType, Version, ProjectUrl, Dependencies, Frameworks) VALUES (@Id, @SupportType, @Version, @ProjectUrl, @Dependencies, @Frameworks)";
                 using (var con = new SqlConnection(_connectionString))
                 {
                     con.Open();
                     using (var cmd = new SqlCommand(sql, con))
                     {
                         cmd.Parameters.AddWithValue("Id", package.Id);
-                        cmd.Parameters.AddWithValue("LatestSupportType", package.SupportType.ToString());
+                        cmd.Parameters.AddWithValue("SupportType", package.SupportType.ToString());
                         cmd.Parameters.AddWithValue("Version", package.Version.Value.ToNormalizedString());
-                        cmd.Parameters.AddWithValue("ProjectUrl", package.ProjectUrl);
+                        cmd.Parameters.AddWithValue("ProjectUrl", (object)package.ProjectUrl ?? DBNull.Value);
                         cmd.Parameters.AddWithValue("Dependencies", string.Join("|", package.Dependencies));
                         cmd.Parameters.AddWithValue("Frameworks", string.Join("|", package.Frameworks.Select(f => f.FullName)));
                         cmd.ExecuteNonQuery();
@@ -87,7 +98,7 @@ namespace ICanHasDotnetCore.Web.Features.result.Cache
             }
             catch (Exception ex)
             {
-                Log.Warning(ex, "Could not store {id} {version} in Nuget Package Cache", package.Id, package.Version);
+                Log.Warning(ex, "Could not store {id} {version} in Nuget Package Cache", package.Id, package.Version.Value);
             }
         }
     }

@@ -75,7 +75,7 @@ namespace ICanHasDotnetCore.NugetPackages
                 return Option<NugetPackage>.ToNone;
 
             var deps = package.DependencySets.FirstOrNone()
-                .IfSome(s => GetDependencies(s).Some())
+                .IfSome(s => GetDependencies(false, s).Some())
                 .ValueOr(new string[0]);
 
             return new NugetPackage(package.Id, deps, SupportType.NoDotNetLibraries, package.Version, packageFrameworks);
@@ -87,12 +87,15 @@ namespace ICanHasDotnetCore.NugetPackages
             if (supportedFramework.None)
                 return Option<NugetPackage>.ToNone;
 
+            var isCore = SupportedTargetFrameworksInOrderOfPriority.Contains(supportedFramework.Value.Identifier, StringComparer.OrdinalIgnoreCase);
+
             var depSet = package.DependencySets
                 .Where(s => s.TargetFramework != null)
                 .Where(s => s.TargetFramework.Identifier.EqualsOrdinalIgnoreCase(supportedFramework.Value.Identifier))
                 .OrderByDescending(s => s.TargetFramework.Version)
                 .FirstOrNone()
-                .IfSome(s => GetDependencies(s).Some())
+                .IfNone(() => package.DependencySets.Where(s => s.TargetFramework == null).FirstOrNone())
+                .IfSome(s => GetDependencies(isCore, s).Some())
                 .ValueOr(() => new string[0]);
 
             return new NugetPackage(package.Id, depSet, package.IsReleaseVersion() ? SupportType.Supported : SupportType.PreRelease, package.Version, packageFrameworks)
@@ -123,7 +126,7 @@ namespace ICanHasDotnetCore.NugetPackages
               .FirstOrDefault()
                              ?? package.DependencySets.FirstOrDefault();
 
-            var deps = set == null ? new string[0] : GetDependencies(set);
+            var deps = set == null ? new string[0] : GetDependencies(false, set);
             return new NugetPackage(package.Id, deps, SupportType.Unsupported, package.Version, supportedFrameworks)
             {
                 ProjectUrl = package.ProjectUrl?.ToString()
@@ -131,11 +134,11 @@ namespace ICanHasDotnetCore.NugetPackages
         }
 
 
-        private static string[] GetDependencies(PackageDependencySet coreDeps)
+        private static string[] GetDependencies(bool isCore, PackageDependencySet coreDeps)
         {
             return coreDeps.Dependencies
                 .Select(d => d.Id)
-                .Where(d => !d.StartsWith("System."))
+                .Where(d => !(isCore && d.StartsWith("System.")))
                 .Where(d => !d.StartsWith("Microsoft.NETCore."))
                 .Where(d => d != "NETStandard.Library")
                 .ToArray();

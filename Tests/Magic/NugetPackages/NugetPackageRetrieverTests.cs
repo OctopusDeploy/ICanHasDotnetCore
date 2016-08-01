@@ -26,6 +26,8 @@ namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
             yield return CreateTestCase("Package doesn't list supported frameworks but is a .NET lib", "Antlr", "3.5.0.2", SupportType.Unsupported);
             yield return CreateTestCase("PCL library", "Microsoft.Azure.Common.Dependencies", "1.0.0", SupportType.Supported, "Microsoft.Bcl", "Microsoft.Bcl.Async", "Microsoft.Bcl.Build", "Microsoft.Net.Http", "Newtonsoft.Json");
             yield return CreateTestCase("Forwarding", "Serilog.Extras.Timing", "2.0.2", SupportType.NoDotNetLibraries, "SerilogMetrics");
+            yield return CreateTestCase("OData", "Microsoft.Data.OData", "5.7.0", SupportType.Supported, "System.Spatial", "Microsoft.Data.Edm");
+            
         }
 
        

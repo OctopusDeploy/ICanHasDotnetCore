@@ -55,6 +55,9 @@ namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
                 CreateTestCase("Profile328", "net40+sl5+win8+wpa81+wp8", false),
                 CreateTestCase("Profile336", "net403+sl5+win8+wpa81+wp8", false),
                 CreateTestCase("Profile344", "net45+sl5+win8+wpa81+wp8", false),
+                CreateTestCase("Profile259 - win alias", "net45+win+wpa81+wp8", true),
+                CreateTestCase("Profile259 - wpa alias", "net45+win8+wpa+wp8", true),
+                CreateTestCase("Profile259 - different order", "net45+wp8+win8+wpa81", true),
             };
         }
 

@@ -1,4 +1,7 @@
+using System;
+using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
 using NuGet;
 
 namespace ICanHasDotnetCore.NugetPackages
@@ -23,6 +26,9 @@ namespace ICanHasDotnetCore.NugetPackages
 
         public static bool Check(string profileValue)
         {
+            profileValue = Regex.Replace(profileValue, @"wpa\+", "wpa81+");
+            profileValue = Regex.Replace(profileValue, "wpa$", "wpa81");
+            
             var profile = NetPortableProfile.Parse(profileValue);
             return SupportedPclProfiles.Any(p => p.IsCompatibleWith(profile));
         }

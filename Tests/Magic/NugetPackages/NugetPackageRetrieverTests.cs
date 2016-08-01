@@ -60,7 +60,7 @@ namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
 
         private NugetPackage GetPackage(string id, string version)
         {
-            return new NugetPackageInfoRetriever(new PackageRepositoryWrapper())
+            return new NugetPackageInfoRetriever(new PackageRepositoryWrapper(), new NoNugetResultCache())
                  .Retrieve(id, new SemanticVersion(version))
                  .Result;
         }

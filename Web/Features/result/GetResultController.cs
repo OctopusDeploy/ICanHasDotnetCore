@@ -13,6 +13,7 @@ using ICanHasDotnetCore.Web.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using ICanHasDotnetCore.Plumbing;
+using ICanHasDotnetCore.Web.Features.result.Cache;
 
 namespace ICanHasDotnetCore.Web.Features.result
 {
@@ -20,11 +21,13 @@ namespace ICanHasDotnetCore.Web.Features.result
     {
         private readonly IStatisticsRepository _statisticsRepository;
         private readonly GitHubScanner _gitHubScanner;
+        private readonly INugetResultCache _nugetResultCache;
 
-        public GetResultController(IStatisticsRepository statisticsRepository, GitHubScanner gitHubScanner)
+        public GetResultController(IStatisticsRepository statisticsRepository, GitHubScanner gitHubScanner, INugetResultCache nugetResultCache)
         {
             _statisticsRepository = statisticsRepository;
             _gitHubScanner = gitHubScanner;
+            _nugetResultCache = nugetResultCache;
         }
 
         [HttpPost("/api/GetResult")]
@@ -32,7 +35,7 @@ namespace ICanHasDotnetCore.Web.Features.result
         {
             var sw = Stopwatch.StartNew();
             var packagesFileDatas = request.PackageFiles.Select(p => new SourcePackageFile(p.Name, p.OriginalFileName ?? SourcePackageFileReader.PackagesConfig, DataUriConverter.ConvertFrom(p.Contents))).ToArray();
-            var result = await PackageCompatabilityInvestigator.Create()
+            var result = await PackageCompatabilityInvestigator.Create(_nugetResultCache)
                 .Go(packagesFileDatas);
             sw.Stop();
             await _statisticsRepository.AddStatisticsForResult(result);
@@ -51,7 +54,7 @@ namespace ICanHasDotnetCore.Web.Features.result
                 return BadRequest(packagesFileDatas.ErrorString);
             }
 
-            var result = await PackageCompatabilityInvestigator.Create()
+            var result = await PackageCompatabilityInvestigator.Create(_nugetResultCache)
                 .Go(packagesFileDatas.Value);
 
             sw.Stop();
@@ -67,7 +70,7 @@ namespace ICanHasDotnetCore.Web.Features.result
         public async Task<GetResultResponse> Demo()
         {
             var packagesFileDatas = new[] { new SourcePackageFile("Our Project", SourcePackageFileReader.PackagesConfig, Encoding.UTF8.GetBytes(DemoPackagesConfig)) };
-            var result = await PackageCompatabilityInvestigator.Create()
+            var result = await PackageCompatabilityInvestigator.Create(_nugetResultCache)
                 .Go(packagesFileDatas);
 
             return BuildResponse(result);

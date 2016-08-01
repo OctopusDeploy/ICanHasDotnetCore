@@ -50,7 +50,7 @@ namespace ICanHasDotnetCore.Web.Features.Statistics
             var stats = _statisticsRepository.GetAllPackageStatistics();
             var packageNames = stats.Select(s => s.Name).ToArray();
 
-            var result = await PackageCompatabilityInvestigator.Create()
+            var result = await PackageCompatabilityInvestigator.Create(new NoNugetResultCache())
                 .Process("Requery", packageNames);
 
             foreach (var stat in stats)

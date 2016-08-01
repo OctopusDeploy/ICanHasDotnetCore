@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ICanHasDotnetCore.Investigator;
+using ICanHasDotnetCore.NugetPackages;
 using ICanHasDotnetCore.Output;
 using ICanHasDotnetCore.SourcePackageFileReaders;
 using Serilog;
@@ -35,7 +36,7 @@ namespace ICanHasDotnetCore.Console
 
                 var directories = args.Skip(1).Select(Path.GetFullPath).ToArray();
                 var packageFiles = FindFiles(directories).ToArray();
-                var result = PackageCompatabilityInvestigator.Create()
+                var result = PackageCompatabilityInvestigator.Create(new NoNugetResultCache())
                     .Go(packageFiles)
                     .Result;
 

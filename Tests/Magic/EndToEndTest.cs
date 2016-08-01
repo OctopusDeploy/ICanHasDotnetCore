@@ -3,6 +3,7 @@ using System.Text;
 using ApprovalTests;
 using ApprovalTests.Reporters;
 using ICanHasDotnetCore.Investigator;
+using ICanHasDotnetCore.NugetPackages;
 using ICanHasDotnetCore.Output;
 using ICanHasDotnetCore.SourcePackageFileReaders;
 using NUnit.Framework;
@@ -50,7 +51,7 @@ http http://www.fssnip.net/1n decrypt.fs";
         public void EndToEndTest()
         {
 
-            var result = PackageCompatabilityInvestigator.Create()
+            var result = PackageCompatabilityInvestigator.Create(new NoNugetResultCache())
                 .Go(new[]
                 {
                     new SourcePackageFile("PackagesConfig", SourcePackageFileReader.PackagesConfig, Encoding.UTF8.GetBytes(PackagesConfig)),

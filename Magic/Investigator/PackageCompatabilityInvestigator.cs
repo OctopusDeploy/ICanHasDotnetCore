@@ -17,7 +17,7 @@ namespace ICanHasDotnetCore.Investigator
 
         private readonly NugetPackageInfoRetriever _nugetPackageInfoRetriever;
 
-        private readonly ConcurrentDictionary<string, Task<PackageResult>> _results = new ConcurrentDictionary<string, Task<PackageResult>>();
+        private readonly Dictionary<string, Task<PackageResult>> _results = new Dictionary<string, Task<PackageResult>>();
 
         private readonly SemaphoreSlim _maxParrallelism = new SemaphoreSlim(3, 3);
 
@@ -26,12 +26,13 @@ namespace ICanHasDotnetCore.Investigator
             _nugetPackageInfoRetriever = nugetPackageInfoRetriever;
         }
 
-        public static PackageCompatabilityInvestigator Create()
+        public static PackageCompatabilityInvestigator Create(INugetResultCache nugetResultCache)
         {
             var repository = new PackageRepositoryWrapper();
             return new PackageCompatabilityInvestigator(
                 new NugetPackageInfoRetriever(
-                    repository
+                    repository,
+                    nugetResultCache
                 )
             );
         }
@@ -100,7 +101,13 @@ namespace ICanHasDotnetCore.Investigator
 
         private async Task<IReadOnlyList<PackageResult>> GetDependencyResults(IReadOnlyList<string> dependencies)
         {
-            var tasks = dependencies.Select(d => _results.GetOrAdd(d, GetPackageAndDependencies));
+            var tasks = dependencies.Select(d =>
+            {
+                lock (_results)
+                    return _results.ContainsKey(d)
+                        ? _results[d]
+                        : _results[d] = GetPackageAndDependencies(d);
+            });
             return await Task.WhenAll(tasks);
         }
 

@@ -21,7 +21,9 @@
         Autofac   [Supported (Pre-Release)]
     SharpZipLib   [Unsupported]
     Sprache   [Unsupported]
-    SSH.NET   [Unsupported]
+    SSH.NET   [Supported (Pre-Release)]
+        Microsoft.CSharp   [Supported]
+        SshNet.Security.Cryptography   [Supported]
 ProjectJson   [Your Project]
     Antlr   [Unsupported] Often this package is not referenced directly, but as a dependency of WebGrease - GitHub Issue tracking .NET Core support: https://github.com/antlr/antlrcs/issues/42
     bootstrap   [Not a .NET Library]

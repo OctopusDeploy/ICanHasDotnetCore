@@ -90,7 +90,7 @@ IKVM                                                8.1.5717.0               Uns
 ILRepack                                            2.1.0-beta1              NoDotNetLibraries
 ImageProcessor                                      2.4.3.0                  Unsupported
 ImageProcessor.Web                                  4.6.3.0                  Unsupported
-ImageProcessor.Web.Config                           2.3.0.0                  NoDotNetLibraries
+ImageProcessor.Web.Config                           2.3.0.0                  Unsupported
 ImageResizer                                        4.0.5                    Unsupported
 ImageResizer.Mvc                                    4.0.5                    NoDotNetLibraries
 ImageResizer.MvcWebConfig                           4.0.5                    NoDotNetLibraries

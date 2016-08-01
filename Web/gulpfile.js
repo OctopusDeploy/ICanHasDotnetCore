@@ -61,6 +61,7 @@ gulp.task("vendorScripts", function () {
         .src(paths.src.vendorJs)
         .pipe($.plumber())
         .pipe($.order(paths.src.vendorJsOrder))
+        .pipe($.uglify())
         .pipe($.concat(filenames.vendorJs))
         .pipe(gulp.dest(outputDir));
 });
@@ -84,6 +85,7 @@ gulp.task("vendorStyles", function () {
     return gulp
         .src(paths.src.vendorCss)
         .pipe($.plumber())
+        .pipe($.minifyCss())
         .pipe($.flatten())
         .pipe($.concat(filenames.vendorCss))
         .pipe(gulp.dest(outputDir));

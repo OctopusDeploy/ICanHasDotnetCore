@@ -71,7 +71,7 @@ HtmlAgilityPack                                     1.4.9.5                  Uns
 HtmlAgilityPack.NetCore                             1.4.9.2                  Supported
 HtmlSanitizationLibrary                             1.0.0                    Unsupported
 HtmlSanitizer                                       3.3.127-beta             PreRelease
-Http.fs-prerelease                                  3.0.5                    Unsupported
+Http.fs-prerelease                                  3.0.5                    NotFound
 HttpClientDiagnostics                               1.1.1.1462518862         Unsupported
 Humanizer                                           2.1.0                    NoDotNetLibraries
 Humanizer.Core                                      2.1.0                    Supported
@@ -101,7 +101,7 @@ ImageResizer.WebConfig                              4.0.5                    NoD
 ImpromptuInterface                                  6.2.2                    Unsupported
 InstaSharp                                          2.0.4                    Unsupported
 IPAddressRange                                      1.6.0.0                  Unsupported
-IppDotNetSdkForQuickBooksApiV3                      2.5.0                    Unsupported
+IppDotNetSdkForQuickBooksApiV3                      2.5.0                    NotFound
 iTextSharp                                          5.5.9                    Unsupported
 itextsharp.pdfa                                     5.5.9                    Unsupported
 itextsharp.xmlworker                                5.5.9                    Unsupported
@@ -153,7 +153,7 @@ loggly-csharp-config                                4.5.1.11                 Uns
 Lu.AspnetIdentity.Dapper                            0.0.3.3                  Unsupported
 Lucene.Net                                          3.0.3                    Unsupported
 Magnum                                              2.1.3                    Unsupported
-MahApps.Metro                                       1.3.0-ALPHA178           Unsupported
+MahApps.Metro                                       1.3.0-ALPHA178           NotFound
 MailChimp.NET                                       1.1.88                   Unsupported
 MailKit                                             1.4.1                    Supported
 Markdown                                            1.14.7                   Supported

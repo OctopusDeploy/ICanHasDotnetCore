@@ -130,7 +130,7 @@ Task("__UpdateProjectJsonVersion")
     .WithCriteria(isContinuousIntegrationBuild)
     .Does(() =>
 {
-    Information("Updating project.json versions to {1}", nugetVersion);
+    Information("Updating project.json versions to {0}", nugetVersion);
     ModifyJson(Path.Combine(webProject, "project.json"), json => json["version"] = nugetVersion);
     ModifyJson(Path.Combine(databaseProject, "project.json"), json => json["version"] = nugetVersion);
     ModifyJson(Path.Combine(consoleProject, "project.json"), json => json["version"] = nugetVersion);

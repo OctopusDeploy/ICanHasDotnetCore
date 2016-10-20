@@ -127,7 +127,7 @@ Task("__Test")
 });
 
 Task("__UpdateProjectJsonVersion")
-    .WithCriteria(isContinuousIntegrationBuild)
+    //.WithCriteria(isContinuousIntegrationBuild)
     .Does(() =>
 {
     Information("Updating project.json versions to {0}", nugetVersion);
@@ -179,10 +179,19 @@ Task("__Zip")
 
 
 Task("__Publish")
+    .IsDependentOn("__Zip")
     .WithCriteria(BuildSystem.IsRunningOnTeamCity)
     .Does(() =>
 {
-    NuGetPush($"{artifactsDir}/ICanHasDotnetCore.*." + nugetVersion + ".nupkg", new NuGetPushSettings {
+    NuGetPush($"{artifactsDir}/ICanHasDotnetCore.Web." + nugetVersion + ".zip", new NuGetPushSettings {
+        Source =EnvironmentVariable("Octopus3ServerUrl"),
+        ApiKey = EnvironmentVariable("Octopus3ApiKey")
+    });
+    NuGetPush($"{artifactsDir}/ICanHasDotnetCore.Database." + nugetVersion + ".zip", new NuGetPushSettings {
+        Source =EnvironmentVariable("Octopus3ServerUrl"),
+        ApiKey = EnvironmentVariable("Octopus3ApiKey")
+    });
+    NuGetPush($"{artifactsDir}/ICanHasDotnetCore.Database." + nugetVersion + ".zip", new NuGetPushSettings {
         Source =EnvironmentVariable("Octopus3ServerUrl"),
         ApiKey = EnvironmentVariable("Octopus3ApiKey")
     });

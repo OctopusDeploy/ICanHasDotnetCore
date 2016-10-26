@@ -183,18 +183,15 @@ Task("__Publish")
     .WithCriteria(BuildSystem.IsRunningOnTeamCity)
     .Does(() =>
 {
-    NuGetPush($"{artifactsDir}/ICanHasDotnetCore.Web." + nugetVersion + ".zip", new NuGetPushSettings {
-        Source = EnvironmentVariable("Octopus3NugetUrl"),
-        ApiKey = EnvironmentVariable("Octopus3ApiKey")
-    });
-    NuGetPush($"{artifactsDir}/ICanHasDotnetCore.Database." + nugetVersion + ".zip", new NuGetPushSettings {
-        Source = EnvironmentVariable("Octopus3NugetUrl"),
-        ApiKey = EnvironmentVariable("Octopus3ApiKey")
-    });
-    NuGetPush($"{artifactsDir}/ICanHasDotnetCore.Database." + nugetVersion + ".zip", new NuGetPushSettings {
-        Source = EnvironmentVariable("Octopus3NugetUrl"),
-        ApiKey = EnvironmentVariable("Octopus3ApiKey")
-    });
+    UploadFile(
+        $"{EnvironmentVariable("Octopus3ServerUrl")}/api/packages/raw?apiKey={EnvironmentVariable("Octopus3ApiKey")}", 
+        $"{artifactsDir}/ICanHasDotnetCore.Web." + nugetVersion + ".zip"
+    );
+    
+    UploadFile(
+        $"{EnvironmentVariable("Octopus3ServerUrl")}/api/packages/raw?apiKey={EnvironmentVariable("Octopus3ApiKey")}", 
+        $"{artifactsDir}/ICanHasDotnetCore.Database." + nugetVersion + ".zip"
+    );
 });
 
 

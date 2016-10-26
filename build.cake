@@ -184,15 +184,15 @@ Task("__Publish")
     .Does(() =>
 {
     NuGetPush($"{artifactsDir}/ICanHasDotnetCore.Web." + nugetVersion + ".zip", new NuGetPushSettings {
-        Source =EnvironmentVariable("Octopus3ServerUrl"),
+        Source = EnvironmentVariable("Octopus3NugetUrl"),
         ApiKey = EnvironmentVariable("Octopus3ApiKey")
     });
     NuGetPush($"{artifactsDir}/ICanHasDotnetCore.Database." + nugetVersion + ".zip", new NuGetPushSettings {
-        Source =EnvironmentVariable("Octopus3ServerUrl"),
+        Source = EnvironmentVariable("Octopus3NugetUrl"),
         ApiKey = EnvironmentVariable("Octopus3ApiKey")
     });
     NuGetPush($"{artifactsDir}/ICanHasDotnetCore.Database." + nugetVersion + ".zip", new NuGetPushSettings {
-        Source =EnvironmentVariable("Octopus3ServerUrl"),
+        Source = EnvironmentVariable("Octopus3NugetUrl"),
         ApiKey = EnvironmentVariable("Octopus3ApiKey")
     });
 });

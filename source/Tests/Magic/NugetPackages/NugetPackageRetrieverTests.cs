@@ -6,8 +6,7 @@ using NuGet;
 using NUnit.Framework;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using ApprovalTests;
-using ApprovalTests.Reporters;
+using Assent;
 using ICanHasDotnetCore.NugetPackages;
 
 namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
@@ -78,8 +77,6 @@ namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
 
 
         [Test]
-        [UseReporter(typeof(DiffReporter))]
-        [MethodImpl(MethodImplOptions.NoInlining)]
         public void CheckTheSupportTypeOfAWholeStackOfPackages()
         {
             var theStack = new Dictionary<string, string>()
@@ -472,7 +469,7 @@ namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
                 .ToArray();
 
             var str = string.Join(Environment.NewLine, result);
-            Approvals.Verify(str);
+            this.Assent(str);
         }
     }
 }

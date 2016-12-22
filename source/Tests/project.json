@@ -2,18 +2,17 @@
   "version": "1.0.0-*",
 
   "dependencies": {
-    "ApprovalTests": "3.0.11",
-    "ApprovalUtilities": "3.0.11",
-    "dotnet-test-nunit": "3.4.0-beta-1",
+    "Assent": "0.4.0",
+    "dotnet-test-nunit": "3.4.0-beta-2",
     "FluentAssertions": "4.12.0",
-    "Magic": "1.0.0-*",
-    "NETStandard.Library": "1.6.0",
     "NuGet.Core": "2.11.1",
-    "NUnit": "3.4.1",
-    "NUnit.Runners": "3.4.1",
-    "NUnit3TestAdapter": "3.4.0",
-    "System.Runtime": "4.1.0",
-    "Web": "1.0.0-*"
+    "NUnit": "3.5.0",
+    "Magic": {
+      "target": "project"
+    },
+    "Web": {
+      "target": "project"
+    }
   },
   "testRunner": "nunit",
   "frameworks": {

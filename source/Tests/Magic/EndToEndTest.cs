@@ -1,7 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Text;
-using ApprovalTests;
-using ApprovalTests.Reporters;
+using Assent;
 using ICanHasDotnetCore.Investigator;
 using ICanHasDotnetCore.NugetPackages;
 using ICanHasDotnetCore.Output;
@@ -46,8 +45,6 @@ http http://www.fssnip.net/1n decrypt.fs";
 }";
 
         [Test]
-        [UseReporter(typeof(DiffReporter))]
-        [MethodImpl(MethodImplOptions.NoInlining)]
         public void EndToEndTest()
         {
 
@@ -60,7 +57,7 @@ http http://www.fssnip.net/1n decrypt.fs";
                 })
                 .Result;
 
-            Approvals.Verify(TreeOutputFormatter.Format(result));
+            this.Assent(TreeOutputFormatter.Format(result));
         }
 
     }

@@ -18,7 +18,9 @@
     "Serilog.Sinks.Literate": "2.0.0",
     "Serilog.Extensions.Logging": "1.0.0",
     "Autofac.Extensions.DependencyInjection": "4.0.0-rc3-280",
-    "Magic": "1.0.0-*",
+    "Magic": {
+      "target": "project"
+    },
     "Octokit": "0.20.0"
   },
   "tools": {

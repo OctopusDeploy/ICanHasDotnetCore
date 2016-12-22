@@ -6,7 +6,9 @@
   },
 
   "dependencies": {
-    "Magic": "1.0.0-*",
+    "Magic": {
+      "target": "project"
+    },
     "Serilog": "2.0.0",
     "Serilog.Sinks.ColoredConsole": "2.0.0"
   },

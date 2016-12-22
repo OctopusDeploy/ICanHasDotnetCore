@@ -3,7 +3,9 @@
 
   "dependencies": {
     "dbup": "3.3.4",
-    "Magic": "1.0.0-*",
+    "Magic": {
+      "target": "project"
+    },
     "Microsoft.Extensions.Configuration.Json": "1.0.0",
     "Microsoft.Extensions.PlatformAbstractions": "1.0.0"
   },

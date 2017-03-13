@@ -45,7 +45,7 @@ http http://www.fssnip.net/1n decrypt.fs";
 }";
 
         [Test]
-        [Ignore]
+        [Ignore("Brittle, but useful when making changes, so keeping it")]
         public void EndToEndTest()
         {
 

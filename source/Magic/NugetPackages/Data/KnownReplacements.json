@@ -102,5 +102,12 @@
     "linkText": "Using OWIN with ASP.NET Core",
     "url": "https://docs.asp.net/en/latest/fundamentals/owin.html",
     "startsWith": true
+  },
+  {
+    "id": "HtmlAgilityPack",
+    "message": "HtmlAgilityPack has been replaced by HtmlAgilityPack.NetCore",
+    "linkText": "Nuget",
+    "url": "https://www.nuget.org/packages/HtmlAgilityPack.NetCore/",
+    "startsWith": false
   }
 ]

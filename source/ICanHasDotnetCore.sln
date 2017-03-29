@@ -1,8 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E4E66474-C9BA-49CD-B274-F5AB7F865FE0}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		build.cmd = build.cmd
+		build.ps1 = build.ps1
+	EndProjectSection
+EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Web", "Web\Web.xproj", "{95D6E787-309B-448B-8F1D-46D3F5E64C94}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Magic", "Magic\Magic.xproj", "{89CAEA64-C5FE-45F5-8B5D-53AE40A1FC92}"
@@ -12,13 +19,6 @@ EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Tests", "Tests\Tests.xproj", "{E7A09E85-977A-4852-8F5B-9707525D7104}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Database", "Database\Database.xproj", "{C0A251E7-06A4-4DF0-8847-649B9FEDB2DA}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E4E66474-C9BA-49CD-B274-F5AB7F865FE0}"
-	ProjectSection(SolutionItems) = preProject
-		.gitignore = .gitignore
-		build.cmd = build.cmd
-		build.ps1 = build.ps1
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

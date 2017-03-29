@@ -1,5 +1,5 @@
 {
   "sdk": {
-    "version": "1.0.0-preview2-003133" // DotNetCore.1.0.1-SDK.1.0.0.Preview2-003133-x64.exe
+    "version": "1.0.1" // VS2017 plus dotnet-1.1.1-sdk (1.1.1 with SDK 1.0.1)
   }
 }

@@ -1,12 +1,12 @@
 ﻿using FluentAssertions;
 using ICanHasDotnetCore.NugetPackages;
-using NUnit.Framework;
+using Xunit;
 
 namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
 {
     public class MoreInformationRepositoryTests
     {
-        [Test]
+        [Fact]
         public void EntriesCanBeReadAndAtLeastOneEntryExists()
         {
             MoreInformationRepository.All.Should().NotBeEmpty();

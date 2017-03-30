@@ -2,11 +2,10 @@
 using System.Text;
 using FluentAssertions;
 using ICanHasDotnetCore.SourcePackageFileReaders;
-using NUnit.Framework;
+using Xunit;
 
 namespace ICanHasDotnetCore.Tests.Magic.SourcePackageFileReaders
 {
-    [TestFixture]
     public class ProjectJsonReaderTest : ReaderTestsBase
     {
         protected override string Contents => @"{

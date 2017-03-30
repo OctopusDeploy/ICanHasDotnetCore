@@ -2,13 +2,13 @@
 using System.Text;
 using Assent;
 using ICanHasDotnetCore.Web.Helpers;
-using NUnit.Framework;
+using Xunit;
 
 namespace ICanHasDotnetCore.Tests.Web.Helpers
 {
     public class DataUriConverterTest
     {
-        [Test]
+        [Fact]
         [MethodImpl(MethodImplOptions.NoInlining)]
         public void CanConvert()
         {

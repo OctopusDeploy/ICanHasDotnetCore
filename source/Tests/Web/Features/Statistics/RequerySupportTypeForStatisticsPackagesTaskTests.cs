@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using ICanHasDotnetCore.Investigator;
 using ICanHasDotnetCore.NugetPackages;
 using ICanHasDotnetCore.Web.Features.Statistics;
-using NUnit.Framework;
+using Xunit;
 using FluentAssertions;
 using System.Linq;
 
@@ -12,7 +12,7 @@ namespace ICanHasDotnetCore.Tests.Web.Features.Statistics
     public class RequerySupportTypeForStatisticsPackagesTaskTests
     {
 
-        [Test]
+        [Fact]
         public void TestRequery()
         {
             var repo = new TestRepository();
@@ -20,14 +20,14 @@ namespace ICanHasDotnetCore.Tests.Web.Features.Statistics
             task.Run().Wait();
             repo.Updates.Keys.ShouldAllBeEquivalentTo(TestRepository.PackageNames);
             repo.Updates["JQuery"].Should().Be(SupportType.NoDotNetLibraries, "JQuery is a no dotnet result");
-            repo.Updates["xunit"].Should().Be(SupportType.Supported, "Forwarding packages are Supported");
+            repo.Updates["Xunit"].Should().Be(SupportType.Supported, "Forwarding packages are Supported");
         }
 
         private class TestRepository : IStatisticsRepository
         {
             public readonly Dictionary<string, SupportType> Updates = new Dictionary<string, SupportType>();
 
-            public static readonly string[] PackageNames = { "Autofac", "JQuery", "xunit" };
+            public static readonly string[] PackageNames = { "Autofac", "JQuery", "Xunit" };
 
             public Task AddStatisticsForResult(InvestigationResult result)
             {

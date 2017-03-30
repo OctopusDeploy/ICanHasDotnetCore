@@ -1,12 +1,12 @@
 ﻿using FluentAssertions;
 using ICanHasDotnetCore.NugetPackages;
-using NUnit.Framework;
+using Xunit;
 
 namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
 {
     public class KnownReplacementsRepositoryTests
     {
-        [Test]
+        [Fact]
         public void EntriesCanBeReadAndAtLeastOneEntryExists()
         {
             KnownReplacementsRepository.All.Should().NotBeEmpty();

@@ -4,7 +4,7 @@ using System.Linq;
 using ICanHasDotnetCore.Tests.Web.Helpers;
 using ICanHasDotnetCore.Web.Features.result.GitHub;
 using Microsoft.Extensions.Configuration;
-using NUnit.Framework;
+using Xunit;
 using Serilog;
 
 namespace ICanHasDotnetCore.Tests.Web.Features.Result.GitHub
@@ -12,7 +12,7 @@ namespace ICanHasDotnetCore.Tests.Web.Features.Result.GitHub
     public class GitHubScannerTests
     {
 
-        [Test]
+        [Fact]
         public async Task ICanHasDotnetRepository()
         {
             var result = await CreateScanner().Scan("/OctopusDeploy/ICanHasDotnetCore\\");
@@ -22,7 +22,7 @@ namespace ICanHasDotnetCore.Tests.Web.Features.Result.GitHub
         }
 
         
-        [Test]
+        [Fact]
         public async Task InvalidId_InvalidName()
         {
             var result = await CreateScanner().Scan("OctopusDeploy/Foo/Bar");
@@ -30,7 +30,7 @@ namespace ICanHasDotnetCore.Tests.Web.Features.Result.GitHub
             result.ErrorString.Should().Be("OctopusDeploy/Foo/Bar is not recognised as a GitHub repository name");
         }
 
-        [Test]
+        [Fact]
         public async Task RepoDoesNotExist()
         {
             var result = await CreateScanner().Scan("OctopusDeploy/DoesNotExist");

@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
+using FluentAssertions;
 using ICanHasDotnetCore.NugetPackages;
-using NUnit.Framework;
+using Xunit;
 
 namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
 {
     public class PclProfileCompatabilityCheckerTests
     {
 
-        public static IEnumerable<TestCaseData> TestCases()
+        public static IEnumerable<object[]> TestCases()
         {
             return new[]
             {
@@ -61,18 +62,14 @@ namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
             };
         }
 
-        private static TestCaseData CreateTestCase(string name, string profile, bool expectedResult)
-        {
-            var data = new TestCaseData(profile);
-            data.SetName(name);
-            data.Returns(expectedResult);
-            return data;
-        }
+        private static object[] CreateTestCase(string name, string profile, bool expectedResult) 
+            => new object[] {name, profile, expectedResult};
 
-        [TestCaseSource(nameof(TestCases))]
-        public bool PclCheckReturnsTheRightValue(string profile)
+        [Theory]
+        [MemberData(nameof(TestCases))]
+        public void PclCheckReturnsTheRightValue(string name, string profile, bool expected)
         {
-            return PclProfileCompatabilityChecker.Check(profile);
+            PclProfileCompatabilityChecker.Check(profile).Should().Be(expected);
         }
     }
 }

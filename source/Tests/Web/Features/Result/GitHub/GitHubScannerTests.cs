@@ -12,7 +12,7 @@ namespace ICanHasDotnetCore.Tests.Web.Features.Result.GitHub
     public class GitHubScannerTests
     {
 
-        [Fact]
+        [Fact(Skip = "Don't support the new csproj format")]
         public async Task ICanHasDotnetRepository()
         {
             var result = await CreateScanner().Scan("/OctopusDeploy/ICanHasDotnetCore\\");

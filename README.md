@@ -1,5 +1,8 @@
 ## Compiling
-You will need Visual Studio 2017. To build from the command line you will need  NodeJS (Tested with 4.1) and Gulp installed.
+You will need Visual Studio 2017 and dotnet-1.1.1-sdk ([1.1.1 with SDK 1.0.1](https://github.com/dotnet/core/blob/master/release-notes/download-archives/1.1.1-download.md)).  
+Note that you can install multiple SDKs side by side, it's all controlled through the global.json.
+
+To build from the command line you will need  NodeJS (Tested with 4.1) and Gulp installed.
 
 To get the web IU to build, in Visual Studio, open the `Task Runner Explorer` and run the watch task. You can alternatively do this from the command line: 
 ```

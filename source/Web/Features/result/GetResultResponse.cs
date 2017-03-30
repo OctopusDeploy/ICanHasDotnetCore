@@ -7,6 +7,7 @@ namespace ICanHasDotnetCore.Web.Features.result
     {
         public PackageResult[] Result { get; set; }
         public string GraphViz { get; set; }
+        public string Cypher { get; set; }
     }
 
     public class PackageResult

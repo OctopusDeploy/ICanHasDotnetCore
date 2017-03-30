@@ -4,7 +4,7 @@ Note that you can install multiple SDKs side by side, it's all controlled throug
 
 To build from the command line you will need  NodeJS (Tested with 4.1) and Gulp installed.
 
-To get the web IU to build, in Visual Studio, open the `Task Runner Explorer` and run the watch task. You can alternatively do this from the command line: 
+To get the web UI to build, in Visual Studio, open the `Task Runner Explorer` and run the watch task. You can alternatively do this from the command line: 
 ```
 cd source\Web
 gulp watch

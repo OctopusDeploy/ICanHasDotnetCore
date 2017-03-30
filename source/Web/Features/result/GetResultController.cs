@@ -112,6 +112,7 @@ namespace ICanHasDotnetCore.Web.Features.result
                     MoreInformation = r.MoreInformation.ValueOrNull()
                 }).ToArray(),
                 GraphViz = GraphVizOutputFormatter.Format(result),
+                Cypher = CypherOutputFormatter.Format(result)
             };
         }
 

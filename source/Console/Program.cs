@@ -59,6 +59,7 @@ namespace ICanHasDotnetCore.Console
             File.WriteAllLines(Path.Combine(outputDirectory, "Tree.txt"), new[] { TreeOutputFormatter.Format(result) });
             File.WriteAllLines(Path.Combine(outputDirectory, "1Level.gv"), new[] { GraphVizOutputFormatter.Format(result, 1) });
             File.WriteAllLines(Path.Combine(outputDirectory, "All.gv"), new[] { GraphVizOutputFormatter.Format(result) });
+            File.WriteAllLines(Path.Combine(outputDirectory, "All.cql"), new[] { CypherOutputFormatter.Format(result) });
 
             foreach (var package in result.PackageConfigResults)
                 File.WriteAllLines(Path.Combine(outputDirectory, package.PackageName + ".gv"), new[] { GraphVizOutputFormatter.Format(package) });

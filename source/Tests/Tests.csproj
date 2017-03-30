@@ -19,11 +19,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0-preview-20170106-08" />
-    <PackageReference Include="Assent" Version="0.4.0" />
-    <PackageReference Include="dotnet-test-nunit" Version="3.4.0-beta-2" />
+    <PackageReference Include="Assent" Version="0.7.0" />
     <PackageReference Include="FluentAssertions" Version="4.12.0" />
     <PackageReference Include="NuGet.Core" Version="2.11.1" />
-    <PackageReference Include="NUnit" Version="3.5.0" />
+    <PackageReference Include="Xunit" Version="2.2.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">

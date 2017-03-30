@@ -2,14 +2,12 @@
 // TOOLS
 //////////////////////////////////////////////////////////////////////
 #tool "nuget:?package=GitVersion.CommandLine&version=4.0.0-beta0007"
-#addin "nuget:?package=Newtonsoft.Json&version=9.0.1"
 #addin "nuget:?package=SharpCompress&version=0.12.4"
 #addin "Cake.Npm"
 #addin "Cake.Gulp"
+#addin "Cake.FileHelpers"
 
 using Path = System.IO.Path;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using IO = System.IO;
 using SharpCompress;
 using SharpCompress.Common;
@@ -29,20 +27,25 @@ var artifactsDir = "./artifacts";
 var databaseProject = "./source/Database";
 var webProject = "./source/Web";
 var consoleProject = "./source/Console";
-var isContinuousIntegrationBuild = !BuildSystem.IsLocalBuild;
 
-var gitVersionInfo = GitVersion(new GitVersionSettings {
-    OutputType = GitVersionOutput.Json
-});
-
-var nugetVersion = gitVersionInfo.NuGetVersion;
-
+GitVersion gitVersionInfo;
+string nugetVersion;
 ///////////////////////////////////////////////////////////////////////////////
 // SETUP / TEARDOWN
 ///////////////////////////////////////////////////////////////////////////////
 Setup(context =>
 {
+      gitVersionInfo = GitVersion(new GitVersionSettings {
+        OutputType = GitVersionOutput.Json
+    });
+
+    if(BuildSystem.IsRunningOnTeamCity)
+        BuildSystem.TeamCity.SetBuildNumber(gitVersionInfo.NuGetVersion);
+
+    nugetVersion = gitVersionInfo.NuGetVersion;
+
     Information("Building ICanHasDotnetCore v{0}", nugetVersion);
+    Information("Informational Version {0}", gitVersionInfo.InformationalVersion);
 });
 
 Teardown(context =>
@@ -54,98 +57,54 @@ Teardown(context =>
 //  PRIVATE TASKS
 //////////////////////////////////////////////////////////////////////
 
-Task("__Default")
-    .IsDependentOn("__Clean")
-    .IsDependentOn("__Restore")
-    .IsDependentOn("__UpdateAssemblyVersionInformation")
-    .IsDependentOn("__Build")
-    .IsDependentOn("__Publish")
-    .IsDependentOn("__Zip");
-
-Task("__Clean")
+Task("Clean")
     .Does(() =>
 {
     CleanDirectory(artifactsDir);
     CleanDirectory(publishDir);
-    CleanDirectories("./source/*/bin");
-    CleanDirectories("./source/*/obj");
+    CleanDirectories("./source/**/bin");
+    CleanDirectories("./source/**/obj");
+    CleanDirectories("./source/**/TestResults");
 });
 
-Task("__Restore")
+Task("Restore")
+    .IsDependentOn("Clean")
     .Does(() => {
-        DotNetCoreRestore();
+        DotNetCoreRestore("source");
         Npm.FromPath(webProject).Install();
+        Npm.FromPath(webProject).Install(settings => settings.Package("gulp"));
     });
 
-Task("__UpdateAssemblyVersionInformation")
-    .WithCriteria(isContinuousIntegrationBuild)
-    .Does(() =>
-{
-     GitVersion(new GitVersionSettings {
-        UpdateAssemblyInfo = true
-    });
-
-    Information("AssemblyVersion -> {0}", gitVersionInfo.AssemblySemVer);
-    Information("AssemblyFileVersion -> {0}", $"{gitVersionInfo.MajorMinorPatch}.0");
-    Information("AssemblyInformationalVersion -> {0}", gitVersionInfo.InformationalVersion);
-    if(BuildSystem.IsRunningOnTeamCity)
-        BuildSystem.TeamCity.SetBuildNumber(gitVersionInfo.NuGetVersion);
-    if(BuildSystem.IsRunningOnAppVeyor)
-        AppVeyor.UpdateBuildVersion(gitVersionInfo.NuGetVersion);
-});
-
-Task("__Build")
-    .IsDependentOn("__Restore")
-    .IsDependentOn("__UpdateProjectJsonVersion")
-    .IsDependentOn("__UpdateAssemblyVersionInformation")
+Task("Build")
+    .IsDependentOn("Restore")
+    .IsDependentOn("Clean")
     .Does(() =>
 {
     Gulp.Local.Execute(s => {
         s.WorkingDirectory = webProject;
     });
 
-    DotNetCoreBuild("**/project.json", new DotNetCoreBuildSettings
+    DotNetCoreBuild("./source", new DotNetCoreBuildSettings
     {
-        Configuration = configuration
+        Configuration = configuration,
+        ArgumentCustomization = args => args.Append($"/p:Version={nugetVersion}")
     });
 });
 
-Task("__Test")
-    .IsDependentOn("__Restore")
+Task("Test")
+    .IsDependentOn("Build")
     .Does(() =>
 {
-    GetFiles("**/*Tests/project.json")
-        .ToList()
-        .ForEach(testProjectFile => 
-        {
-            DotNetCoreTest(testProjectFile.ToString(), new DotNetCoreTestSettings
-            {
-                Configuration = configuration,
-                WorkingDirectory = Path.GetDirectoryName(testProjectFile.ToString())
-            });
-        });
+     DotNetCoreTest("./source/Tests/Tests.csproj", new DotNetCoreTestSettings
+    {
+        Configuration = configuration,
+        NoBuild = true,
+        ArgumentCustomization = args => args.Append("-l trx")
+    });
 });
 
-Task("__UpdateProjectJsonVersion")
-    //.WithCriteria(isContinuousIntegrationBuild)
-    .Does(() =>
-{
-    Information("Updating project.json versions to {0}", nugetVersion);
-    ModifyJson(Path.Combine(webProject, "project.json"), json => json["version"] = nugetVersion);
-    ModifyJson(Path.Combine(databaseProject, "project.json"), json => json["version"] = nugetVersion);
-    ModifyJson(Path.Combine(consoleProject, "project.json"), json => json["version"] = nugetVersion);
-});
-
-private void ModifyJson(string jsonFile, Action<JObject> modify)
-{   
-    var json = JsonConvert.DeserializeObject<JObject>(IO.File.ReadAllText(jsonFile));
-    modify(json);
-    IO.File.WriteAllText(jsonFile, JsonConvert.SerializeObject(json, Formatting.Indented));
-}
-
-
-Task("__DotnetPublish")
-    .IsDependentOn("__Test")
+Task("DotnetPublish")
+    .IsDependentOn("Test")
     .Does(() =>
 {
     DotNetCorePublish(webProject, new DotNetCorePublishSettings
@@ -167,8 +126,8 @@ Task("__DotnetPublish")
     });
 });
 
-Task("__Zip")
-    .IsDependentOn("__DotnetPublish")
+Task("Zip")
+    .IsDependentOn("DotnetPublish")
     .Does(() => {
         var downloadsDir = Path.Combine(publishDir, @"Web\wwwroot\Downloads");
         CreateDirectory(downloadsDir);
@@ -178,8 +137,8 @@ Task("__Zip")
     });
 
 
-Task("__Publish")
-    .IsDependentOn("__Zip")
+Task("Publish")
+    .IsDependentOn("Zip")
     .WithCriteria(BuildSystem.IsRunningOnTeamCity)
     .Does(() =>
 {
@@ -199,7 +158,7 @@ Task("__Publish")
 // TASKS
 //////////////////////////////////////////////////////////////////////
 Task("Default")
-    .IsDependentOn("__Default");
+    .IsDependentOn("Publish");
 
 //////////////////////////////////////////////////////////////////////
 // EXECUTION

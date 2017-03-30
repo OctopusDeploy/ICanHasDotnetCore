@@ -1,31 +1,33 @@
 ﻿using FluentAssertions;
 using ICanHasDotnetCore.Web.Features.result.GitHub;
-using NUnit.Framework;
+using Xunit;
 
 namespace ICanHasDotnetCore.Tests.Web.Features.Result.GitHub
 {
     public class RepositoryIdTests
     {
-        [TestCase("OctopusDeploy/Foo")]
-        [TestCase("/OctopusDeploy/Foo/")]
-        [TestCase("/OctopusDeploy/Foo")]
-        [TestCase("/Octopus_Deploy/Fo_o/")]
-        [TestCase("/Octopus-Deploy/Fo-o/")]
-        [TestCase("/Octopus.Deploy/Fo.o/")]
-        [TestCase("Oct_opus.Depl-oy/F_o.o-")]
+        [Theory]
+        [InlineData("OctopusDeploy/Foo")]
+        [InlineData("/OctopusDeploy/Foo/")]
+        [InlineData("/OctopusDeploy/Foo")]
+        [InlineData("/Octopus_Deploy/Fo_o/")]
+        [InlineData("/Octopus-Deploy/Fo-o/")]
+        [InlineData("/Octopus.Deploy/Fo.o/")]
+        [InlineData("Oct_opus.Depl-oy/F_o.o-")]
         public void ValidNames(string name)
         {
             GitHubScanner.RepositoryId.Parse(name)
                 .Some.Should().BeTrue();
         }
 
-        [TestCase("OctopusDeploy/Foo/Bar")]
-        [TestCase("Octopus$Deploy/Foo")]
-        [TestCase("Octopus\\Deploy/Foo")]
-        [TestCase("Octopus=Deploy/Foo")]
-        [TestCase("OctopusDeploy/F\\oo")]
-        [TestCase("Octo:pusDeploy/Foo")]
-        [TestCase("OctopusDeploy/F:oo")]
+        [Theory]
+        [InlineData("OctopusDeploy/Foo/Bar")]
+        [InlineData("Octopus$Deploy/Foo")]
+        [InlineData("Octopus\\Deploy/Foo")]
+        [InlineData("Octopus=Deploy/Foo")]
+        [InlineData("OctopusDeploy/F\\oo")]
+        [InlineData("Octo:pusDeploy/Foo")]
+        [InlineData("OctopusDeploy/F:oo")]
         public void InvalidNames(string name)
         {
             GitHubScanner.RepositoryId.Parse(name)

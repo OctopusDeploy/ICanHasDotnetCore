@@ -5,7 +5,7 @@ using ICanHasDotnetCore.Investigator;
 using ICanHasDotnetCore.NugetPackages;
 using ICanHasDotnetCore.Output;
 using ICanHasDotnetCore.SourcePackageFileReaders;
-using NUnit.Framework;
+using Xunit;
 
 namespace ICanHasDotnetCore.Tests.Magic
 {
@@ -44,8 +44,7 @@ http http://www.fssnip.net/1n decrypt.fs";
   }
 }";
 
-        [Test]
-        [Ignore("Brittle, but useful when making changes, so keeping it")]
+        [Fact(Skip = "Brittle, but useful when making changes, so keeping it")]
         public void EndToEndTest()
         {
 

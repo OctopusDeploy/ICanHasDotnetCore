@@ -10,15 +10,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		build.ps1 = build.ps1
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Web", "Web\Web.xproj", "{95D6E787-309B-448B-8F1D-46D3F5E64C94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web", "Web\Web.csproj", "{95D6E787-309B-448B-8F1D-46D3F5E64C94}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Magic", "Magic\Magic.xproj", "{89CAEA64-C5FE-45F5-8B5D-53AE40A1FC92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Magic", "Magic\Magic.csproj", "{89CAEA64-C5FE-45F5-8B5D-53AE40A1FC92}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Console", "Console\Console.xproj", "{3DC92468-CF9B-433D-95BC-996799941A0A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Console", "Console\Console.csproj", "{3DC92468-CF9B-433D-95BC-996799941A0A}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Tests", "Tests\Tests.xproj", "{E7A09E85-977A-4852-8F5B-9707525D7104}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{E7A09E85-977A-4852-8F5B-9707525D7104}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Database", "Database\Database.xproj", "{C0A251E7-06A4-4DF0-8847-649B9FEDB2DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database", "Database\Database.csproj", "{C0A251E7-06A4-4DF0-8847-649B9FEDB2DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

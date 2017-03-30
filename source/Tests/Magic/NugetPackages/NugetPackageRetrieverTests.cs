@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using FluentAssertions;
 using NuGet;
-using NUnit.Framework;
+using Xunit;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Assent;
@@ -13,7 +13,7 @@ namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
 {
     public class NugetPackageRetrieverTests
     {
-        public static IEnumerable<TestCaseData> TestCases()
+        public static IEnumerable<object[]> TestCases()
         {
             yield return CreateTestCase(".NETStandard release package", "Serilog.Sinks.Seq", "2.0.0", SupportType.Supported, "Serilog.Sinks.RollingFile", "Serilog", "Serilog.Sinks.PeriodicBatching");
             yield return CreateTestCase(".NETStandard pre-release package", "Serilog.Sinks.Seq", "2.0.0-rc-57", SupportType.PreRelease, "Serilog.Sinks.RollingFile", "Serilog", "Serilog.Sinks.PeriodicBatching");
@@ -30,31 +30,27 @@ namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
         }
 
        
-        public static TestCaseData CreateTestCase(string name, string id, string version, SupportType expectedSupportType, params string[] expectedDependencies)
-        {
-            var tc = new TestCaseData(id, version, expectedSupportType, expectedDependencies);
-            tc.SetName(name);
-            return tc;
-        }
+        public static object[] CreateTestCase(string name, string id, string version, SupportType expectedSupportType, params string[] expectedDependencies) 
+            => new object[] {name, id, version, expectedSupportType, expectedDependencies};
 
 
-        [Test]
-        [TestCaseSource(nameof(TestCases))]
-        public void PackageIsRetrieved(string id, string version, SupportType expectedSupportType, string[] expectedDependencies)
+        [Theory]
+        [MemberData(nameof(TestCases))]
+        public void PackageIsRetrieved(string name, string id, string version, SupportType expectedSupportType, string[] expectedDependencies)
         {
             GetPackage(id, version).Id.Should().Be(id);
         }
 
-        [Test]
-        [TestCaseSource(nameof(TestCases))]
-        public void PackageSupportTypeIsCorrect(string id, string version, SupportType expectedSupportType, string[] expectedDependencies)
+        [Theory]
+        [MemberData(nameof(TestCases))]
+        public void PackageSupportTypeIsCorrect(string name, string id, string version, SupportType expectedSupportType, string[] expectedDependencies)
         {
             GetPackage(id, version).SupportType.Should().Be(expectedSupportType);
         }
 
-        [Test]
-        [TestCaseSource(nameof(TestCases))]
-        public void PackageDependenciesHaveBeenExtractedCorrectly(string id, string version, SupportType expectedSupportType, string[] expectedDependencies)
+        [Theory]
+        [MemberData(nameof(TestCases))]
+        public void PackageDependenciesHaveBeenExtractedCorrectly(string name, string id, string version, SupportType expectedSupportType, string[] expectedDependencies)
         {
             GetPackage(id, version).Dependencies.ShouldAllBeEquivalentTo(expectedDependencies);
         }
@@ -67,7 +63,7 @@ namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
         }
 
 
-        [Test]
+        [Fact]
         public void NonExistantPackageShouldBeNotFound()
         {
             var pkg = GetPackage("FooFooFoo", "1.0.23523");
@@ -76,7 +72,7 @@ namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
 
 
 
-        [Test]
+        [Fact]
         public void CheckTheSupportTypeOfAWholeStackOfPackages()
         {
             var theStack = new Dictionary<string, string>()
@@ -451,7 +447,7 @@ namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
                 {"WebGrease", "1.6.0"},
                 {"WebMarkupMin.Core", "2.1.0"},
                 {"Wire", "0.7.1"},
-                {"xunit", "2.2.0-beta2-build3300"},
+                {"Xunit", "2.2.0-beta2-build3300"},
                 {"Zlib.Portable", "1.11.0"},                
                 #endregion
             };

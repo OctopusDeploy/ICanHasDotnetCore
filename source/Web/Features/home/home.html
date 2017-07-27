@@ -5,7 +5,7 @@
             <md-tabs md-dynamic-height md-selected="vm.selectedTab">
                 <md-tab label="Upload Package Files">
                     <p>
-                        Upload your project's <code>packages.config</code>, <code>project.json</code> and <code>paket.dependencies</code>
+                        Upload your project's <code>packages.config</code>, <code>project.json</code>, <code>paket.dependencies</code> and <code>*.csproj</code>
                          files for analysis and we will build a visualisation of the packages and whether
                         .NET Standard versions are available on nuget.org
                     </p>
@@ -16,7 +16,7 @@
                                 <input type="text" placeholder="Project Name" ng-model="item.name" />
                             </md-input-container>
                             <div>
-                                <input class="ng-hide" id="input-file-id-{{$index}}" multiple type="file" ng-file-model="item.file" accept=".config,.json,.dependencies" />
+                                <input class="ng-hide" id="input-file-id-{{$index}}" multiple type="file" ng-file-model="item.file" accept=".config,.json,.dependencies,.csproj" />
                                 <label for="input-file-id-{{$index}}" class="choose-file md-button md-raised" ng-hide="item.file">Choose packages file</label>
                                 <div>
                                     <span class="package-file-name">{{ item.file.name}}</span>
@@ -41,9 +41,9 @@
                                 {{vm.getGitHubRepositoryName()}}
                             </div>
                         </md-input-container>
-                    
+
                     </div>
-                    
+
                    <!-- <div ng-hide="!vm.gitHubRepository && vm.isGitHubRepositoryValid()" class="error">
                         Not recognised as a valid GitHub repository name or URL
                     </div>-->

@@ -78,7 +78,7 @@ namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
             var theStack = new Dictionary<string, string>()
             {
                 #region The big list of packages
-                {"51Degrees.mobi", "3.2.10.3-beta"},
+                {"51Degrees.mobi-webMatrix", "3.2.10.3-beta"},
                 {"ABCpdf", "10.1.1.1"},
                 {"Abot", "1.5.1.42"},
                 {"Abp", "0.10.1.2"},

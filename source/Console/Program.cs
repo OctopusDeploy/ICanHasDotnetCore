@@ -80,6 +80,16 @@ namespace ICanHasDotnetCore.Console
                     if (file.Exists)
                         yield return new SourcePackageFile(file.DirectoryName, filename, File.ReadAllBytes(file.FullName));
                 }
+
+                foreach (var fileExtension in SourcePackageFileReader.SupportedExtensions)
+                {
+                    foreach (var file in Directory.GetFiles(directory, $"*{fileExtension}"))
+                    {
+                        var f = new FileInfo(Path.Combine(directory, file));
+                        if(f.Exists)
+                            yield return new SourcePackageFile(f.DirectoryName, file, File.ReadAllBytes(f.FullName));
+                    }
+                }
                
                 foreach (var packageFile in FindFiles(Directory.EnumerateDirectories(directory)))
                     yield return packageFile;

@@ -12,7 +12,7 @@ namespace ICanHasDotnetCore.Tests.Web.Features.Result.GitHub
     public class GitHubScannerTests
     {
 
-        [Fact(Skip = "Don't support the new csproj format")]
+        [Fact()]
         public async Task ICanHasDotnetRepository()
         {
             var result = await CreateScanner().Scan("/OctopusDeploy/ICanHasDotnetCore\\");
@@ -21,7 +21,7 @@ namespace ICanHasDotnetCore.Tests.Web.Features.Result.GitHub
             names.ShouldAllBeEquivalentTo(new[] { "source/Magic", "source/Database", "source/Console", "source/Tests", "source/Web" });
         }
 
-        
+
         [Fact]
         public async Task InvalidId_InvalidName()
         {
@@ -38,7 +38,7 @@ namespace ICanHasDotnetCore.Tests.Web.Features.Result.GitHub
             result.ErrorString.Should().Be("OctopusDeploy/DoesNotExist does not exist or is not publically accessible");
         }
 
-   
+
 
         private GitHubScanner CreateScanner()
         {

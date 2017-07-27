@@ -30,7 +30,7 @@ namespace ICanHasDotnetCore.Console
             {
                 if (args.Length < 2)
                 {
-                    System.Console.Error.WriteLine("Usage: CanIHazDotnetCore.exe <output_directory> <dir_to_scan_1> [dir_to_scan_2] ... [dir_to_scan_n]");
+                    System.Console.Error.WriteLine("Usage: CanIHasDotnetCore.exe <output_directory> <dir_to_scan_1> [dir_to_scan_2] ... [dir_to_scan_n]");
                     return 1;
                 }
 

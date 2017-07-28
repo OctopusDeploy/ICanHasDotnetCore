@@ -80,6 +80,9 @@ Task("Build")
     .IsDependentOn("Clean")
     .Does(() =>
 {
+
+    ReplaceRegexInFiles("./source/Web/Features/Version.ts", "version = \"[^\"]+", "version = \"" + nugetVersion);
+
     Gulp.Local.Execute(s => {
         s.WorkingDirectory = webProject;
     });

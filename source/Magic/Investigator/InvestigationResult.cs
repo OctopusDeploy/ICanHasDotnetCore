@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ICanHasDotnetCore.Investigator
@@ -14,7 +15,11 @@ namespace ICanHasDotnetCore.Investigator
 
         public IReadOnlyList<PackageResult> GetAllDistinctRecursive(int maxLevels = int.MaxValue)
         {
-            return PackageConfigResults.Concat(PackageConfigResults.SelectMany(r => r.GetDependenciesResursive(maxLevels-1))).Distinct().ToArray();
+            return PackageConfigResults
+                .Concat(PackageConfigResults.SelectMany(r => r.GetDependenciesResursive(maxLevels - 1)))
+                .GroupBy(p => p.PackageName)
+                .Select(g => g.First())
+                .ToArray();
         }
     }
 }

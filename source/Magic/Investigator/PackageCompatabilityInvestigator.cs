@@ -39,10 +39,18 @@ namespace ICanHasDotnetCore.Investigator
 
         public async Task<InvestigationResult> Go(IReadOnlyList<SourcePackageFile> files)
         {
+            files = ExcludeCsprojThatAlsoHaveAPackagesConfig(files);
+
             MakeNamesUnique(files);
 
             var results = files.Select(Process).ToArray();
             return new InvestigationResult(await Task.WhenAll(results));
+        }
+
+        private IReadOnlyList<SourcePackageFile> ExcludeCsprojThatAlsoHaveAPackagesConfig(IReadOnlyList<SourcePackageFile> files)
+        {
+            var exclude = files.Where(f => f.OriginalFileExtension == ".csproj" && files.Any(o => o.Name == f.Name && o.OriginalFileName == "packages.config"));
+            return files.Except(exclude).ToArray();
         }
 
         private static void MakeNamesUnique(IReadOnlyList<SourcePackageFile> files)

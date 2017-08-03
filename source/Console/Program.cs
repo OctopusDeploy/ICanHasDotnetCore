@@ -87,7 +87,7 @@ namespace ICanHasDotnetCore.Console
                     {
                         var f = new FileInfo(Path.Combine(directory, file));
                         if(f.Exists)
-                            yield return new SourcePackageFile(f.DirectoryName, file, File.ReadAllBytes(f.FullName));
+                            yield return new SourcePackageFile(f.DirectoryName, Path.GetFileName(file), File.ReadAllBytes(f.FullName));
                     }
                 }
 

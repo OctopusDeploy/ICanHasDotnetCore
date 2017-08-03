@@ -79,9 +79,14 @@ namespace ICanHasDotnetCore.Web.Features.result.GitHub
 
             var getFileTasks = treeResponse.Tree
                 .Where(t => t.Type == TreeType.Blob)
-                .Where(t => SourcePackageFileReader.SupportedFiles.Any(
-                        f => t.Path.Equals(f, StringComparison.OrdinalIgnoreCase) || 
-                        t.Path.EndsWith($"/{f}", StringComparison.OrdinalIgnoreCase))
+                .Where(t => 
+                    SourcePackageFileReader.SupportedFiles.Any(f => 
+                        t.Path.Equals(f, StringComparison.OrdinalIgnoreCase) ||
+                        t.Path.EndsWith($"/{f}", StringComparison.OrdinalIgnoreCase)
+                    ) ||
+                    SourcePackageFileReader.SupportedExtensions.Any(e => 
+                        t.Path.EndsWith(e, StringComparison.OrdinalIgnoreCase)
+                    )
                 )
                 .Select(t => client.Repository.Content.GetAllContents(repo.Owner, repo.Name, t.Path))
                 .ToArray();

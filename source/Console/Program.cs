@@ -30,7 +30,7 @@ namespace ICanHasDotnetCore.Console
             {
                 if (args.Length < 2)
                 {
-                    System.Console.Error.WriteLine("Usage: CanIHazDotnetCore.exe <output_directory> <dir_to_scan_1> [dir_to_scan_2] ... [dir_to_scan_n]");
+                    System.Console.Error.WriteLine("Usage: ICanHasDotnetCore.exe <output_directory> <dir_to_scan_1> [dir_to_scan_2] ... [dir_to_scan_n]");
                     return 1;
                 }
 
@@ -80,7 +80,17 @@ namespace ICanHasDotnetCore.Console
                     if (file.Exists)
                         yield return new SourcePackageFile(file.DirectoryName, filename, File.ReadAllBytes(file.FullName));
                 }
-               
+
+                foreach (var fileExtension in SourcePackageFileReader.SupportedExtensions)
+                {
+                    foreach (var file in Directory.GetFiles(directory, $"*{fileExtension}"))
+                    {
+                        var f = new FileInfo(Path.Combine(directory, file));
+                        if(f.Exists)
+                            yield return new SourcePackageFile(f.DirectoryName, Path.GetFileName(file), File.ReadAllBytes(f.FullName));
+                    }
+                }
+
                 foreach (var packageFile in FindFiles(Directory.EnumerateDirectories(directory)))
                     yield return packageFile;
             }

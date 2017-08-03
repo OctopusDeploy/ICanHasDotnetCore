@@ -3,7 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 #tool "nuget:?package=GitVersion.CommandLine&version=4.0.0-beta0007"
 #addin "nuget:?package=SharpCompress&version=0.12.4"
-#addin "Cake.Npm"
+#addin nuget:?package=Cake.Npm&version=0.8.0
 #addin "Cake.Gulp"
 #addin "Cake.FileHelpers"
 
@@ -146,12 +146,12 @@ Task("Publish")
     .Does(() =>
 {
     UploadFile(
-        $"{EnvironmentVariable("Octopus3ServerUrl")}/api/packages/raw?apiKey={EnvironmentVariable("Octopus3ApiKey")}", 
+        $"{EnvironmentVariable("Octopus3ServerUrl")}/api/packages/raw?apiKey={EnvironmentVariable("Octopus3ApiKey")}",
         $"{artifactsDir}/ICanHasDotnetCore.Web." + nugetVersion + ".zip"
     );
-    
+
     UploadFile(
-        $"{EnvironmentVariable("Octopus3ServerUrl")}/api/packages/raw?apiKey={EnvironmentVariable("Octopus3ApiKey")}", 
+        $"{EnvironmentVariable("Octopus3ServerUrl")}/api/packages/raw?apiKey={EnvironmentVariable("Octopus3ApiKey")}",
         $"{artifactsDir}/ICanHasDotnetCore.Database." + nugetVersion + ".zip"
     );
 });

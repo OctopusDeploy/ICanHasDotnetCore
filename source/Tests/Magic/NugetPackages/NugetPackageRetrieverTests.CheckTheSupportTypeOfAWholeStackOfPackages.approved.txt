@@ -1,4 +1,4 @@
-﻿51Degrees.mobi                                      3.2.10.3-beta            Unsupported
+﻿51Degrees.mobi-webMatrix                            3.2.10.3-beta            Unsupported
 ABCpdf                                              10.1.1.1                 Unsupported
 Abot                                                1.5.1.42                 Unsupported
 Abp                                                 0.10.1.2                 Unsupported

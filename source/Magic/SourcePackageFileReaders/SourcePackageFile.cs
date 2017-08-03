@@ -1,4 +1,6 @@
-﻿namespace ICanHasDotnetCore.SourcePackageFileReaders
+﻿using System.IO;
+
+namespace ICanHasDotnetCore.SourcePackageFileReaders
 {
     public class SourcePackageFile
     {
@@ -11,6 +13,7 @@
 
         public string Name { get; set; }
         public string OriginalFileName { get;  }
+        public string OriginalFileExtension => Path.GetExtension(OriginalFileName);
         public byte[] Contents { get; }
     }
 }

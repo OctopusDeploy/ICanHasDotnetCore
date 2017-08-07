@@ -18,6 +18,6 @@ Run `build.cmd` to do a full rebuild, including tests, before submitting a code-
 
 Built on TeamCity https://build.octopushq.com/viewType.html?buildTypeId=Community_ICanHasDotnetCore_BuildICanHasDotnetCore
 
-Deployed by https://deploy3.octopushq.com/app#/projects/i-can-has-dotnet-core
+Deployed by https://deploy.octopushq.com/app#/projects/i-can-has-dotnet-core
 
 Test website is https://icanhasdotnetcore-test.azurewebsites.net/

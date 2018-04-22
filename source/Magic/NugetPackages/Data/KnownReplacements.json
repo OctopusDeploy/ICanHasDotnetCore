@@ -109,5 +109,12 @@
     "linkText": "Nuget",
     "url": "https://www.nuget.org/packages/HtmlAgilityPack.NetCore/",
     "startsWith": false
+  },
+  {
+    "id": "iTextSharp",
+    "message": "iTextSharp has been replaced by iTextSharp.LGPLv2.Core",
+    "linkText": "Nuget",
+    "url": "https://www.nuget.org/packages/iTextSharp.LGPLv2.Core/",
+    "startsWith": false
   }
 ]

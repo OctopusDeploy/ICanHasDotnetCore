@@ -1,11 +1,9 @@
 ﻿using System.Threading.Tasks;
 using FluentAssertions;
 using System.Linq;
-using ICanHasDotnetCore.Tests.Web.Helpers;
+using ICanHasDotnetCore.Web.Configuration;
 using ICanHasDotnetCore.Web.Features.result.GitHub;
-using Microsoft.Extensions.Configuration;
 using Xunit;
-using Serilog;
 
 namespace ICanHasDotnetCore.Tests.Web.Features.Result.GitHub
 {
@@ -42,12 +40,7 @@ namespace ICanHasDotnetCore.Tests.Web.Features.Result.GitHub
 
         private GitHubScanner CreateScanner()
         {
-            return new GitHubScanner(
-                new FakeConfiguration()
-                {
-                    {"GitHubToken", null }
-                }
-            );
+            return new GitHubScanner(new GitHubSettings {Token = null});
         }
     }
 }

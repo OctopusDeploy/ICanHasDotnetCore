@@ -1,20 +1,21 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
+﻿using ICanHasDotnetCore.Web.Configuration;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ICanHasDotnetCore.Web.Features.Analytics
 {
     public class AnalyticsController : Controller
     {
-        private readonly IConfiguration _configuration;
+        private readonly IAnalyticsSettings _analyticsSettings;
 
-        public AnalyticsController(IConfiguration configuration)
+        public AnalyticsController(IAnalyticsSettings analyticsSettings)
         {
-            _configuration = configuration;
+            _analyticsSettings = analyticsSettings;
         }
+        
         [HttpGet("api/Analytics")]
         public string Get()
         {
-            return _configuration["GoogleAnalytics"];
+            return _analyticsSettings.TrackingId;
         }
     }
 }

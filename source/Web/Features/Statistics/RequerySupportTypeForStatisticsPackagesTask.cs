@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 using Autofac;
 using ICanHasDotnetCore.Investigator;
 using ICanHasDotnetCore.NugetPackages;
-using ICanHasDotnetCore.SourcePackageFileReaders;
-using Microsoft.Extensions.Configuration;
 using Serilog;
 using System.Linq;
 using ICanHasDotnetCore.Plumbing.Extensions;

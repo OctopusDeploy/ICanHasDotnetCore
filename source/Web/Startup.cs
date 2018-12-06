@@ -1,11 +1,13 @@
 ﻿using System;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using ICanHasDotnetCore.Web.Configuration;
 using ICanHasDotnetCore.Web.Plumbing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace ICanHasDotnetCore.Web
 {
@@ -24,16 +26,36 @@ namespace ICanHasDotnetCore.Web
             // Add framework services.
             services.AddMvc();
 
+            services.AddOptions<AnalyticsSettings>().Bind(Configuration.GetSection("Analytics"));
+            services.AddOptions<DatabaseSettings>().Bind(Configuration.GetSection("Database"))
+                .Validate(settings => !string.IsNullOrWhiteSpace(settings.ConnectionString), "The configuration setting 'Database.ConnectionString' must be set.");
+            services.AddOptions<GitHubSettings>().Bind(Configuration.GetSection("GitHub"));
+            services.AddSingleton<IAnalyticsSettings>(provider => provider.GetRequiredService<IOptions<AnalyticsSettings>>().Value);
+            services.AddSingleton<IDatabaseSettings>(provider => provider.GetRequiredService<IOptions<DatabaseSettings>>().Value);
+            services.AddSingleton<IGitHubSettings>(provider => provider.GetRequiredService<IOptions<GitHubSettings>>().Value);
+            
             // Create the container builder.
             var builder = new ContainerBuilder();
 
             // Register dependencies, populate the services from
             // the collection, and build the container.
-            builder.RegisterInstance(Configuration);
             builder.RegisterAssemblyModules(typeof(Startup).Assembly);
             builder.Populate(services);
             var container = builder.Build();
 
+            // Resolve settings in order to force validation and throw if necessary
+            try
+            {
+                container.Resolve<IAnalyticsSettings>();
+                container.Resolve<IDatabaseSettings>();
+                container.Resolve<IGitHubSettings>();
+            }
+            catch (Exception exception) when (exception.GetBaseException() is OptionsValidationException validationException)
+            {
+                // The OptionsValidationException message is terrible: "Exception of type 'Microsoft.Extensions.Options.OptionsValidationException' was thrown."
+                throw new Exception($"Validation of {validationException.OptionsType} failed: {string.Join(", ", validationException.Failures)}");
+            }
+            
             // Return the IServiceProvider resolved from the container.
             return container.Resolve<IServiceProvider>();
         }

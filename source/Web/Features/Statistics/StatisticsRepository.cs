@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using ICanHasDotnetCore.Investigator;
 using ICanHasDotnetCore.NugetPackages;
-using Microsoft.Extensions.Configuration;
+using ICanHasDotnetCore.Web.Configuration;
 using Serilog;
 
 namespace ICanHasDotnetCore.Web.Features.Statistics
@@ -24,20 +22,18 @@ namespace ICanHasDotnetCore.Web.Features.Statistics
         // Only log packages found on Nuget.org
         private static readonly SupportType[] AddStatisticsFor = { SupportType.Unsupported, SupportType.Supported, SupportType.PreRelease };
 
-        private readonly string _connectionString;
+        private readonly IDatabaseSettings _databaseSettings;
 
-        public StatisticsRepository(IConfiguration configuration)
+        public StatisticsRepository(IDatabaseSettings databaseSettings)
         {
-            _connectionString = configuration["ConnectionString"];
-            if (string.IsNullOrWhiteSpace(_connectionString))
-                throw new Exception("The configuration setting 'ConnectionString' is not set");
+            _databaseSettings = databaseSettings;
         }
 
         public async Task AddStatisticsForResult(InvestigationResult result)
         {
             try
             {
-                using (var con = new SqlConnection(_connectionString))
+                using (var con = new SqlConnection(_databaseSettings.ConnectionString))
                 {
                     await con.OpenAsync();
                     var tasks = result.GetAllDistinctRecursive()
@@ -89,7 +85,7 @@ WHEN NOT MATCHED THEN
         {
             const string sql = "SELECT Name, [Count], LatestSupportType FROM dbo.[PackageStatistics] WITH (NOLOCK)";
             var stats = new List<PackageStatistic>();
-            using (var con = new SqlConnection(_connectionString))
+            using (var con = new SqlConnection(_databaseSettings.ConnectionString))
             {
                 con.Open();
                 using (var cmd = new SqlCommand(sql, con))
@@ -111,7 +107,7 @@ WHEN NOT MATCHED THEN
         public void UpdateSupportTypeFor(PackageStatistic stat, SupportType supportType)
         {
             const string sql = "UPDATE dbo.[PackageStatistics] SET LatestSupportType = @LatestSupportType WHERE Name = @Name";
-            using (var con = new SqlConnection(_connectionString))
+            using (var con = new SqlConnection(_databaseSettings.ConnectionString))
             {
                 con.Open();
                 using (var cmd = new SqlCommand(sql, con))

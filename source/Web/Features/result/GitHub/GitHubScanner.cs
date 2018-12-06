@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using ICanHasDotnetCore.Plumbing;
 using ICanHasDotnetCore.SourcePackageFileReaders;
-using Microsoft.Extensions.Configuration;
+using ICanHasDotnetCore.Web.Configuration;
 using Octokit;
 using Octokit.Internal;
 using Serilog;
@@ -17,11 +17,12 @@ namespace ICanHasDotnetCore.Web.Features.result.GitHub
     public class GitHubScanner
     {
         private static readonly string AssemblyVersion = typeof(GitHubScanner).Assembly.GetName().Version.ToString();
-        private static string _token;
+        
+        private readonly IGitHubSettings _gitHubSettings;
 
-        public GitHubScanner(IConfiguration configuration)
+        public GitHubScanner(IGitHubSettings gitHubSettings)
         {
-            _token = configuration["GitHubToken"];
+            _gitHubSettings = gitHubSettings;
             ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12; 
         }
 
@@ -65,7 +66,7 @@ namespace ICanHasDotnetCore.Web.Features.result.GitHub
         {
             return new GitHubClient(
                 new ProductHeaderValue("ICanHasDot.net", AssemblyVersion),
-                 new InMemoryCredentialStore(string.IsNullOrEmpty(_token) ? Credentials.Anonymous : new Credentials(_token)
+                 new InMemoryCredentialStore(string.IsNullOrEmpty(_gitHubSettings.Token) ? Credentials.Anonymous : new Credentials(_gitHubSettings.Token)
                 )
             );
         }

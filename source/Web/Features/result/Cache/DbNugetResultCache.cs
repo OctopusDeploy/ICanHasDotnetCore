@@ -2,25 +2,22 @@
 using System.Data.SqlClient;
 using ICanHasDotnetCore.NugetPackages;
 using ICanHasDotnetCore.Plumbing;
-using ICanHasDotnetCore.Web.Features.Statistics;
-using Microsoft.Extensions.Configuration;
 using NuGet;
 using Serilog;
 using System.Linq;
 using System.Runtime.Versioning;
+using ICanHasDotnetCore.Web.Configuration;
 
 namespace ICanHasDotnetCore.Web.Features.result.Cache
 {
 
     public class DbNugetResultCache : INugetResultCache
     {
-        private readonly string _connectionString;
+        private readonly IDatabaseSettings _databaseSettings;
 
-        public DbNugetResultCache(IConfiguration configuration)
+        public DbNugetResultCache(IDatabaseSettings databaseSettings)
         {
-            _connectionString = configuration["ConnectionString"];
-            if (string.IsNullOrWhiteSpace(_connectionString))
-                throw new Exception("The configuration setting 'ConnectionString' is not set");
+            _databaseSettings = databaseSettings;
         }
 
         public Option<NugetPackage> Get(string id, SemanticVersion version)
@@ -30,7 +27,7 @@ namespace ICanHasDotnetCore.Web.Features.result.Cache
 
 
                 const string sql = "SELECT * FROM dbo.NugetResultCache WHERE Id = @Id AND Version = @Version";
-                using (var con = new SqlConnection(_connectionString))
+                using (var con = new SqlConnection(_databaseSettings.ConnectionString))
                 {
                     con.Open();
                     using (var cmd = new SqlCommand(sql, con))
@@ -81,7 +78,7 @@ namespace ICanHasDotnetCore.Web.Features.result.Cache
             try
             {
                 const string sql = "INSERT INTO dbo.NugetResultCache (Id, SupportType, Version, ProjectUrl, Dependencies, Frameworks) VALUES (@Id, @SupportType, @Version, @ProjectUrl, @Dependencies, @Frameworks)";
-                using (var con = new SqlConnection(_connectionString))
+                using (var con = new SqlConnection(_databaseSettings.ConnectionString))
                 {
                     con.Open();
                     using (var cmd = new SqlCommand(sql, con))

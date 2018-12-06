@@ -64,13 +64,13 @@ namespace ICanHasDotnetCore.Web
             loggerFactory.AddDebug();
             loggerFactory.AddSerilog();
 
+            if (env.IsDevelopment())
+                app.UseDeveloperExceptionPage();
+
             app.UseMiddleware<RedirectWwwMiddleware>()
                 .UseMiddleware<RedirectHttpMiddleware>()
                 .UseStaticFiles()
                 .UseMvc();
-
-            if (env.IsDevelopment())
-                app.UseDeveloperExceptionPage();
         }
 
     }

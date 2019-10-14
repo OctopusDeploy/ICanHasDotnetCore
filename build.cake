@@ -1,9 +1,9 @@
 //////////////////////////////////////////////////////////////////////
 // TOOLS
 //////////////////////////////////////////////////////////////////////
-#tool "nuget:?package=GitVersion.CommandLine&version=4.0.0-beta0007"
+#tool "nuget:?package=GitVersion.CommandLine&version=4.0.0"
 #addin "nuget:?package=SharpCompress&version=0.12.4"
-#addin nuget:?package=Cake.Npm&version=0.8.0
+#addin nuget:?package=Cake.Npm&version=0.17.0
 #addin "Cake.Gulp"
 #addin "Cake.FileHelpers"
 
@@ -71,8 +71,12 @@ Task("Restore")
     .IsDependentOn("Clean")
     .Does(() => {
         DotNetCoreRestore("source");
-        Npm.FromPath(webProject).Install();
-        Npm.FromPath(webProject).Install(settings => settings.Package("gulp"));
+        var settings = new NpmInstallSettings();
+        settings.WorkingDirectory = webProject;
+        NpmInstall(settings);
+
+        settings.AddPackage("gulp");
+        NpmInstall(settings);
     });
 
 Task("Build")

@@ -20,7 +20,7 @@ AngularJS.Animate                                   1.5.7                    NoD
 Aspose.Words                                        16.6.0                   Unsupported
 AsyncErrorHandler.Fody                              1.0.11.0                 NoDotNetLibraries
 AsyncIO                                             0.1.26.0                 Supported
-AttributeRouting                                    3.5.6                    Unsupported
+AttributeRouting                                    3.5.6                    NotFound
 Autofac.Web                                         4.0.0                    Unsupported
 DotNetOpenAuth.OAuth.Consumer                       5.0.0-alpha3             Unsupported
 EnterpriseLibrary.TransientFaultHandling.Configuration6.0.1304.0               Unsupported
@@ -155,12 +155,12 @@ Lucene.Net                                          3.0.3                    Uns
 Magnum                                              2.1.3                    Unsupported
 MahApps.Metro                                       1.3.0-ALPHA178           NotFound
 MailChimp.NET                                       1.1.88                   Unsupported
-MailKit                                             1.4.1                    Supported
+MailKit                                             1.16.1                   Supported
 Markdown                                            1.14.7                   Supported
 MarkdownSharp                                       1.13.0.0                 Unsupported
 Marten                                              1.0.0-alpha-625          PreRelease
-MassTransit                                         3.3.5                    Unsupported
-MassTransit.RabbitMQ                                3.3.5                    Unsupported
+MassTransit                                         3.3.5                    NotFound
+MassTransit.RabbitMQ                                3.3.5                    NotFound
 MaterialDesignColors                                1.1.3                    Unsupported
 MaterialDesignThemes                                2.0.1-ci644              Unsupported
 MaterialDesignThemes.MahApps                        0.0.6                    Unsupported
@@ -171,8 +171,8 @@ MediatR                                             2.1.0                    Sup
 MediaTypeMap                                        2.1.0.0                  Unsupported
 Metrics.NET                                         0.4.0-pre                Unsupported
 MicosoftReportViewerWebForms_v11                    1.0.1                    Unsupported
-MicroBuild.Core                                     0.2.0                    NoDotNetLibraries
-Microsoft.AnalyzerPowerPack                         1.1.0                    NoDotNetLibraries
+MicroBuild.Core                                     0.2.0                    NotFound
+Microsoft.AnalyzerPowerPack                         1.1.0                    NotFound
 Microsoft.ApplicationInsights                       2.2.0-beta1              PreRelease
 Microsoft.ApplicationInsights.Agent.Intercept       2.0.1                    Unsupported
 Microsoft.ApplicationInsights.AspNetCore            1.0.0                    Supported
@@ -192,7 +192,7 @@ Microsoft.Azure.KeyVault.Core                       1.0.0                    Sup
 Microsoft.Azure.NotificationHubs                    1.0.6                    Unsupported
 Microsoft.Azure.Search                              1.1.2                    Unsupported
 Microsoft.Extensions.Logging.Debug                  1.0.0                    Supported
-MimeKit                                             1.4.1                    Supported
+MimeKit                                             1.4.1                    NotFound
 Mindscape.Raygun4Net                                5.3.1                    Supported
 Nancy                                               2.0.0-barneyrubble       PreRelease
 Ninject                                             3.2.3-unstable-012       Unsupported
@@ -257,8 +257,8 @@ Punchclock                                          1.2.0                    Sup
 Q                                                   2.0.2-experimental       NoDotNetLibraries
 Quartz                                              2.3.3                    Unsupported
 RabbitMQ.Client                                     3.6.3                    Unsupported
-RavenDB.Client                                      3.5.0-rc-35160           PreRelease
-RavenDB.Client.Authorization                        3.5.0-rc-35160           PreRelease
+RavenDB.Client                                      3.0.30172-Hotfix         Unsupported
+RavenDB.Client.Authorization                        3.0.30172-Hotfix         Unsupported
 RazorEngine                                         4.4.0-rc1                Unsupported
 RazorGenerator.MsBuild                              2.4.5                    NoDotNetLibraries
 RazorGenerator.Mvc                                  2.4.2                    Unsupported
@@ -266,11 +266,11 @@ React.Core                                          2.5.0                    Uns
 react.js                                            0.14.7                   NoDotNetLibraries
 React.Web                                           2.5.0                    Unsupported
 React.Web.Mvc4                                      2.5.0                    Unsupported
-reactiveui                                          6.5.0                    NoDotNetLibraries
+reactiveui                                          6.5.0                    NotFound
 ReactiveUI.Fody                                     1.1.51                   Unsupported
-reactiveui-androidsupport                           6.5.0                    Unsupported
-reactiveui-core                                     6.5.0                    Supported
-reactiveui-events                                   6.5.0                    Unsupported
+reactiveui-androidsupport                           6.5.0                    NotFound
+reactiveui-core                                     6.5.0                    NotFound
+reactiveui-events                                   6.5.0                    NotFound
 recaptcha                                           1.0.5.0                  Unsupported
 RecaptchaNet                                        2.1.0                    Unsupported
 RedisAspNetProviders                                1.0.1                    Unsupported
@@ -335,7 +335,7 @@ ServiceStack.OrmLite.SqlServer                      4.0.60                   Uns
 ServiceStack.Redis                                  4.0.60                   Unsupported
 ServiceStack.Server                                 4.0.60                   Unsupported
 ServiceStack.Text                                   4.0.60                   Unsupported
-SevenZipSharp                                       0.64                     Unsupported
+SevenZipSharp                                       0.64                     NotFound
 Shaolinq                                            1.1.0.924                Unsupported
 Shaolinq.Sqlite                                     1.1.0.924                Unsupported
 Shaolinq.SqlServer                                  1.1.0.924                Unsupported

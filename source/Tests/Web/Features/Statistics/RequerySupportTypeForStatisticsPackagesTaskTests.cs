@@ -20,14 +20,14 @@ namespace ICanHasDotnetCore.Tests.Web.Features.Statistics
             task.Run().Wait();
             repo.Updates.Keys.ShouldAllBeEquivalentTo(TestRepository.PackageNames);
             repo.Updates["JQuery"].Should().Be(SupportType.NoDotNetLibraries, "JQuery is a no dotnet result");
-            repo.Updates["Xunit"].Should().Be(SupportType.Supported, "Forwarding packages are Supported");
+            repo.Updates["Xunit.Core"].Should().Be(SupportType.Supported, "Forwarding packages are Supported");
         }
 
         private class TestRepository : IStatisticsRepository
         {
             public readonly Dictionary<string, SupportType> Updates = new Dictionary<string, SupportType>();
 
-            public static readonly string[] PackageNames = { "Autofac", "JQuery", "Xunit" };
+            public static readonly string[] PackageNames = { "Autofac", "JQuery", "Xunit.Core" };
 
             public Task AddStatisticsForResult(InvestigationResult result)
             {

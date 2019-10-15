@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0-preview-20170106-08" />
-    <PackageReference Include="Assent" Version="0.7.0" />
+    <PackageReference Include="Assent" Version="1.3.0" />
     <PackageReference Include="FluentAssertions" Version="4.12.0" />
     <PackageReference Include="NuGet.Core" Version="2.11.1" />
     <PackageReference Include="Xunit" Version="2.2.0" />

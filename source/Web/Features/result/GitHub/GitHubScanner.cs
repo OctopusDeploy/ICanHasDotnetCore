@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -21,6 +22,7 @@ namespace ICanHasDotnetCore.Web.Features.result.GitHub
         public GitHubScanner(IConfigurationRoot configuration)
         {
             _token = configuration["GitHubToken"];
+            ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12; 
         }
 
         public async Task<Result<SourcePackageFile[]>> Scan(string repoId)

@@ -5,9 +5,9 @@ VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E4E66474-C9BA-49CD-B274-F5AB7F865FE0}"
 	ProjectSection(SolutionItems) = preProject
-		.gitignore = .gitignore
-		build.cmd = build.cmd
-		build.ps1 = build.ps1
+		..\.gitignore = ..\.gitignore
+		..\build.cmd = ..\build.cmd
+		..\build.ps1 = ..\build.ps1
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web", "Web\Web.csproj", "{95D6E787-309B-448B-8F1D-46D3F5E64C94}"

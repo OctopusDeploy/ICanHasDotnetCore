@@ -4,13 +4,10 @@ using Autofac.Extensions.DependencyInjection;
 using ICanHasDotnetCore.Web.Plumbing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.PlatformAbstractions;
 using Serilog;
-using Serilog.Core;
 using Serilog.Events;
 
 namespace ICanHasDotnetCore.Web

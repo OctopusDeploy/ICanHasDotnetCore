@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Data.SqlClient;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using DbUp;
 using ICanHasDotnetCore.Database.AlwaysRun;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.PlatformAbstractions;
 
 namespace ICanHasDotnetCore.Database
 {

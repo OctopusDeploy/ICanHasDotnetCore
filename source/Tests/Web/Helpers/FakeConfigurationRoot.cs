@@ -26,5 +26,7 @@ namespace ICanHasDotnetCore.Tests.Web.Helpers
         {
             throw new System.NotImplementedException();
         }
+
+        public IEnumerable<IConfigurationProvider> Providers => throw new System.NotImplementedException();
     }
 }

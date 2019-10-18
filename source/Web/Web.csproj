@@ -41,7 +41,7 @@
     <PackageReference Include="Serilog.Sinks.Literate" Version="2.0.0" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="1.0.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.0.0-rc3-280" />
-    <PackageReference Include="Octokit" Version="0.20.0" />
+    <PackageReference Include="Octokit" Version="0.36.0" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">

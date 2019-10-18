@@ -7,7 +7,7 @@ namespace ICanHasDotnetCore.Tests
     {
         public Setup()
         {
-            Log.Logger = new LoggerConfiguration().WriteTo.LiterateConsole().CreateLogger();
+            Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateLogger();
         }
     }
 

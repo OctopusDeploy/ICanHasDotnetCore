@@ -7,6 +7,7 @@ using ICanHasDotnetCore.NugetPackages;
 using ICanHasDotnetCore.Output;
 using ICanHasDotnetCore.SourcePackageFileReaders;
 using Serilog;
+using Serilog.Sinks.SystemConsole.Themes;
 
 namespace ICanHasDotnetCore.Console
 {
@@ -22,7 +23,7 @@ namespace ICanHasDotnetCore.Console
         static int Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
-                .WriteTo.ColoredConsole()
+                .WriteTo.Console(theme: SystemConsoleTheme.Colored)
                 .MinimumLevel.Warning()
                 .CreateLogger();
 

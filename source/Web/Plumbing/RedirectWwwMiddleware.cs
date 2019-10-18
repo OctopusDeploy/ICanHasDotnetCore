@@ -1,29 +1,22 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
 namespace ICanHasDotnetCore.Web.Plumbing
 {
-    public class RedirectWwwMiddleware
+    public class RedirectWwwMiddleware : IMiddleware
     {
-        readonly RequestDelegate _next;
-
-        public RedirectWwwMiddleware(RequestDelegate next)
+        public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
-            _next = next;
-        }
-
-        public async Task Invoke(HttpContext context)
-        {
-            if (context.Request.Host.Host.StartsWith("www.", StringComparison.OrdinalIgnoreCase))
+            var request = context.Request;
+            if (request.Host.Host.StartsWith("www.", StringComparison.OrdinalIgnoreCase))
             {
-                var withoutWww = Uri.UriSchemeHttps + Uri.SchemeDelimiter + context.Request.Host.Host.Substring(4) + context.Request.Path;
+                var withoutWww = request.Scheme + Uri.SchemeDelimiter + request.Host.Host.Substring(4) + request.Path;
                 context.Response.Redirect(withoutWww);
             }
             else
             {
-                await _next(context);
+                await next(context);
             }
         }
     }

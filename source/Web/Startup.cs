@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using ICanHasDotnetCore.Web.Configuration;
@@ -25,6 +25,8 @@ namespace ICanHasDotnetCore.Web
         {
             // Add framework services.
             services.AddMvc();
+
+            services.AddTransient<RedirectWwwMiddleware>();
 
             services.AddOptions<AnalyticsSettings>().Bind(Configuration.GetSection("Analytics"));
             services.AddOptions<DatabaseSettings>().Bind(Configuration.GetSection("Database"))
@@ -66,8 +68,8 @@ namespace ICanHasDotnetCore.Web
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
 
-            app.UseMiddleware<RedirectWwwMiddleware>()
-                .UseMiddleware<RedirectHttpMiddleware>()
+            app.UseHttpsRedirection()
+                .UseMiddleware<RedirectWwwMiddleware>()
                 .UseStaticFiles()
                 .UseMvc();
         }

@@ -43,7 +43,7 @@ namespace ICanHasDotnetCore.Tests.Web.Features.Result.GitHub
         private GitHubScanner CreateScanner()
         {
             return new GitHubScanner(
-                new FakeConfigurationRoot()
+                new FakeConfiguration()
                 {
                     {"GitHubToken", null }
                 }

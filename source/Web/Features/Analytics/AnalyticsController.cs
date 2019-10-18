@@ -5,16 +5,16 @@ namespace ICanHasDotnetCore.Web.Features.Analytics
 {
     public class AnalyticsController : Controller
     {
-        private readonly IConfigurationRoot _configurationRoot;
+        private readonly IConfiguration _configuration;
 
-        public AnalyticsController(IConfigurationRoot configurationRoot)
+        public AnalyticsController(IConfiguration configuration)
         {
-            _configurationRoot = configurationRoot;
+            _configuration = configuration;
         }
         [HttpGet("api/Analytics")]
         public string Get()
         {
-            return _configurationRoot["GoogleAnalytics"];
+            return _configuration["GoogleAnalytics"];
         }
     }
 }

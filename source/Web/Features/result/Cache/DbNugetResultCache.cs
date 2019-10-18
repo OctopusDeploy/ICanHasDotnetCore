@@ -16,7 +16,7 @@ namespace ICanHasDotnetCore.Web.Features.result.Cache
     {
         private readonly string _connectionString;
 
-        public DbNugetResultCache(IConfigurationRoot configuration)
+        public DbNugetResultCache(IConfiguration configuration)
         {
             _connectionString = configuration["ConnectionString"];
             if (string.IsNullOrWhiteSpace(_connectionString))

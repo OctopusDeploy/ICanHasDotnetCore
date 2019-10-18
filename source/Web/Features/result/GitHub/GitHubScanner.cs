@@ -19,7 +19,7 @@ namespace ICanHasDotnetCore.Web.Features.result.GitHub
         private static readonly string AssemblyVersion = typeof(GitHubScanner).Assembly.GetName().Version.ToString();
         private static string _token;
 
-        public GitHubScanner(IConfigurationRoot configuration)
+        public GitHubScanner(IConfiguration configuration)
         {
             _token = configuration["GitHubToken"];
             ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12; 

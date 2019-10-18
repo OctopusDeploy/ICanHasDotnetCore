@@ -67,3 +67,4 @@ source/OctopusTools.v2.ncrunchsolution
 TestResult.xml
 *.received.*
 TestResults/
+*.Development.json

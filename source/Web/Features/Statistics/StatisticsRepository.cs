@@ -26,7 +26,7 @@ namespace ICanHasDotnetCore.Web.Features.Statistics
 
         private readonly string _connectionString;
 
-        public StatisticsRepository(IConfigurationRoot configuration)
+        public StatisticsRepository(IConfiguration configuration)
         {
             _connectionString = configuration["ConnectionString"];
             if (string.IsNullOrWhiteSpace(_connectionString))

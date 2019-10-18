@@ -4,7 +4,7 @@ using Microsoft.Extensions.Primitives;
 
 namespace ICanHasDotnetCore.Tests.Web.Helpers
 {
-    public class FakeConfigurationRoot : Dictionary<string, string>, IConfigurationRoot
+    public class FakeConfiguration : Dictionary<string, string>, IConfiguration
     {
        
         public IConfigurationSection GetSection(string key)
@@ -21,12 +21,5 @@ namespace ICanHasDotnetCore.Tests.Web.Helpers
         {
             throw new System.NotImplementedException();
         }
-
-        public void Reload()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public IEnumerable<IConfigurationProvider> Providers => throw new System.NotImplementedException();
     }
 }

@@ -61,14 +61,14 @@
                               description="Something went wrong when inspecting the package"></result-group>
             </div>
             <div>
-                <h2 class="md-title">GraphVis data</h2>
+                <h2 class="md-title">Graphviz data</h2>
                 <p>
                     The data below is in <a href="http://www.graphviz.org/">Graphviz</a> dot format can be imported into many
                     network graphing tools, including <a href="https://edotor.net/#{{vm.response.graphViz | encodeURIComponent}}">Edotor</a>,
                     <a href="https://dreampuf.github.io/GraphvizOnline/#{{vm.response.graphViz | encodeURIComponent}}">Graphviz Online</a>
                     or <a href="http://www.webgraphviz.com/">webgraphviz.com</a>.
                 </p>
-                <div class="graphvis">{{vm.response.graphViz}}</div>
+                <div class="graphviz">{{vm.response.graphViz}}</div>
             </div>
             <div>
                 <h2 class="md-title">Cypher data</h2>
@@ -76,7 +76,7 @@
                     The data below is in the <a href="http://www.opencypher.org/">Cypher</a> format and can be imported into any
                     database that accepts CQL, you can also try it in a sandbox environment at <a href="https://neo4j.com/sandbox-v2">neo4j.com/sandbox-v2</a>.
                 </p>
-                <div class="graphvis">{{vm.response.cypher}}</div>
+                <div class="graphviz">{{vm.response.cypher}}</div>
             </div>
         </div>
     </div>

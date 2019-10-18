@@ -52,7 +52,7 @@ namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
         [MemberData(nameof(TestCases))]
         public void PackageDependenciesHaveBeenExtractedCorrectly(string name, string id, string version, SupportType expectedSupportType, string[] expectedDependencies)
         {
-            GetPackage(id, version).Dependencies.ShouldAllBeEquivalentTo(expectedDependencies);
+            GetPackage(id, version).Dependencies.Should().BeEquivalentTo(expectedDependencies);
         }
 
         private NugetPackage GetPackage(string id, string version)

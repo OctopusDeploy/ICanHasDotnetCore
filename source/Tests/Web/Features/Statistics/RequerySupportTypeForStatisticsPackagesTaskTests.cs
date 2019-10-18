@@ -18,7 +18,7 @@ namespace ICanHasDotnetCore.Tests.Web.Features.Statistics
             var repo = new TestRepository();
             var task = new RequerySupportTypeForStatisticsPackagesTask(repo);
             task.Run().Wait();
-            repo.Updates.Keys.ShouldAllBeEquivalentTo(TestRepository.PackageNames);
+            repo.Updates.Keys.Should().BeEquivalentTo(TestRepository.PackageNames);
             repo.Updates["JQuery"].Should().Be(SupportType.NoDotNetLibraries, "JQuery is a no dotnet result");
             repo.Updates["Xunit.Core"].Should().Be(SupportType.Supported, "Forwarding packages are Supported");
         }

@@ -59,6 +59,10 @@ module ICanHasDotnetCore {
             }]
         );
 
+    app.filter('encodeURIComponent', function() {
+        return window.encodeURIComponent;
+    });
+
     app.run(($window: Window, $rootScope: ng.IRootScopeService, $location: ng.ILocationService) => {
         $rootScope.$on('$stateChangeSuccess',
             (evt, toState) => {

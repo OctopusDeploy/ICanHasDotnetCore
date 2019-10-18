@@ -63,8 +63,10 @@
             <div>
                 <h2 class="md-title">GraphVis data</h2>
                 <p>
-                    The data below is in <a href="http://www.graphviz.org/">GraphVis</a> dot format can be imported into many
-                    network graphing tools, including <a href="http://www.webgraphviz.com/">webgraphviz.com</a>.
+                    The data below is in <a href="http://www.graphviz.org/">Graphviz</a> dot format can be imported into many
+                    network graphing tools, including <a href="https://edotor.net/#{{vm.response.graphViz | encodeURIComponent}}">Edotor</a>,
+                    <a href="https://dreampuf.github.io/GraphvizOnline/#{{vm.response.graphViz | encodeURIComponent}}">Graphviz Online</a>
+                    or <a href="http://www.webgraphviz.com/">webgraphviz.com</a>.
                 </p>
                 <div class="graphvis">{{vm.response.graphViz}}</div>
             </div>

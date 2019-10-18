@@ -1,7 +1,6 @@
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
 
@@ -21,12 +20,10 @@ namespace ICanHasDotnetCore.Web
                 })
                 .ConfigureLogging((context, logging) =>
                 {
-                    logging.AddConsole();
-                    logging.AddDebug();
                     Log.Logger = new LoggerConfiguration()
                         .MinimumLevel.Debug()
                         .Enrich.FromLogContext()
-                        .WriteTo.Console(LogEventLevel.Information)
+                        .WriteTo.Console(LogEventLevel.Debug)
                         .WriteTo.Seq(context.Configuration["Seq:Url"], apiKey: context.Configuration["Seq:ApiKey"])
                         .Enrich.WithProperty("Application", "ICanHasDotnetCore")
                         .Enrich.WithProperty("Environment", context.HostingEnvironment.EnvironmentName)

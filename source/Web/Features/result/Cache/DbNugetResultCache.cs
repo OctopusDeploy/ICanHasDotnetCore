@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using ICanHasDotnetCore.NugetPackages;
 using ICanHasDotnetCore.Plumbing;
 using ICanHasDotnetCore.Web.Database;
@@ -23,8 +22,9 @@ namespace ICanHasDotnetCore.Web.Features.result.Cache
             {
                 using (var context = _contextFactory())
                 {
-                    var package = context.NugetResultCache.SingleOrDefault(e => e.Id == identity.Id && e.Version.Value == identity.Version);
-                    return package != null ? Option<NugetPackage>.ToSome(package) : Option<NugetPackage>.ToNone;
+                    // Finding a entity with a value converter on its primary key is tricky, see https://github.com/aspnet/EntityFrameworkCore/issues/14180
+                    var package = context.NugetResultCache.Find(identity.Id, identity.Version.Some());
+                    return package?.Some() ?? package.None();
                 }
             }
             catch (Exception ex)

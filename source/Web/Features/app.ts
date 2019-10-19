@@ -1,5 +1,3 @@
-﻿/// <reference path="../typings/index.d.ts" />
-declare var vis;
 module ICanHasDotnetCore {
 
     interface IRouteState extends angular.ui.IState {
@@ -14,11 +12,11 @@ module ICanHasDotnetCore {
     function httpErrorHandler($httpProvider: ng.IHttpProvider) {
         var interceptor = ($q: ng.IQService) => {
             return {
-                'requestError': response => {
+                'requestError': (response: angular.IHttpRequestConfigHeaders) => {
                     toastr.error(response.message || response.statusText || "An error occured");
                     return $q.reject(response);
                 },
-                'responseError': response => {
+                'responseError': (response: angular.IHttpResponse<any>) => {
                     var error = (response.data && (response.data.message || response.data.Message)) || response.statusText || "An error occured";
 
                     toastr.error(error);
@@ -37,7 +35,7 @@ module ICanHasDotnetCore {
     ])
         .config(httpErrorHandler)
         .config([
-            "$httpProvider", $httpProvider => {
+            "$httpProvider", ($httpProvider: ng.IHttpProvider) => {
                 //initialize get if not there
                 if (!$httpProvider.defaults.headers.get) {
                     $httpProvider.defaults.headers.get = {};
@@ -51,17 +49,17 @@ module ICanHasDotnetCore {
             $urlRouterProvider.when("", "/")
                 .otherwise(() => "/");
         })
-        .config(($urlMatcherFactoryProvider) => {
+        .config(($urlMatcherFactoryProvider: angular.ui.IUrlMatcherFactory) => {
             $urlMatcherFactoryProvider.caseInsensitive(true);
             $urlMatcherFactoryProvider.strictMode(false);
         })
         .config([
-            "$compileProvider", $compileProvider => {
+            "$compileProvider", ($compileProvider: ng.ICompileProvider) => {
                 $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|local):/);
             }]
         );
 
-    app.run(($window, $rootScope: ng.IRootScopeService, $location: ng.ILocationService) => {
+    app.run(($window: Window, $rootScope: ng.IRootScopeService, $location: ng.ILocationService) => {
         $rootScope.$on('$stateChangeSuccess',
             (evt, toState) => {
                 var title = "I Can Has .NET Core";
@@ -81,13 +79,13 @@ module ICanHasDotnetCore {
             });
     });
 
-    app.config($mdThemingProvider => {
+    app.config(($mdThemingProvider: angular.material.IThemingProvider) => {
         $mdThemingProvider.theme('default')
             .primaryPalette('blue')
             .accentPalette('orange');
     });
 
-    app.config($mdIconProvider => {
+    app.config(($mdIconProvider: angular.material.IIconProvider) => {
         var rootURL = "ui/images/";
 
         // Register the user `avatar` icons
@@ -95,13 +93,13 @@ module ICanHasDotnetCore {
             .icon("menu", rootURL + "menu.svg", 24);
     });
 
-    app.run(($window, $rootScope: ng.IRootScopeService, $location: ng.ILocationService, $http: ng.IHttpService) => {
+    app.run(($window: Window, $rootScope: ng.IRootScopeService, $location: ng.ILocationService, $http: ng.IHttpService) => {
         $http.get("/api/Analytics")
             .then(result => {
-                var sendPageView = () => $window.ga('send', 'pageview', $location.path());
+                var sendPageView = () => ga('send', 'pageview', $location.path());
 
                 if (result.data) {
-                    $window.ga('create', result.data, 'auto');
+                    ga('create', result.data, 'auto');
                     $rootScope.$on('$stateChangeSuccess', sendPageView);
                     sendPageView();
                 }
@@ -126,7 +124,7 @@ module ICanHasDotnetCore {
         app.config(($stateProvider: angular.ui.IStateProvider) =>
             $stateProvider.state(id, {
                 url: url,
-                onEnter: ($state) => $state.go(redirectToState)
+                onEnter: ($state: angular.ui.IStateService) => $state.go(redirectToState)
             })
         );
     }

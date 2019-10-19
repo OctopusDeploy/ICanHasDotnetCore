@@ -1,19 +1,19 @@
 ﻿module ICanHasDotnetCore.Result.DependencyGraph {
     app.directive("dependencyGraph", (supportTypeService: SupportTypeService.IService) => {
 
-        var network;
-        var options = {
+        var network: vis.Network;
+        var options: vis.Options = {
             nodes: {
                 shape: "box",
                 size: 25,
-                shadow: { enabled: true }
+                shadow: true
             },
             edges: {
                 arrows: { to: true },
                 color: {
                     inherit: "to"
                 },
-                shadow: { enabled: true }
+                shadow: true
             }
         };
 
@@ -58,7 +58,7 @@
             });
         }
 
-        var link = (scope: ng.IScope, element) => {
+        var link = (scope: ng.IScope, element: [HTMLElement]) => {
             scope.$watch("packageResults", setData);
             network = new vis.Network(element[0], {}, options);
         };

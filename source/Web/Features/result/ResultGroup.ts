@@ -15,11 +15,11 @@
 
         constructor($scope: ng.IScope) {
             $scope.$watch('vm.allPackages', () => this.updatePackages());
-            this.showNugetLink = this.foundOnNuget.indexOf(SupportType[this.type]) >= 0;
+            this.showNugetLink = this.foundOnNuget.indexOf((<any>SupportType)[this.type]) >= 0;
         }
 
         updatePackages() {
-            var type = SupportType[this.type];
+            var type = (<any>SupportType)[this.type];
             this.packages = (this.allPackages || []).filter(p => p.supportType === type);
         }
 

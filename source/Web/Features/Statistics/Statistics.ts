@@ -1,5 +1,4 @@
 module ICanHasDotnetCore.Statistics {
-    import SupportType = ICanHasDotnetCore.Result.SupportType;
     export const state = "layout.statistics";
 
     interface IResponse {
@@ -10,12 +9,12 @@ module ICanHasDotnetCore.Statistics {
     interface IPackageStatistic {
         name: string;
         count: number;
-        latestSupportType: SupportType;
+        latestSupportType: Result.SupportType;
     }
 
     class ViewModel {
-        statistics: IResponse[];
-        typeGroups = [ SupportType.Unsupported, SupportType.PreRelease, SupportType.Supported ];
+        statistics: IResponse[] = [];
+        typeGroups = [ Result.SupportType.Unsupported, Result.SupportType.PreRelease, Result.SupportType.Supported ];
 
         constructor($http: ng.IHttpService, private supportTypeService: Result.SupportTypeService.IService) {
             $http.get<IResponse[]>("/api/Statistics")
@@ -24,11 +23,11 @@ module ICanHasDotnetCore.Statistics {
                 });
         }
 
-        getSupportTypeName(statistic) {
+        getSupportTypeName(statistic: IPackageStatistic) {
             return this.supportTypeService.getDisplayName(statistic.latestSupportType);
         }
 
-        statsFor(type: SupportType) {
+        statsFor(type: Result.SupportType) {
             return this.statistics.filter(s => s.statistic.latestSupportType === type);
         }
     }

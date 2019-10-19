@@ -37,7 +37,7 @@ module ICanHasDotnetCore.Result {
     class ViewModel {
 
         response: IGetResultResponse;
-        loadingMessage;
+        loadingMessage: string;
         error: boolean;
         errorMessage: string;
 
@@ -97,7 +97,7 @@ module ICanHasDotnetCore.Result {
         getPackages(typeStr: string) {
             if (!this.response)
                 return [];
-            var type = SupportType[typeStr];
+            var type = (<any>SupportType)[typeStr];
             return this.response.result.filter(p => p.supportType === type);
         }
 

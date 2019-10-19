@@ -1,48 +1,35 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using ICanHasDotnetCore.Investigator;
 using ICanHasDotnetCore.NugetPackages;
-using ICanHasDotnetCore.Web.Configuration;
+using ICanHasDotnetCore.Web.Database;
 using Serilog;
 
 namespace ICanHasDotnetCore.Web.Features.Statistics
 {
-    public interface IStatisticsRepository
-    {
-        Task AddStatisticsForResult(InvestigationResult result);
-        IReadOnlyList<PackageStatistic> GetAllPackageStatistics();
-        void UpdateSupportTypeFor(PackageStatistic stat, SupportType supportType);
-    }
-
     public class StatisticsRepository : IStatisticsRepository
     {
         // Only log packages found on Nuget.org
         private static readonly SupportType[] AddStatisticsFor = { SupportType.Unsupported, SupportType.Supported, SupportType.PreRelease };
-
-        private readonly IDatabaseSettings _databaseSettings;
-
-        public StatisticsRepository(IDatabaseSettings databaseSettings)
+        
+        private readonly Func<AppDbContext> _contextFactory;
+        
+        public StatisticsRepository(Func<AppDbContext> contextFactory)
         {
-            _databaseSettings = databaseSettings;
+            _contextFactory = contextFactory;
         }
 
         public async Task AddStatisticsForResult(InvestigationResult result)
         {
             try
             {
-                using (var con = new SqlConnection(_databaseSettings.ConnectionString))
-                {
-                    await con.OpenAsync();
-                    var tasks = result.GetAllDistinctRecursive()
-                        .Where(p => AddStatisticsFor.Contains(p.SupportType))
-                        .Select(p => AddStatistic(con, p))
-                        .ToArray();
+                var tasks = result.GetAllDistinctRecursive()
+                    .Where(p => AddStatisticsFor.Contains(p.SupportType))
+                    .Select(AddStatistic);
 
-                    await Task.WhenAll(tasks);
-                }
+                await Task.WhenAll(tasks);
             }
             catch (Exception ex)
             {
@@ -50,71 +37,46 @@ namespace ICanHasDotnetCore.Web.Features.Statistics
             }
         }
 
-        private async Task AddStatistic(SqlConnection con, PackageResult package)
+        private async Task AddStatistic(PackageResult package)
         {
-            const string sql = @"MERGE dbo.PackageStatistics AS t
-USING
-(
-    SELECT @name as 'Name', @latestSupportType as 'LatestSupportType'
-) AS s
-ON t.Name = s.Name
-
-WHEN MATCHED THEN
-    UPDATE SET LatestSupportType = s.LatestSupportType, [Count] = [Count] + 1 
-
-WHEN NOT MATCHED THEN
-    INSERT (Name, LatestSupportType, Count)
-    VALUES (s.Name, s.LatestSupportType, 1);";
-
-            try
+            using (var context = _contextFactory())
             {
-                using (var cmd = new SqlCommand(sql, con))
+                var packageStatistic = await context.PackageStatistics.FindAsync(package.PackageName);
+                if (packageStatistic == null)
                 {
-                    cmd.Parameters.AddWithValue("@name", package.PackageName);
-                    cmd.Parameters.AddWithValue("@latestSupportType", package.SupportType.ToString());
-                    await cmd.ExecuteNonQueryAsync();
+                    context.PackageStatistics.Add(new PackageStatistic
+                    {
+                        Name = package.PackageName,
+                        Count = 1,
+                        LatestSupportType = package.SupportType
+                    });
                 }
-            }
-            catch (Exception ex)
-            {
-                Log.Logger.Error(ex, "Exception writing statistic {stat}", package.PackageName);
+                else
+                {
+                    packageStatistic.Count += 1;
+                    packageStatistic.LatestSupportType = package.SupportType;
+                }
+                await context.SaveChangesAsync();
             }
         }
 
         public IReadOnlyList<PackageStatistic> GetAllPackageStatistics()
         {
-            const string sql = "SELECT Name, [Count], LatestSupportType FROM dbo.[PackageStatistics] WITH (NOLOCK)";
-            var stats = new List<PackageStatistic>();
-            using (var con = new SqlConnection(_databaseSettings.ConnectionString))
+            using (var context = _contextFactory())
             {
-                con.Open();
-                using (var cmd = new SqlCommand(sql, con))
-                {
-                    var reader = cmd.ExecuteReader();
-                    while (reader.Read())
-                        stats.Add(new PackageStatistic()
-                        {
-                            Name = (string)reader["Name"],
-                            Count = (int)reader["Count"],
-                            LatestSupportType =
-                                (SupportType)Enum.Parse(typeof(SupportType), (string)reader["LatestSupportType"])
-                        });
-                }
+                return context.PackageStatistics.ToList();
             }
-            return stats;
         }
 
         public void UpdateSupportTypeFor(PackageStatistic stat, SupportType supportType)
         {
-            const string sql = "UPDATE dbo.[PackageStatistics] SET LatestSupportType = @LatestSupportType WHERE Name = @Name";
-            using (var con = new SqlConnection(_databaseSettings.ConnectionString))
+            using (var context = _contextFactory())
             {
-                con.Open();
-                using (var cmd = new SqlCommand(sql, con))
+                var packageStatistic = context.PackageStatistics.Find(stat.Name);
+                if (packageStatistic != null)
                 {
-                    cmd.Parameters.AddWithValue("Name", stat.Name);
-                    cmd.Parameters.AddWithValue("LatestSupportType", supportType.ToString());
-                    cmd.ExecuteNonQuery();
+                    packageStatistic.LatestSupportType = supportType;
+                    context.SaveChanges();
                 }
             }
         }

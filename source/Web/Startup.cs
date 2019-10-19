@@ -66,7 +66,12 @@ namespace ICanHasDotnetCore.Web
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
+            {
                 app.UseDeveloperExceptionPage();
+                var context = app.ApplicationServices.GetRequiredService<Database.AppDbContext>();
+                context.Database.EnsureCreated();
+                context.Dispose();
+            }
 
             app.UseHttpsRedirection()
                 .UseMiddleware<RedirectWwwMiddleware>()

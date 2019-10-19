@@ -1,67 +1,30 @@
-﻿using System;
-using System.Data.SqlClient;
+using System;
+using System.Linq;
 using ICanHasDotnetCore.NugetPackages;
 using ICanHasDotnetCore.Plumbing;
+using ICanHasDotnetCore.Web.Database;
 using NuGet;
 using Serilog;
-using System.Linq;
-using System.Runtime.Versioning;
-using ICanHasDotnetCore.Web.Configuration;
 
 namespace ICanHasDotnetCore.Web.Features.result.Cache
 {
-
     public class DbNugetResultCache : INugetResultCache
     {
-        private readonly IDatabaseSettings _databaseSettings;
+        private readonly Func<AppDbContext> _contextFactory;
 
-        public DbNugetResultCache(IDatabaseSettings databaseSettings)
+        public DbNugetResultCache(Func<AppDbContext> contextFactory)
         {
-            _databaseSettings = databaseSettings;
+            _contextFactory = contextFactory;
         }
 
         public Option<NugetPackage> Get(string id, SemanticVersion version)
         {
             try
             {
-
-
-                const string sql = "SELECT * FROM dbo.NugetResultCache WHERE Id = @Id AND Version = @Version";
-                using (var con = new SqlConnection(_databaseSettings.ConnectionString))
+                using (var context = _contextFactory())
                 {
-                    con.Open();
-                    using (var cmd = new SqlCommand(sql, con))
-                    {
-                        cmd.Parameters.AddWithValue("Id", id);
-                        cmd.Parameters.AddWithValue("Version", version.ToNormalizedString());
-                        var reader = cmd.ExecuteReader();
-                        if (reader.Read())
-                        {
-                            var dependencies = ((string)reader["Dependencies"])
-                                .Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-
-                            var frameworks = ((string)reader["Frameworks"])
-                                .Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries)
-                                .Select(n => new FrameworkName(n)).ToArray();
-
-                            var supportType = (SupportType)Enum.Parse(typeof(SupportType), (string)reader["SupportType"]);
-
-                            return new NugetPackage(
-                                (string)reader["Id"],
-                                dependencies,
-                                supportType,
-                                SemanticVersion.Parse((string)reader["Version"]),
-                                frameworks
-                            )
-                            {
-                                ProjectUrl = reader["ProjectUrl"] as string
-                            };
-                        }
-                        else
-                        {
-                            return Option<NugetPackage>.ToNone;
-                        }
-                    }
+                    var package = context.NugetResultCache.SingleOrDefault(e => e.Id == id && e.Version.Value == version);
+                    return package != null ? Option<NugetPackage>.ToSome(package) : Option<NugetPackage>.ToNone;
                 }
             }
             catch (Exception ex)
@@ -73,24 +36,15 @@ namespace ICanHasDotnetCore.Web.Features.result.Cache
 
         public void Store(NugetPackage package)
         {
-            if (package.Version.None)
-                return;
             try
             {
-                const string sql = "INSERT INTO dbo.NugetResultCache (Id, SupportType, Version, ProjectUrl, Dependencies, Frameworks) VALUES (@Id, @SupportType, @Version, @ProjectUrl, @Dependencies, @Frameworks)";
-                using (var con = new SqlConnection(_databaseSettings.ConnectionString))
+                if (package.Version.None)
+                    return;
+
+                using (var context = _contextFactory())
                 {
-                    con.Open();
-                    using (var cmd = new SqlCommand(sql, con))
-                    {
-                        cmd.Parameters.AddWithValue("Id", package.Id);
-                        cmd.Parameters.AddWithValue("SupportType", package.SupportType.ToString());
-                        cmd.Parameters.AddWithValue("Version", package.Version.Value.ToNormalizedString());
-                        cmd.Parameters.AddWithValue("ProjectUrl", (object)package.ProjectUrl ?? DBNull.Value);
-                        cmd.Parameters.AddWithValue("Dependencies", string.Join("|", package.Dependencies));
-                        cmd.Parameters.AddWithValue("Frameworks", string.Join("|", package.Frameworks.Select(f => f.FullName)));
-                        cmd.ExecuteNonQuery();
-                    }
+                    context.NugetResultCache.Add(package);
+                    context.SaveChanges();
                 }
             }
             catch (Exception ex)

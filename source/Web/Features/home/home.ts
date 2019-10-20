@@ -8,7 +8,8 @@ module ICanHasDotnetCore.Home {
 
     enum Tabs {
         UploadPackageFiles = 0,
-        ScanAGitHubRepository = 1
+        ScanAGitHubRepository = 1,
+        ScanANuGetPackage = 2,
     }
 
     class ViewModel {
@@ -16,6 +17,7 @@ module ICanHasDotnetCore.Home {
         packageFiles: IPackageFile[];
         selectedTab: Tabs;
         gitHubRepository: string;
+        nuGetPackage: string;
 
         constructor($scope: ng.IScope, private $state: ng.ui.IStateService) {
             this.packageFiles = [{}];
@@ -46,6 +48,12 @@ module ICanHasDotnetCore.Home {
                             github: this.getGitHubRepositoryName()
                         });
                     return;
+                case Tabs.ScanANuGetPackage:
+                    this.$state.go(Result.state,
+                        {
+                            nuget: this.nuGetPackage
+                        });
+                    return;
             }
 
         }
@@ -56,6 +64,8 @@ module ICanHasDotnetCore.Home {
                     return this.packageFiles.length > 1;
                 case Tabs.ScanAGitHubRepository:
                     return !!this.getGitHubRepositoryName();
+                case Tabs.ScanANuGetPackage:
+                    return this.isNuGetPackageValid();
             }
             return false;
         }
@@ -65,6 +75,10 @@ module ICanHasDotnetCore.Home {
             return !!repo &&
                 repo.indexOf("/") > 0 &&
                 repo.indexOf("/") === repo.lastIndexOf("/");
+        }
+
+        isNuGetPackageValid() {
+            return this.nuGetPackage != null && this.nuGetPackage.length > 0;
         }
 
         getGitHubRepositoryName() {

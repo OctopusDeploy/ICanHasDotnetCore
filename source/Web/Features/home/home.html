@@ -48,6 +48,17 @@
                         Not recognised as a valid GitHub repository name or URL
                     </div>-->
                 </md-tab>
+                <md-tab label="Scan A NuGet Package">
+                    <p>
+                        Enter the name of a public NuGet package and we will build a visualisation of
+                        its dependencies and whether .NET Standard versions are available on nuget.org
+                    </p>
+                    <div layout="column">
+                        <md-input-container>
+                            <input type="text" ng-model="vm.nuGetPackage" placeholder="Package identifier"/>
+                        </md-input-container>
+                    </div>
+                </md-tab>
             </md-tabs>
             <div layout layout-align="center center" layout-xs="column">
                 <md-button class="md-primary md-raised" ng-disabled="!vm.canSubmit()" ng-click="vm.visualiseDependencies()">

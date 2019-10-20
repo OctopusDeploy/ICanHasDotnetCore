@@ -67,7 +67,18 @@ namespace ICanHasDotnetCore.Web.Features.result
             return Json(BuildResponse(result));
         }
 
-
+        [HttpPost("/api/GetResult/NuGet")]
+        public async Task<GetResultResponse> NuGet([FromBody]GetNuGetRequest request, CancellationToken cancellationToken)
+        {
+            var sw = Stopwatch.StartNew();
+            var packageResult = await PackageCompatabilityInvestigator.Create(_nugetResultCache)
+                .GetPackageAndDependenciesAsync(request.PackageId, cancellationToken);
+            var result = new InvestigationResult(new []{packageResult});
+            sw.Stop();
+            await _statisticsRepository.AddStatisticsForResultAsync(result, cancellationToken);
+            LogSummaryMessage(result, sw);
+            return BuildResponse(result);
+        }
 
         [HttpPost("/api/GetResult/Demo")]
         public async Task<GetResultResponse> Demo(CancellationToken cancellationToken)

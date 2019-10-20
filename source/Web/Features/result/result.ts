@@ -61,6 +61,11 @@ module ICanHasDotnetCore.Result {
                     id: $state.params["github"]
                 };
                 request = $http.post<IGetResultResponse>("/api/GetResult/GitHub", data);
+            } else if ($state.params["nuget"]) {
+                var nuGetData = {
+                    packageId: $state.params["nuget"]
+                };
+                request = $http.post<IGetResultResponse>("/api/GetResult/NuGet", nuGetData);
             } else if ($state.params["data"]) {
                 var packageFiles = <Home.IPackageFile[]>$state.params["data"];
 
@@ -103,7 +108,7 @@ module ICanHasDotnetCore.Result {
 
     }
 
-    addAngularState(state, "/result?github", ViewModel, "result/result.html",
+    addAngularState(state, "/result?github&nuget", ViewModel, "result/result.html",
     {
         title: "Result", 
         description: "The result of your query",

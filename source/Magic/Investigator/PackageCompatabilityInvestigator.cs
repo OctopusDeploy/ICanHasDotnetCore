@@ -120,7 +120,7 @@ namespace ICanHasDotnetCore.Investigator
         }
 
 
-        private async Task<PackageResult> GetPackageAndDependenciesAsync(string id, CancellationToken cancellationToken)
+        public async Task<PackageResult> GetPackageAndDependenciesAsync(string id, CancellationToken cancellationToken)
         {
             try
             {

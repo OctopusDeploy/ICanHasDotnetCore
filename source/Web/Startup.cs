@@ -2,6 +2,7 @@ using System;
 using Autofac;
 using ICanHasDotnetCore.Web.Configuration;
 using ICanHasDotnetCore.Web.Features;
+using ICanHasDotnetCore.Web.Features.Statistics;
 using ICanHasDotnetCore.Web.Plumbing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -37,6 +38,8 @@ namespace ICanHasDotnetCore.Web
         {
             // Add framework services.
             services.AddControllers();
+
+            services.AddHostedService<RequerySupportTypeForStatisticsPackagesTask>();
 
             services.AddTransient<RedirectWwwMiddleware>();
 

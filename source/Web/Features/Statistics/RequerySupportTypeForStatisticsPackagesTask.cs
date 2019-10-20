@@ -1,36 +1,36 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using Autofac;
 using ICanHasDotnetCore.Investigator;
 using ICanHasDotnetCore.NugetPackages;
 using Serilog;
 using System.Linq;
 using ICanHasDotnetCore.Plumbing.Extensions;
+using Microsoft.Extensions.Hosting;
 
 namespace ICanHasDotnetCore.Web.Features.Statistics
 {
-    public class RequerySupportTypeForStatisticsPackagesTask : IStartable, IDisposable
+    public class RequerySupportTypeForStatisticsPackagesTask : BackgroundService
     {
         private readonly IStatisticsRepository _statisticsRepository;
-        private Timer _timer;
 
         public RequerySupportTypeForStatisticsPackagesTask(IStatisticsRepository statisticsRepository)
         {
             _statisticsRepository = statisticsRepository;
         }
 
-        public void Start()
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            Log.Information("Starting Requery Statistics Package Support Task timer");
-            _timer = new Timer(_ => Run().Wait(), null, TimeSpan.FromMinutes(10), TimeSpan.FromDays(1));
-        }
-
-
-        public void Dispose()
-        {
-            _timer?.Dispose();
+            var dueTime = TimeSpan.FromMinutes(10);
+            var period = TimeSpan.FromDays(1);
+            Log.Information($"Starting Requery Statistics Package Support Task in {dueTime}, then every {period}");
+            await Task.Delay(dueTime, stoppingToken);
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                await Run();
+                await Task.Delay(period, stoppingToken);
+            }
         }
 
         public async Task Run()

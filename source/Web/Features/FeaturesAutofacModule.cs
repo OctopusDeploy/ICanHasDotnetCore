@@ -16,7 +16,6 @@ namespace ICanHasDotnetCore.Web.Features
         {
             builder.RegisterType<StatisticsRepository>().As<IStatisticsRepository>().SingleInstance();
             builder.RegisterType<GitHubScanner>().AsSelf().SingleInstance();
-            builder.RegisterType<RequerySupportTypeForStatisticsPackagesTask>().As<IStartable>().SingleInstance();
             builder.Register(context =>
             {
                 var dbSettings = context.Resolve<IDatabaseSettings>();

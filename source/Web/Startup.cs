@@ -1,12 +1,13 @@
 using System;
 using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using ICanHasDotnetCore.Web.Configuration;
+using ICanHasDotnetCore.Web.Features;
 using ICanHasDotnetCore.Web.Plumbing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 
 namespace ICanHasDotnetCore.Web
@@ -20,11 +21,18 @@ namespace ICanHasDotnetCore.Web
 
         public IConfiguration Configuration { get; }
 
+
+        // This method gets called by the runtime. Use this method to configure the container.
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.RegisterModule(new FeaturesAutofacModule());
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc();
+            services.AddControllers();
 
             services.AddTransient<RedirectWwwMiddleware>();
 
@@ -35,36 +43,29 @@ namespace ICanHasDotnetCore.Web
             services.AddSingleton<IAnalyticsSettings>(provider => provider.GetRequiredService<IOptions<AnalyticsSettings>>().Value);
             services.AddSingleton<IDatabaseSettings>(provider => provider.GetRequiredService<IOptions<DatabaseSettings>>().Value);
             services.AddSingleton<IGitHubSettings>(provider => provider.GetRequiredService<IOptions<GitHubSettings>>().Value);
-            
-            // Create the container builder.
-            var builder = new ContainerBuilder();
+        }
 
-            // Register dependencies, populate the services from
-            // the collection, and build the container.
-            builder.RegisterAssemblyModules(typeof(Startup).Assembly);
-            builder.Populate(services);
-            var container = builder.Build();
-
+        private static void ValidateConfiguration(IServiceProvider serviceProvider)
+        {
             // Resolve settings in order to force validation and throw if necessary
             try
             {
-                container.Resolve<IAnalyticsSettings>();
-                container.Resolve<IDatabaseSettings>();
-                container.Resolve<IGitHubSettings>();
+                serviceProvider.GetRequiredService<IAnalyticsSettings>();
+                serviceProvider.GetRequiredService<IDatabaseSettings>();
+                serviceProvider.GetRequiredService<IGitHubSettings>();
             }
             catch (Exception exception) when (exception.GetBaseException() is OptionsValidationException validationException)
             {
                 // The OptionsValidationException message is terrible: "Exception of type 'Microsoft.Extensions.Options.OptionsValidationException' was thrown."
                 throw new Exception($"Validation of {validationException.OptionsType} failed: {string.Join(", ", validationException.Failures)}");
             }
-            
-            // Return the IServiceProvider resolved from the container.
-            return container.Resolve<IServiceProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            ValidateConfiguration(app.ApplicationServices);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -76,7 +77,8 @@ namespace ICanHasDotnetCore.Web
             app.UseHttpsRedirection()
                 .UseMiddleware<RedirectWwwMiddleware>()
                 .UseStaticFiles()
-                .UseMvc();
+                .UseRouting()
+                .UseEndpoints(endpoints => endpoints.MapControllers());
         }
 
     }

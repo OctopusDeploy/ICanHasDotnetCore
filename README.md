@@ -1,6 +1,5 @@
 ## Compiling
-You will need Visual Studio 2017 and dotnet-1.1.1-sdk ([1.1.1 with SDK 1.0.1](https://github.com/dotnet/core/blob/master/release-notes/download-archives/1.1.1-download.md)).  
-Note that you can install multiple SDKs side by side, it's all controlled through the global.json.
+You will need Visual Studio 2017 or [Jetbrains Rider](https://www.jetbrains.com/rider/) and the [.NET Core 3.0 SDK](https://dotnet.microsoft.com/download/dotnet-core/3.0).
 
 To build from the command line you will need  NodeJS (Tested with 4.1) and Gulp installed.
 

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using ICanHasDotnetCore.Plumbing;
-using Newtonsoft.Json;
 
 namespace ICanHasDotnetCore.NugetPackages
 {
@@ -13,7 +13,7 @@ namespace ICanHasDotnetCore.NugetPackages
             using (var s = typeof(KnownReplacementsRepository).Assembly.GetManifestResourceStream($"Magic.NugetPackages.Data.KnownReplacements.json"))
             using (var sr = new StreamReader(s))
             {
-                All = JsonConvert.DeserializeObject<MoreInformation[]>(sr.ReadToEnd())
+                All = JsonSerializer.Deserialize<MoreInformation[]>(sr.ReadToEnd(), new JsonSerializerOptions {PropertyNameCaseInsensitive = true})
                     .OrderBy(r => r.Id)
                     .ThenBy(r => r.StartsWith) // false first
                     .ToArray();

@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 namespace ICanHasDotnetCore.SourcePackageFileReaders
 {
@@ -14,13 +12,14 @@ namespace ICanHasDotnetCore.SourcePackageFileReaders
             using (var ms = new MemoryStream(contents))
             using (var sr = new StreamReader(ms))
             {
-                var model = JsonConvert.DeserializeObject<JObject>(sr.ReadToEnd());
-                var value = model["dependencies"]?.Value<JObject>();
-                if (value == null)
-                    return new string[0];
-                var dependencies = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(value.ToString());
-                return dependencies?.Keys.ToArray() ?? new string[0];
+                var model = JsonSerializer.Deserialize<ProjectJson>(sr.ReadToEnd(), new JsonSerializerOptions {PropertyNameCaseInsensitive = true});
+                return model.Dependencies?.Keys.ToArray() ?? new string[0];
             }
+        }
+
+        private class ProjectJson
+        {
+            public Dictionary<string, object> Dependencies { get; set; }
         }
     }
 }

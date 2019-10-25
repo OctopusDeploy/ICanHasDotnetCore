@@ -4,7 +4,6 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 using ICanHasDotnetCore.SourcePackageFileReaders.CsProj;
-using Newtonsoft.Json;
 
 namespace ICanHasDotnetCore.SourcePackageFileReaders
 {

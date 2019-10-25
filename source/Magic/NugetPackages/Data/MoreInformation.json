@@ -16,11 +16,5 @@
     "message": "Until the build tooling stabilised (ie going back to msbuild), there is an alternative way of packaging.",
     "linkText": "Octopus - Deploying ASP.NET Core Web Applications",
     "url": "http://docs.octopusdeploy.com/display/OD/Deploying+ASP.NET+Core+Web+Applications"
-  },
-  {
-    "id": "NSubstitute",
-    "message": "An alpha release is available on nuget.org (inlisted, see the GitHub issue)",
-    "linkText": "https://github.com/nsubstitute/NSubstitute/pull/197",
-    "url": "GitHub issue tracking support" 
   }
 ]

@@ -37,13 +37,13 @@ namespace ICanHasDotnetCore.Investigator
             );
         }
 
-        public async Task<InvestigationResult> Go(IReadOnlyList<SourcePackageFile> files)
+        public async Task<InvestigationResult> GoAsync(IReadOnlyList<SourcePackageFile> files, CancellationToken cancellationToken)
         {
             files = ExcludeCsprojThatAlsoHaveAPackagesConfig(files);
 
             MakeNamesUnique(files);
 
-            var results = files.Select(Process).ToArray();
+            var results = files.Select(f => ProcessAsync(f, cancellationToken)).ToArray();
             return new InvestigationResult(await Task.WhenAll(results));
         }
 
@@ -76,7 +76,7 @@ namespace ICanHasDotnetCore.Investigator
 
         }
 
-        private async Task<PackageResult> Process(SourcePackageFile file)
+        private async Task<PackageResult> ProcessAsync(SourcePackageFile file, CancellationToken cancellationToken)
         {
             try
             {
@@ -84,7 +84,7 @@ namespace ICanHasDotnetCore.Investigator
                 if (dependencies.WasFailure)
                     return PackageResult.Failed(file.Name, dependencies.ErrorString);
 
-                return await Process(file.Name, dependencies.Value);
+                return await ProcessAsync(file.Name, dependencies.Value, cancellationToken);
             }
             catch (Exception ex)
             {
@@ -93,11 +93,11 @@ namespace ICanHasDotnetCore.Investigator
             }
         }
 
-        public async Task<PackageResult> Process(string targetName, IReadOnlyList<string> dependencies)
+        public async Task<PackageResult> ProcessAsync(string targetName, IReadOnlyList<string> dependencies, CancellationToken cancellationToken)
         {
             try
             {
-                var dependencyResults = await GetDependencyResults(dependencies);
+                var dependencyResults = await GetDependencyResultsAsync(dependencies, cancellationToken);
                 return PackageResult.InvestigationTarget(targetName, dependencyResults);
             }
             catch (Exception ex)
@@ -107,20 +107,20 @@ namespace ICanHasDotnetCore.Investigator
             }
         }
 
-        private async Task<IReadOnlyList<PackageResult>> GetDependencyResults(IReadOnlyList<string> dependencies)
+        private async Task<IReadOnlyList<PackageResult>> GetDependencyResultsAsync(IReadOnlyList<string> dependencies, CancellationToken cancellationToken)
         {
             var tasks = dependencies.Select(d =>
             {
                 lock (_results)
                     return _results.ContainsKey(d)
                         ? _results[d]
-                        : _results[d] = GetPackageAndDependencies(d);
+                        : _results[d] = GetPackageAndDependenciesAsync(d, cancellationToken);
             });
             return await Task.WhenAll(tasks);
         }
 
 
-        private async Task<PackageResult> GetPackageAndDependencies(string id)
+        private async Task<PackageResult> GetPackageAndDependenciesAsync(string id, CancellationToken cancellationToken)
         {
             try
             {
@@ -130,8 +130,8 @@ namespace ICanHasDotnetCore.Investigator
                 if (knownReplacement.Some)
                     return PackageResult.KnownReplacement(id, knownReplacement.Value);
 
-                var package = await GetReleaseOrPrereleasePackage(id);
-                var dependencyResults = await GetDependencyResults(package.Dependencies);
+                var package = await GetReleaseOrPrereleasePackageAsync(id, cancellationToken);
+                var dependencyResults = await GetDependencyResultsAsync(package.Dependencies, cancellationToken);
                 return PackageResult.Success(package, dependencyResults, moreInformation);
             }
             catch (Exception ex)
@@ -141,17 +141,17 @@ namespace ICanHasDotnetCore.Investigator
             }
         }
 
-        private async Task<NugetPackage> GetReleaseOrPrereleasePackage(string id)
+        private async Task<NugetPackage> GetReleaseOrPrereleasePackageAsync(string id, CancellationToken cancellationToken)
         {
-            await _maxParrallelism.WaitAsync();
+            await _maxParrallelism.WaitAsync(cancellationToken);
             try
             {
-                var package = await _nugetPackageInfoRetriever.Retrieve(id, false);
+                var package = await _nugetPackageInfoRetriever.RetrieveAsync(id, false, cancellationToken);
                 if (package.SupportType == SupportType.Unsupported ||
                     package.SupportType == SupportType.NotFound ||
                     package.SupportType == SupportType.NoDotNetLibraries)
                 {
-                    var prerelease = await _nugetPackageInfoRetriever.Retrieve(id, true);
+                    var prerelease = await _nugetPackageInfoRetriever.RetrieveAsync(id, true, cancellationToken);
                     if (prerelease.SupportType == SupportType.PreRelease)
                         return prerelease;
                 }

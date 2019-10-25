@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using ICanHasDotnetCore.Investigator;
 using ICanHasDotnetCore.NugetPackages;
@@ -17,6 +19,7 @@ using ICanHasDotnetCore.Web.Features.result.Cache;
 
 namespace ICanHasDotnetCore.Web.Features.result
 {
+    [SuppressMessage("ReSharper", "VSTHRD200")]
     public class GetResultController : Controller
     {
         private readonly IStatisticsRepository _statisticsRepository;
@@ -31,23 +34,23 @@ namespace ICanHasDotnetCore.Web.Features.result
         }
 
         [HttpPost("/api/GetResult")]
-        public async Task<GetResultResponse> Get([FromBody]GetResultRequest request)
+        public async Task<GetResultResponse> Get([FromBody]GetResultRequest request, CancellationToken cancellationToken)
         {
             var sw = Stopwatch.StartNew();
             var packagesFileDatas = request.PackageFiles.Select(p => new SourcePackageFile(p.Name, p.OriginalFileName ?? SourcePackageFileReader.PackagesConfig, DataUriConverter.ConvertFrom(p.Contents))).ToArray();
             var result = await PackageCompatabilityInvestigator.Create(_nugetResultCache)
-                .Go(packagesFileDatas);
+                .GoAsync(packagesFileDatas, cancellationToken);
             sw.Stop();
-            await _statisticsRepository.AddStatisticsForResult(result);
+            await _statisticsRepository.AddStatisticsForResultAsync(result, cancellationToken);
             LogSummaryMessage(result, sw);
             return BuildResponse(result);
         }
 
         [HttpPost("/api/GetResult/GitHub")]
-        public async Task<ActionResult> GitHub([FromBody]GetGitHubRequest request)
+        public async Task<ActionResult> GitHub([FromBody]GetGitHubRequest request, CancellationToken cancellationToken)
         {
             var sw = Stopwatch.StartNew();
-            var packagesFileDatas = await _gitHubScanner.Scan(request.Id);
+            var packagesFileDatas = await _gitHubScanner.ScanAsync(request.Id);
 
             if (packagesFileDatas.WasFailure)
             {
@@ -55,7 +58,7 @@ namespace ICanHasDotnetCore.Web.Features.result
             }
 
             var result = await PackageCompatabilityInvestigator.Create(_nugetResultCache)
-                .Go(packagesFileDatas.Value);
+                .GoAsync(packagesFileDatas.Value, cancellationToken);
 
             sw.Stop();
             Log.Information("Generated results for GitHub repo {Repo}", request.Id);
@@ -67,11 +70,11 @@ namespace ICanHasDotnetCore.Web.Features.result
 
 
         [HttpPost("/api/GetResult/Demo")]
-        public async Task<GetResultResponse> Demo()
+        public async Task<GetResultResponse> Demo(CancellationToken cancellationToken)
         {
             var packagesFileDatas = new[] { new SourcePackageFile("Our Project", SourcePackageFileReader.PackagesConfig, Encoding.UTF8.GetBytes(DemoPackagesConfig)) };
             var result = await PackageCompatabilityInvestigator.Create(_nugetResultCache)
-                .Go(packagesFileDatas);
+                .GoAsync(packagesFileDatas, cancellationToken);
 
             return BuildResponse(result);
         }

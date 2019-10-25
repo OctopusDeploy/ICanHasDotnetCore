@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using ICanHasDotnetCore.Investigator;
 using ICanHasDotnetCore.NugetPackages;
 using ICanHasDotnetCore.Web.Database;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 namespace ICanHasDotnetCore.Web.Features.Statistics
@@ -13,21 +15,21 @@ namespace ICanHasDotnetCore.Web.Features.Statistics
     {
         // Only log packages found on Nuget.org
         private static readonly SupportType[] AddStatisticsFor = { SupportType.Unsupported, SupportType.Supported, SupportType.PreRelease };
-        
+
         private readonly Func<AppDbContext> _contextFactory;
-        
+
         public StatisticsRepository(Func<AppDbContext> contextFactory)
         {
             _contextFactory = contextFactory;
         }
 
-        public async Task AddStatisticsForResult(InvestigationResult result)
+        public async Task AddStatisticsForResultAsync(InvestigationResult result, CancellationToken cancellationToken)
         {
             try
             {
                 var tasks = result.GetAllDistinctRecursive()
                     .Where(p => AddStatisticsFor.Contains(p.SupportType))
-                    .Select(AddStatistic);
+                    .Select(p => AddStatisticAsync(p, cancellationToken));
 
                 await Task.WhenAll(tasks);
             }
@@ -37,11 +39,11 @@ namespace ICanHasDotnetCore.Web.Features.Statistics
             }
         }
 
-        private async Task AddStatistic(PackageResult package)
+        private async Task AddStatisticAsync(PackageResult package, CancellationToken cancellationToken)
         {
             using (var context = _contextFactory())
             {
-                var packageStatistic = await context.PackageStatistics.FindAsync(package.PackageName);
+                var packageStatistic = await context.PackageStatistics.FindAsync(new object[] {package.PackageName}, cancellationToken);
                 if (packageStatistic == null)
                 {
                     context.PackageStatistics.Add(new PackageStatistic
@@ -56,27 +58,27 @@ namespace ICanHasDotnetCore.Web.Features.Statistics
                     packageStatistic.Count += 1;
                     packageStatistic.LatestSupportType = package.SupportType;
                 }
-                await context.SaveChangesAsync();
+                await context.SaveChangesAsync(cancellationToken);
             }
         }
 
-        public IReadOnlyList<PackageStatistic> GetAllPackageStatistics()
+        public async Task<IReadOnlyList<PackageStatistic>> GetAllPackageStatisticsAsync(CancellationToken cancellationToken)
         {
             using (var context = _contextFactory())
             {
-                return context.PackageStatistics.ToList();
+                return await context.PackageStatistics.ToListAsync(cancellationToken);
             }
         }
 
-        public void UpdateSupportTypeFor(PackageStatistic stat, SupportType supportType)
+        public async Task UpdateSupportTypeAsync(PackageStatistic stat, SupportType supportType, CancellationToken cancellationToken)
         {
             using (var context = _contextFactory())
             {
-                var packageStatistic = context.PackageStatistics.Find(stat.Name);
+                var packageStatistic = await context.PackageStatistics.FindAsync(new object[] {stat.Name}, cancellationToken);
                 if (packageStatistic != null)
                 {
                     packageStatistic.LatestSupportType = supportType;
-                    context.SaveChanges();
+                    await context.SaveChangesAsync(cancellationToken);
                 }
             }
         }

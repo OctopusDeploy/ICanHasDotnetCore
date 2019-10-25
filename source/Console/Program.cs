@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using ICanHasDotnetCore.Investigator;
 using ICanHasDotnetCore.NugetPackages;
 using ICanHasDotnetCore.Output;
@@ -20,7 +22,7 @@ namespace ICanHasDotnetCore.Console
             "packages"
         };
 
-        static int Main(string[] args)
+        static async Task<int> Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.Console(theme: SystemConsoleTheme.Colored)
@@ -31,15 +33,14 @@ namespace ICanHasDotnetCore.Console
             {
                 if (args.Length < 2)
                 {
-                    System.Console.Error.WriteLine("Usage: ICanHasDotnetCore.exe <output_directory> <dir_to_scan_1> [dir_to_scan_2] ... [dir_to_scan_n]");
+                    await System.Console.Error.WriteLineAsync("Usage: ICanHasDotnetCore.exe <output_directory> <dir_to_scan_1> [dir_to_scan_2] ... [dir_to_scan_n]");
                     return 1;
                 }
 
                 var directories = args.Skip(1).Select(Path.GetFullPath).ToArray();
                 var packageFiles = FindFiles(directories).ToArray();
-                var result = PackageCompatabilityInvestigator.Create(new NoNugetResultCache())
-                    .Go(packageFiles)
-                    .Result;
+                var compatibilityInvestigator = PackageCompatabilityInvestigator.Create(new NoNugetResultCache());
+                var result = await compatibilityInvestigator.GoAsync(packageFiles, CancellationToken.None);
 
 
                 WriteToOutputFiles(args[0], result);

@@ -20,7 +20,7 @@ namespace ICanHasDotnetCore.Web.Features.result.GitHub
             _gitHubClient = gitHubClient ?? throw new ArgumentNullException(nameof(gitHubClient));
         }
 
-        public async Task<Result<SourcePackageFile[]>> Scan(string repoId)
+        public async Task<Result<SourcePackageFile[]>> ScanAsync(string repoId)
         {
             try
             {
@@ -28,7 +28,7 @@ namespace ICanHasDotnetCore.Web.Features.result.GitHub
                 if (repo.None)
                     return Result<SourcePackageFile[]>.Failed($"{repoId} is not recognised as a GitHub repository name");
 
-                return await Scan(repo.Value);
+                return await ScanAsync(repo.Value);
             }
             catch (Exception ex)
             {
@@ -37,7 +37,7 @@ namespace ICanHasDotnetCore.Web.Features.result.GitHub
             }
         }
 
-        private async Task<Result<SourcePackageFile[]>> Scan(RepositoryId repo)
+        private async Task<Result<SourcePackageFile[]>> ScanAsync(RepositoryId repo)
         {
             try
             {
@@ -64,12 +64,12 @@ namespace ICanHasDotnetCore.Web.Features.result.GitHub
 
             var getFileTasks = treeResponse.Tree
                 .Where(t => t.Type == TreeType.Blob)
-                .Where(t => 
-                    SourcePackageFileReader.SupportedFiles.Any(f => 
+                .Where(t =>
+                    SourcePackageFileReader.SupportedFiles.Any(f =>
                         t.Path.Equals(f, StringComparison.OrdinalIgnoreCase) ||
                         t.Path.EndsWith($"/{f}", StringComparison.OrdinalIgnoreCase)
                     ) ||
-                    SourcePackageFileReader.SupportedExtensions.Any(e => 
+                    SourcePackageFileReader.SupportedExtensions.Any(e =>
                         t.Path.EndsWith(e, StringComparison.OrdinalIgnoreCase)
                     )
                 )

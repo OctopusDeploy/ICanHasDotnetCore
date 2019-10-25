@@ -1,6 +1,9 @@
 using System;
 using System.Data.Common;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Versioning;
+using System.Threading;
+using System.Threading.Tasks;
 using FluentAssertions;
 using ICanHasDotnetCore.NugetPackages;
 using ICanHasDotnetCore.Web.Database;
@@ -13,6 +16,7 @@ using Xunit;
 
 namespace ICanHasDotnetCore.Tests.Web.Features.Result
 {
+    [SuppressMessage("ReSharper", "VSTHRD200")]
     public class NugetResultCacheTests : IDisposable
     {
         private readonly INugetResultCache _cache;
@@ -38,7 +42,7 @@ namespace ICanHasDotnetCore.Tests.Web.Features.Result
         }
 
         [Fact]
-        void NugetResultCache_ValidPackage_StoresAndRetrieves()
+        async Task NugetResultCache_ValidPackage_StoresAndRetrieves()
         {
             // Arrange
             const string id = "id";
@@ -48,8 +52,8 @@ namespace ICanHasDotnetCore.Tests.Web.Features.Result
             var expectedPackage = new NugetPackage(id, dependencies, SupportType.Supported, version, frameworks);
 
             // Act
-            _cache.Store(expectedPackage);
-            var package = _cache.Get(new PackageIdentity(id, version));
+            await _cache.StoreAsync(expectedPackage, CancellationToken.None);
+            var package = await _cache.GetAsync(new PackageIdentity(id, version), CancellationToken.None);
 
             // Assert
             package.Some.Should().BeTrue();
@@ -57,10 +61,10 @@ namespace ICanHasDotnetCore.Tests.Web.Features.Result
         }
 
         [Fact]
-        void NugetResultCache_NotInCache_ReturnsNone()
+        async Task NugetResultCache_NotInCache_ReturnsNone()
         {
             // Act
-            var package = _cache.Get(new PackageIdentity("none", new NuGetVersion(1, 2, 3)));
+            var package = await _cache.GetAsync(new PackageIdentity("none", new NuGetVersion(1, 2, 3)), CancellationToken.None);
 
             // Assert
             package.None.Should().BeTrue();

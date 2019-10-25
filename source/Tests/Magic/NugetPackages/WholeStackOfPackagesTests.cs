@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using ICanHasDotnetCore.NugetPackages;
@@ -398,7 +399,7 @@ namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
 
         public async Task<NugetPackage> GetPackageAsync(string id, string version)
         {
-            return await _nugetPackageInfoRetriever.Retrieve(id, NuGetVersion.Parse(version));
+            return await _nugetPackageInfoRetriever.RetrieveAsync(id, NuGetVersion.Parse(version), CancellationToken.None);
         }
     }
 

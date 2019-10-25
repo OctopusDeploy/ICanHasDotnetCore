@@ -1,11 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using ICanHasDotnetCore.NugetPackages;
 using ICanHasDotnetCore.Plumbing;
 
 namespace ICanHasDotnetCore.Web.Features.Statistics
 {
+    [SuppressMessage("ReSharper", "VSTHRD200")]
     public class StatisticsController : Controller
     {
         private readonly IStatisticsRepository _statisticsRepository;
@@ -16,9 +20,9 @@ namespace ICanHasDotnetCore.Web.Features.Statistics
         }
 
         [HttpGet("api/Statistics")]
-        public IReadOnlyList<PackageStatisticResponse> Get()
+        public async Task<IReadOnlyList<PackageStatisticResponse>> Get(CancellationToken cancellationToken)
         {
-            return _statisticsRepository.GetAllPackageStatistics()
+            return (await _statisticsRepository.GetAllPackageStatisticsAsync(cancellationToken))
                 .OrderByDescending(p => p.Count)
                 .ThenBy(p => p.Name)
                 .Select(p => new PackageStatisticResponse()

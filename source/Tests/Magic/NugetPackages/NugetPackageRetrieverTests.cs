@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using ICanHasDotnetCore.NugetPackages;
@@ -7,6 +9,8 @@ using Xunit;
 
 namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
 {
+    [SuppressMessage("ReSharper", "VSTHRD200")]
+    [SuppressMessage("ReSharper", "xUnit1026")]
     public class NugetPackageRetrieverTests
     {
         public static IEnumerable<object[]> TestCases()
@@ -57,7 +61,7 @@ namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
         private async Task<NugetPackage> GetPackageAsync(string id, string version)
         {
             return await new NugetPackageInfoRetriever(new PackageRepositoryWrapper(logger: null), new NoNugetResultCache())
-                 .Retrieve(id, NuGetVersion.Parse(version));
+                 .RetrieveAsync(id, NuGetVersion.Parse(version), CancellationToken.None);
         }
 
 

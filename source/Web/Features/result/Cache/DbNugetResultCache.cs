@@ -1,4 +1,6 @@
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using ICanHasDotnetCore.NugetPackages;
 using ICanHasDotnetCore.Plumbing;
 using ICanHasDotnetCore.Web.Database;
@@ -16,14 +18,14 @@ namespace ICanHasDotnetCore.Web.Features.result.Cache
             _contextFactory = contextFactory;
         }
 
-        public Option<NugetPackage> Get(PackageIdentity identity)
+        public async Task<Option<NugetPackage>> GetAsync(PackageIdentity identity, CancellationToken cancellationToken)
         {
             try
             {
                 using (var context = _contextFactory())
                 {
                     // Finding a entity with a value converter on its primary key is tricky, see https://github.com/aspnet/EntityFrameworkCore/issues/14180
-                    var package = context.NugetResultCache.Find(identity.Id, identity.Version.Some());
+                    var package = await context.NugetResultCache.FindAsync(new object[] {identity.Id, identity.Version.Some()}, cancellationToken);
                     return package?.Some() ?? package.None();
                 }
             }
@@ -34,7 +36,7 @@ namespace ICanHasDotnetCore.Web.Features.result.Cache
             }
         }
 
-        public void Store(NugetPackage package)
+        public async Task StoreAsync(NugetPackage package, CancellationToken cancellationToken)
         {
             try
             {
@@ -44,7 +46,7 @@ namespace ICanHasDotnetCore.Web.Features.result.Cache
                 using (var context = _contextFactory())
                 {
                     context.NugetResultCache.Add(package);
-                    context.SaveChanges();
+                    await context.SaveChangesAsync(cancellationToken);
                 }
             }
             catch (Exception ex)

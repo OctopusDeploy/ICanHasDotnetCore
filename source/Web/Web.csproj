@@ -29,6 +29,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.4.16" />
     <PackageReference Include="Serilog" Version="2.9.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="3.1.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />

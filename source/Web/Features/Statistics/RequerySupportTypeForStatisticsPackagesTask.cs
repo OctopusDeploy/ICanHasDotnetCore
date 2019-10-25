@@ -28,27 +28,27 @@ namespace ICanHasDotnetCore.Web.Features.Statistics
             await Task.Delay(dueTime, stoppingToken);
             while (!stoppingToken.IsCancellationRequested)
             {
-                await Run();
+                await RunAsync(stoppingToken);
                 await Task.Delay(period, stoppingToken);
             }
         }
 
-        public async Task Run()
+        public async Task RunAsync(CancellationToken cancellationToken)
         {
             var sw = Stopwatch.StartNew();
             try
             {
                 Log.Information("Requery Statistics Package Support Task Started");
-                var stats = _statisticsRepository.GetAllPackageStatistics();
+                var stats = await _statisticsRepository.GetAllPackageStatisticsAsync(cancellationToken);
                 var packageNames = stats.Select(s => s.Name).ToArray();
 
                 var result = await PackageCompatabilityInvestigator.Create(new NoNugetResultCache())
-                    .Process("Requery", packageNames);
+                    .ProcessAsync("Requery", packageNames, cancellationToken);
 
                 foreach (var stat in stats)
                 {
                     var packageResult = result.Dependencies.FirstOrDefault(f => f.PackageName.EqualsOrdinalIgnoreCase(stat.Name));
-                    UpdatePackage(packageResult, stat);
+                    await UpdatePackageAsync(packageResult, stat, cancellationToken);
                 }
             }
             catch (Exception ex)
@@ -58,7 +58,7 @@ namespace ICanHasDotnetCore.Web.Features.Statistics
             Log.Information("Requery Statistics Package Support Task Finished in {time}", sw.Elapsed);
         }
 
-        private void UpdatePackage(PackageResult packageResult, PackageStatistic stat)
+        private async Task UpdatePackageAsync(PackageResult packageResult, PackageStatistic stat, CancellationToken cancellationToken)
         {
             if (packageResult == null)
             {
@@ -72,7 +72,7 @@ namespace ICanHasDotnetCore.Web.Features.Statistics
             {
                 Log.Information("Updating support type for {package} from {from} to {to}", stat.Name, stat.LatestSupportType,
                     packageResult.SupportType);
-                _statisticsRepository.UpdateSupportTypeFor(stat, packageResult.SupportType);
+                await _statisticsRepository.UpdateSupportTypeAsync(stat, packageResult.SupportType, cancellationToken);
             }
         }
 

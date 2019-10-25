@@ -1,5 +1,8 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using Assent;
 using ICanHasDotnetCore.Investigator;
 using ICanHasDotnetCore.NugetPackages;
@@ -9,6 +12,7 @@ using Xunit;
 
 namespace ICanHasDotnetCore.Tests.Magic
 {
+    [SuppressMessage("ReSharper", "VSTHRD200")]
     public class EndToEndTests
     {
         private const string Paket = @"source https://nuget.org/api/v2
@@ -45,17 +49,16 @@ http http://www.fssnip.net/1n decrypt.fs";
 }";
 
         [Fact(Skip = "Brittle, but useful when making changes, so keeping it")]
-        public void EndToEndTest()
+        public async Task EndToEndTest()
         {
 
-            var result = PackageCompatabilityInvestigator.Create(new NoNugetResultCache())
-                .Go(new[]
+            var result = await PackageCompatabilityInvestigator.Create(new NoNugetResultCache())
+                .GoAsync(new[]
                 {
                     new SourcePackageFile("PackagesConfig", SourcePackageFileReader.PackagesConfig, Encoding.UTF8.GetBytes(PackagesConfig)),
                     new SourcePackageFile("ProjectJson", SourcePackageFileReader.ProjectJson, Encoding.UTF8.GetBytes(ProjectJson)),
                     new SourcePackageFile("Paket", SourcePackageFileReader.Paket, Encoding.UTF8.GetBytes(Paket))
-                })
-                .Result;
+                }, CancellationToken.None);
 
             this.Assent(TreeOutputFormatter.Format(result));
         }

@@ -1,11 +1,14 @@
 using System;
-using Autofac;
+using ICanHasDotnetCore.NugetPackages;
 using ICanHasDotnetCore.Web.Configuration;
-using ICanHasDotnetCore.Web.Features;
+using ICanHasDotnetCore.Web.Database;
+using ICanHasDotnetCore.Web.Features.result.Cache;
+using ICanHasDotnetCore.Web.Features.result.GitHub;
 using ICanHasDotnetCore.Web.Features.Statistics;
 using ICanHasDotnetCore.Web.Plumbing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,13 +28,6 @@ namespace ICanHasDotnetCore.Web
         }
 
         public IConfiguration Configuration { get; }
-
-
-        // This method gets called by the runtime. Use this method to configure the container.
-        public void ConfigureContainer(ContainerBuilder builder)
-        {
-            builder.RegisterModule(new FeaturesAutofacModule());
-        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -63,6 +59,26 @@ namespace ICanHasDotnetCore.Web
                 var connection = new Connection(productInformation, GitHubClient.GitHubApiUrl, credentialStore, httpClient, new SimpleJsonSerializer());
                 return new GitHubClient(connection);
             });
+
+            services.AddSingleton<IStatisticsRepository, StatisticsRepository>();
+            services.AddSingleton<INugetResultCache, DbNugetResultCache>();
+            services.AddSingleton<GitHubScanner>();
+            services.AddDbContext<AppDbContext>((provider, optionsBuilder) =>
+            {
+                var dbSettings = provider.GetRequiredService<IDatabaseSettings>();
+                switch (dbSettings.Provider)
+                {
+                    case DbProvider.Sqlite:
+                        optionsBuilder.UseSqlite(dbSettings.ConnectionString);
+                        break;
+                    case DbProvider.SqlServer:
+                        optionsBuilder.UseSqlServer(dbSettings.ConnectionString);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }, contextLifetime: ServiceLifetime.Transient, optionsLifetime: ServiceLifetime.Singleton);
+            services.AddTransient<Func<AppDbContext>>(provider => () => new AppDbContext(provider.GetRequiredService<DbContextOptions>()));
         }
 
         private static void ValidateConfiguration(IServiceProvider serviceProvider)
@@ -89,7 +105,7 @@ namespace ICanHasDotnetCore.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                var context = app.ApplicationServices.GetRequiredService<Database.AppDbContext>();
+                var context = app.ApplicationServices.GetRequiredService<AppDbContext>();
                 context.Database.EnsureCreated();
                 context.Dispose();
             }

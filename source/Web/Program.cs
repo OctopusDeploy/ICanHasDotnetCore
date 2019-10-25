@@ -1,5 +1,4 @@
 using System.IO;
-using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
@@ -14,7 +13,6 @@ namespace ICanHasDotnetCore.Web
         public static void Main(string[] args)
         {
             var host = Host.CreateDefaultBuilder(args)
-                .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .ConfigureLogging((context, logging) =>
                 {
                     logging.ClearProviders();

@@ -3,6 +3,7 @@ using FluentAssertions;
 using System.Linq;
 using ICanHasDotnetCore.Web.Configuration;
 using ICanHasDotnetCore.Web.Features.result.GitHub;
+using Octokit;
 using Xunit;
 
 namespace ICanHasDotnetCore.Tests.Web.Features.Result.GitHub
@@ -40,7 +41,7 @@ namespace ICanHasDotnetCore.Tests.Web.Features.Result.GitHub
 
         private GitHubScanner CreateScanner()
         {
-            return new GitHubScanner(new GitHubSettings {Token = null});
+            return new GitHubScanner(new GitHubClient(new ProductHeaderValue(nameof(GitHubScannerTests))));
         }
     }
 }

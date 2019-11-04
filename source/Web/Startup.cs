@@ -9,6 +9,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Octokit;
+using Octokit.Internal;
+using Serilog;
+using Serilog.Core;
 
 namespace ICanHasDotnetCore.Web
 {
@@ -43,6 +47,19 @@ namespace ICanHasDotnetCore.Web
             services.AddSingleton<IAnalyticsSettings>(provider => provider.GetRequiredService<IOptions<AnalyticsSettings>>().Value);
             services.AddSingleton<IDatabaseSettings>(provider => provider.GetRequiredService<IOptions<DatabaseSettings>>().Value);
             services.AddSingleton<IGitHubSettings>(provider => provider.GetRequiredService<IOptions<GitHubSettings>>().Value);
+
+            services.AddSingleton<IGitHubClient>(provider =>
+            {
+                var settings = provider.GetRequiredService<IGitHubSettings>();
+                var credentialStore = new InMemoryCredentialStore(string.IsNullOrEmpty(settings.Token)
+                    ? Credentials.Anonymous
+                    : new Credentials(settings.Token));
+                var productInformation = new ProductHeaderValue("ICanHasDot.net", typeof(Startup).Assembly.GetName().Version.ToString());
+                var logger = Log.Logger.ForContext(Constants.SourceContextPropertyName, "Octokit");
+                var httpClient = new HttpClientAdapter(() => new SerilogMessageHandler(logger));
+                var connection = new Connection(productInformation, GitHubClient.GitHubApiUrl, credentialStore, httpClient, new SimpleJsonSerializer());
+                return new GitHubClient(connection);
+            });
         }
 
         private static void ValidateConfiguration(IServiceProvider serviceProvider)
@@ -74,7 +91,8 @@ namespace ICanHasDotnetCore.Web
                 context.Dispose();
             }
 
-            app.UseHttpsRedirection()
+            app.UseSerilogRequestLogging(options => options.GetLevel = (context, _, __) => HttpLogging.GetLevelForStatusCode(context.Response.StatusCode))
+                .UseHttpsRedirection()
                 .UseMiddleware<RedirectWwwMiddleware>()
                 .UseStaticFiles()
                 .UseRouting()

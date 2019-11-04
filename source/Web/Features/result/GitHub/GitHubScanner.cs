@@ -1,29 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using ICanHasDotnetCore.Plumbing;
 using ICanHasDotnetCore.SourcePackageFileReaders;
-using ICanHasDotnetCore.Web.Configuration;
 using Octokit;
-using Octokit.Internal;
 using Serilog;
 
 namespace ICanHasDotnetCore.Web.Features.result.GitHub
 {
     public class GitHubScanner
     {
-        private static readonly string AssemblyVersion = typeof(GitHubScanner).Assembly.GetName().Version.ToString();
-        
-        private readonly IGitHubSettings _gitHubSettings;
+        private readonly IGitHubClient _gitHubClient;
 
-        public GitHubScanner(IGitHubSettings gitHubSettings)
+        public GitHubScanner(IGitHubClient gitHubClient)
         {
-            _gitHubSettings = gitHubSettings;
-            ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12; 
+            _gitHubClient = gitHubClient ?? throw new ArgumentNullException(nameof(gitHubClient));
         }
 
         public async Task<Result<SourcePackageFile[]>> Scan(string repoId)
@@ -47,8 +41,7 @@ namespace ICanHasDotnetCore.Web.Features.result.GitHub
         {
             try
             {
-                var client = GetClient();
-                var contents = await GetContentsRecursive(client, repo);
+                var contents = await GetContentsRecursiveAsync(repo);
 
                 return contents
                     .Select(c => new SourcePackageFile(c.Path.Contains("/") ? c.Path.Substring(0, c.Path.LastIndexOf("/")) : "<root>", c.Name, Encoding.UTF8.GetBytes(c.Content)))
@@ -60,22 +53,11 @@ namespace ICanHasDotnetCore.Web.Features.result.GitHub
             }
         }
 
-
-
-        private GitHubClient GetClient()
+        private async Task<IReadOnlyList<RepositoryContent>> GetContentsRecursiveAsync(RepositoryId repo)
         {
-            return new GitHubClient(
-                new ProductHeaderValue("ICanHasDot.net", AssemblyVersion),
-                 new InMemoryCredentialStore(string.IsNullOrEmpty(_gitHubSettings.Token) ? Credentials.Anonymous : new Credentials(_gitHubSettings.Token)
-                )
-            );
-        }
-
-        private async Task<IReadOnlyList<RepositoryContent>> GetContentsRecursive(GitHubClient client, RepositoryId repo)
-        {
-            var commits = await client.Repository.Commit.GetAll(repo.Owner, repo.Name);
+            var commits = await _gitHubClient.Repository.Commit.GetAll(repo.Owner, repo.Name);
             var head = commits.First();
-            var treeResponse = await client.Git.Tree.GetRecursive(repo.Owner, repo.Name, head.Sha);
+            var treeResponse = await _gitHubClient.Git.Tree.GetRecursive(repo.Owner, repo.Name, head.Sha);
 
             if (treeResponse.Truncated)
                 Log.Warning("Result truncated for {repo}", repo);
@@ -91,7 +73,7 @@ namespace ICanHasDotnetCore.Web.Features.result.GitHub
                         t.Path.EndsWith(e, StringComparison.OrdinalIgnoreCase)
                     )
                 )
-                .Select(t => client.Repository.Content.GetAllContents(repo.Owner, repo.Name, t.Path))
+                .Select(t => _gitHubClient.Repository.Content.GetAllContents(repo.Owner, repo.Name, t.Path))
                 .ToArray();
 
             return (await Task.WhenAll(getFileTasks))

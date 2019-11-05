@@ -1,5 +1,7 @@
+using System.Text;
 using FluentAssertions;
 using ICanHasDotnetCore.SourcePackageFileReaders;
+using Xunit;
 
 namespace ICanHasDotnetCore.Tests.Magic.SourcePackageFileReaders
 {
@@ -35,6 +37,21 @@ namespace ICanHasDotnetCore.Tests.Magic.SourcePackageFileReaders
             result.Should().BeEquivalentTo("Antlr", "bootstrap");
         }
 
+        [Fact]
+        void CsProjReader_HasRemoveAttribute_ReturnsValuesFromIncludeAttributesOnly()
+        {
+            // See https://github.com/aspnet/EntityFrameworkCore/blob/0f4340b82a66944b66a75f6e6949b473984a0ced/eng/common/internal/Tools.csproj#L10
+            var result = new CsProjReader().ReadDependencies(Encoding.UTF8.GetBytes(@"
+<Project Sdk=""Microsoft.NET.Sdk"">
+  <ItemGroup>
+    <PackageReference Remove=""@(PackageReference)"" />
+    <PackageReference Include=""First"" />
+    <PackageReference Include=""Second"" />
+  </ItemGroup>
+</Project>
+"));
+            result.Should().BeEquivalentTo("First", "Second");
+        }
     }
 
 }

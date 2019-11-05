@@ -19,7 +19,7 @@ namespace ICanHasDotnetCore.SourcePackageFileReaders
                 if (!xs.CanDeserialize(xr)) return new string[0];
 
                 var project = (Project)new XmlSerializer(typeof(Project)).Deserialize(xr);
-                return project.ItemGroups.Where(g => g.Packages.Any()).SelectMany(g => g.Packages).Select(p => p.Id)
+                return project.ItemGroups.Where(g => g.Packages.Any()).SelectMany(g => g.Packages).Select(p => p.Id).Where(id => id != null)
                     .ToArray();
             }
         }

@@ -55,7 +55,7 @@ namespace ICanHasDotnetCore.Web.Features.result.GitHub
 
         private async Task<IReadOnlyList<RepositoryContent>> GetContentsRecursiveAsync(RepositoryId repo)
         {
-            var commits = await _gitHubClient.Repository.Commit.GetAll(repo.Owner, repo.Name);
+            var commits = await _gitHubClient.Repository.Commit.GetAll(repo.Owner, repo.Name, new ApiOptions {PageCount = 1, PageSize = 1});
             var head = commits.First();
             var treeResponse = await _gitHubClient.Git.Tree.GetRecursive(repo.Owner, repo.Name, head.Sha);
 

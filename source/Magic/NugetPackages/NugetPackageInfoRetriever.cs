@@ -20,13 +20,13 @@ namespace ICanHasDotnetCore.NugetPackages
 
         public async Task<NugetPackage> RetrieveAsync(string id, bool includePrerelease, CancellationToken cancellationToken)
         {
-            var package = await _repository.GetLatestPackageAsync(id, includePrerelease);
+            var package = await _repository.GetLatestPackageAsync(id, includePrerelease, cancellationToken);
             return await RetrieveAsync(id, package, cancellationToken);
         }
 
         public async Task<NugetPackage> RetrieveAsync(string id, NuGetVersion version, CancellationToken cancellationToken)
         {
-            var package = await _repository.GetPackageAsync(id, version);
+            var package = await _repository.GetPackageAsync(id, version, cancellationToken);
             return await RetrieveAsync(id, package, cancellationToken);
         }
 

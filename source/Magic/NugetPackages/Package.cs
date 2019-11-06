@@ -31,9 +31,9 @@ namespace ICanHasDotnetCore.NugetPackages
         private readonly string _projectUrl;
         private readonly IReadOnlyList<PackageDependencyGroup> _dependencyGroups;
         private readonly IReadOnlyList<NuGetFramework> _frameworks;
-        private readonly Func<PackageIdentity, Task<PackageReaderBase>> _getPackageReaderAsync;
+        private readonly Func<PackageIdentity, CancellationToken, Task<PackageReaderBase>> _getPackageReaderAsync;
 
-        public Package(IPackageSearchMetadata metadata, Func<PackageIdentity, Task<PackageReaderBase>> getPackageReaderAsync)
+        public Package(IPackageSearchMetadata metadata, Func<PackageIdentity, CancellationToken, Task<PackageReaderBase>> getPackageReaderAsync)
         {
             Identity = metadata.Identity;
             _projectUrl = metadata.ProjectUrl?.AbsoluteUri;
@@ -72,7 +72,7 @@ namespace ICanHasDotnetCore.NugetPackages
                 return Identity.Version.IsPrerelease ? SupportType.PreRelease : SupportType.Supported;
             }
 
-            var packageReader = await _getPackageReaderAsync(Identity);
+            var packageReader = await _getPackageReaderAsync(Identity, cancellationToken);
 
             var supportedFrameworks = await packageReader.GetSupportedFrameworksAsync(cancellationToken);
             if (GetDotNetCoreFramework(supportedFrameworks.ToList()).Some)

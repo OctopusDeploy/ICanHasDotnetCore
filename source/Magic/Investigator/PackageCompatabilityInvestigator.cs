@@ -151,12 +151,8 @@ namespace ICanHasDotnetCore.Investigator
                     package.SupportType == SupportType.NotFound ||
                     package.SupportType == SupportType.NoDotNetLibraries)
                 {
-                    var prerelease = await _nugetPackageInfoRetriever.RetrieveAsync(id, true, cancellationToken);
-                    if (prerelease.SupportType == SupportType.PreRelease)
-                        return prerelease;
+                    return await _nugetPackageInfoRetriever.RetrieveAsync(id, true, cancellationToken);
                 }
-
-
                 return package;
             }
             finally

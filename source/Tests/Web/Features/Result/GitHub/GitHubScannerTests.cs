@@ -36,7 +36,7 @@ namespace ICanHasDotnetCore.Tests.Web.Features.Result.GitHub
         {
             var result = await CreateScanner().ScanAsync("OctopusDeploy/DoesNotExist");
             result.WasSuccessful.Should().BeFalse();
-            result.ErrorString.Should().Be("OctopusDeploy/DoesNotExist does not exist or is not publically accessible");
+            result.ErrorString.Should().Be("OctopusDeploy/DoesNotExist does not exist or is not publicly accessible");
         }
 
 

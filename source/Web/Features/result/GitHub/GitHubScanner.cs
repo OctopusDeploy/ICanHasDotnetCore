@@ -24,7 +24,7 @@ namespace ICanHasDotnetCore.Web.Features.result.GitHub
         {
             try
             {
-                var repo = RepositoryId.Parse(repoId);
+                var repo = RepositoryReference.Parse(repoId);
                 if (repo.None)
                     return Result<SourcePackageFile[]>.Failed($"{repoId} is not recognised as a GitHub repository name");
 
@@ -37,7 +37,7 @@ namespace ICanHasDotnetCore.Web.Features.result.GitHub
             }
         }
 
-        private async Task<Result<SourcePackageFile[]>> ScanAsync(RepositoryId repo)
+        private async Task<Result<SourcePackageFile[]>> ScanAsync(RepositoryReference repo)
         {
             try
             {
@@ -47,17 +47,24 @@ namespace ICanHasDotnetCore.Web.Features.result.GitHub
                     .Select(c => new SourcePackageFile(c.Path.Contains("/") ? c.Path.Substring(0, c.Path.LastIndexOf("/")) : "<root>", c.Name, Encoding.UTF8.GetBytes(c.Content)))
                     .ToArray();
             }
-            catch (NotFoundException nfe) when (nfe.Message == $"repos/{repo}/commits was not found.")
+            catch (NotFoundException)
             {
-                return Result<SourcePackageFile[]>.Failed($"{repo} does not exist or is not publically accessible");
+                return Result<SourcePackageFile[]>.Failed($"{repo} does not exist or is not publicly accessible");
             }
         }
 
-        private async Task<IReadOnlyList<RepositoryContent>> GetContentsRecursiveAsync(RepositoryId repo)
+        private async Task<string> GetReferenceAsync(RepositoryReference repo)
         {
+            if (repo.Reference.Some)
+                return repo.Reference.Value;
             var commits = await _gitHubClient.Repository.Commit.GetAll(repo.Owner, repo.Name, new ApiOptions {PageCount = 1, PageSize = 1});
-            var head = commits.First();
-            var treeResponse = await _gitHubClient.Git.Tree.GetRecursive(repo.Owner, repo.Name, head.Sha);
+            return commits.First().Sha;
+        }
+
+        private async Task<IReadOnlyList<RepositoryContent>> GetContentsRecursiveAsync(RepositoryReference repo)
+        {
+            var reference = await GetReferenceAsync(repo);
+            var treeResponse = await _gitHubClient.Git.Tree.GetRecursive(repo.Owner, repo.Name, reference);
 
             if (treeResponse.Truncated)
                 Log.Warning("Result truncated for {repo}", repo);
@@ -73,7 +80,7 @@ namespace ICanHasDotnetCore.Web.Features.result.GitHub
                         t.Path.EndsWith(e, StringComparison.OrdinalIgnoreCase)
                     )
                 )
-                .Select(t => _gitHubClient.Repository.Content.GetAllContents(repo.Owner, repo.Name, t.Path))
+                .Select(t => _gitHubClient.Repository.Content.GetAllContentsByRef(repo.Owner, repo.Name, t.Path, reference))
                 .ToArray();
 
             return (await Task.WhenAll(getFileTasks))
@@ -82,28 +89,33 @@ namespace ICanHasDotnetCore.Web.Features.result.GitHub
 
         }
 
-        public class RepositoryId
+        public class RepositoryReference
         {
 
-            public RepositoryId(string owner, string name)
+            public RepositoryReference(string owner, string name, Option<string> reference)
             {
                 Owner = owner;
                 Name = name;
+                Reference = reference;
             }
-            public static Option<RepositoryId> Parse(string repoId)
+            public static Option<RepositoryReference> Parse(string repoId)
             {
-                var match = Regex.Match(repoId, @"^\W*([\w\-_\.]+)/([\w\-_\.]+)\W*$");
+                var match = Regex.Match(repoId, @"^\W*([\w\-_\.]+)/([\w\-_\.]+)\W*(?:@(.*))?$");
                 if (match.Success)
-                    return new RepositoryId(match.Groups[1].Value, match.Groups[2].Value);
-                return Option<RepositoryId>.ToNone;
+                {
+                    var reference = match.Groups[3].Value;
+                    return new RepositoryReference(match.Groups[1].Value, match.Groups[2].Value, reference != "" ? reference.Some() : reference.None());
+                }
+                return Option<RepositoryReference>.ToNone;
             }
 
             public string Owner { get; }
             public string Name { get; }
+            public Option<string> Reference { get; }
 
             public override string ToString()
             {
-                return $"{Owner}/{Name}";
+                return Reference.Some ? $"{Owner}/{Name}@{Reference.Value}" : $"{Owner}/{Name}";
             }
         }
     }

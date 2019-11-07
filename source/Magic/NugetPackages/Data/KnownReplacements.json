@@ -109,5 +109,12 @@
     "linkText": "Nuget",
     "url": "https://www.nuget.org/packages/itext7/",
     "startsWith": false
+  },
+  {
+    "id": "NuGet.Core",
+    "message": "NuGet.Core (v2 API) has been replaced by NuGet.Protocol (v3 API)",
+    "linkText": "Nuget",
+    "url": "https://www.nuget.org/packages/NuGet.Protocol/",
+    "startsWith": false
   }
 ]

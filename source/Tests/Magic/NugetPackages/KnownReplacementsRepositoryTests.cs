@@ -9,7 +9,7 @@ namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
         [Fact]
         public void EntriesCanBeReadAndAtLeastOneEntryExists()
         {
-            KnownReplacementsRepository.All.Should().NotBeEmpty();
+            new KnownReplacementsRepository().All.Should().NotBeEmpty();
         }
     }
 }

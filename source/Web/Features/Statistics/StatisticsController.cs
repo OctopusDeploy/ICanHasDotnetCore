@@ -13,10 +13,12 @@ namespace ICanHasDotnetCore.Web.Features.Statistics
     public class StatisticsController : Controller
     {
         private readonly IStatisticsRepository _statisticsRepository;
+        private readonly IMoreInformationRepository _moreInformationRepository;
 
-        public StatisticsController(IStatisticsRepository statisticsRepository)
+        public StatisticsController(IStatisticsRepository statisticsRepository, IMoreInformationRepository moreInformationRepository)
         {
             _statisticsRepository = statisticsRepository;
+            _moreInformationRepository = moreInformationRepository;
         }
 
         [HttpGet("api/Statistics")]
@@ -28,7 +30,7 @@ namespace ICanHasDotnetCore.Web.Features.Statistics
                 .Select(p => new PackageStatisticResponse()
                 {
                     Statistic = p,
-                    MoreInformation = MoreInformationRepository.Get(p.Name).ValueOrNull()
+                    MoreInformation = _moreInformationRepository.Get(p.Name).ValueOrNull()
                 })
                 .ToArray();
         }

@@ -9,7 +9,7 @@ namespace ICanHasDotnetCore.Database.AlwaysRun
         public static void Run(SqlConnection connection)
         {
             Console.WriteLine("Removing Known Replacements from Package Statistics");
-            foreach (var replacement in KnownReplacementsRepository.All)
+            foreach (var replacement in new KnownReplacementsRepository().All)
             {
                 var sql = replacement.StartsWith
                     ? "DELETE FROM PackageStatistics WHERE Name like @name + '%'"

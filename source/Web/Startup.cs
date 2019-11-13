@@ -62,6 +62,8 @@ namespace ICanHasDotnetCore.Web
 
             services.AddSingleton<IStatisticsRepository, StatisticsRepository>();
             services.AddSingleton<INugetResultCache, DbNugetResultCache>();
+            services.AddSingleton<IMoreInformationRepository, MoreInformationRepository>();
+            services.AddSingleton<IKnownReplacementsRepository, KnownReplacementsRepository>();
             services.AddSingleton<GitHubScanner>();
             services.AddDbContext<AppDbContext>((provider, optionsBuilder) =>
             {

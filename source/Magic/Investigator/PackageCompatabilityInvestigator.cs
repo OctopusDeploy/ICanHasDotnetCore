@@ -16,14 +16,21 @@ namespace ICanHasDotnetCore.Investigator
     {
 
         private readonly NugetPackageInfoRetriever _nugetPackageInfoRetriever;
+        private readonly IMoreInformationRepository _moreInformationRepository;
+        private readonly IKnownReplacementsRepository _knownReplacementsRepository;
 
         private readonly Dictionary<string, Task<PackageResult>> _results = new Dictionary<string, Task<PackageResult>>();
 
         private readonly SemaphoreSlim _maxParrallelism = new SemaphoreSlim(3, 3);
 
-        public PackageCompatabilityInvestigator(NugetPackageInfoRetriever nugetPackageInfoRetriever)
+        public PackageCompatabilityInvestigator(
+            NugetPackageInfoRetriever nugetPackageInfoRetriever,
+            IMoreInformationRepository moreInformationRepository,
+            IKnownReplacementsRepository knownReplacementsRepository)
         {
             _nugetPackageInfoRetriever = nugetPackageInfoRetriever;
+            _moreInformationRepository = moreInformationRepository;
+            _knownReplacementsRepository = knownReplacementsRepository;
         }
 
         public static PackageCompatabilityInvestigator Create(INugetResultCache nugetResultCache)
@@ -33,7 +40,9 @@ namespace ICanHasDotnetCore.Investigator
                 new NugetPackageInfoRetriever(
                     repository,
                     nugetResultCache
-                )
+                ),
+                new MoreInformationRepository(),
+                new KnownReplacementsRepository()
             );
         }
 
@@ -124,9 +133,9 @@ namespace ICanHasDotnetCore.Investigator
         {
             try
             {
-                var moreInformation = MoreInformationRepository.Get(id);
+                var moreInformation = _moreInformationRepository.Get(id);
 
-                var knownReplacement = KnownReplacementsRepository.Get(id);
+                var knownReplacement = _knownReplacementsRepository.Get(id);
                 if (knownReplacement.Some)
                     return PackageResult.KnownReplacement(id, knownReplacement.Value);
 

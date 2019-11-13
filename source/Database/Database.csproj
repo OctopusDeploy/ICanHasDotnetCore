@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
+    <RootNamespace>ICanHasDotnetCore.Database</RootNamespace>
     <AssemblyName>Database</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>Database</PackageId>

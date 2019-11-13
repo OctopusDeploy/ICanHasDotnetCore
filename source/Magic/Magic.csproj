@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
+    <RootNamespace>ICanHasDotnetCore</RootNamespace>
     <AssemblyName>Magic</AssemblyName>
     <PackageId>Magic</PackageId>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>

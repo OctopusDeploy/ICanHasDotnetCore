@@ -10,7 +10,7 @@ namespace ICanHasDotnetCore.NugetPackages
     {
         static KnownReplacementsRepository()
         {
-            using (var s = typeof(KnownReplacementsRepository).Assembly.GetManifestResourceStream($"Magic.NugetPackages.Data.KnownReplacements.json"))
+            using (var s = typeof(KnownReplacementsRepository).Assembly.GetManifestResourceStream("ICanHasDotnetCore.NugetPackages.Data.KnownReplacements.json"))
             using (var sr = new StreamReader(s))
             {
                 All = JsonSerializer.Deserialize<MoreInformation[]>(sr.ReadToEnd(), new JsonSerializerOptions {PropertyNameCaseInsensitive = true})

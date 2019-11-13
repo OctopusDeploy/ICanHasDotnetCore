@@ -66,7 +66,7 @@ namespace ICanHasDotnetCore.Web.Features.Statistics
         {
             using (var context = _contextFactory())
             {
-                return await context.PackageStatistics.ToListAsync(cancellationToken);
+                return await context.PackageStatistics.AsNoTracking().ToListAsync(cancellationToken);
             }
         }
 

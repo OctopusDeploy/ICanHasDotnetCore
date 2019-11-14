@@ -1,6 +1,7 @@
+using System;
 using System.IO;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
@@ -22,11 +23,12 @@ namespace ICanHasDotnetCore.Web
                         .MinimumLevel.Override("System", LogEventLevel.Information)
                         .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
                         .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
-                        .Enrich.FromLogContext()
                         .WriteTo.Console()
                         .WriteTo.Seq(context.Configuration["Seq:Url"], apiKey: context.Configuration["Seq:ApiKey"])
+                        .Enrich.FromLogContext()
                         .Enrich.WithProperty("Application", "ICanHasDotnetCore")
                         .Enrich.WithProperty("Environment", context.HostingEnvironment.EnvironmentName)
+                        .Filter.ByExcluding(c => c.Exception?.GetBaseException() is OperationCanceledException)
                         .CreateLogger();
                     logging.AddSerilog(Log.Logger);
                 })

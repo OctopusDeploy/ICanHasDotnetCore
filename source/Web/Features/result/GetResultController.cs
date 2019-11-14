@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -105,7 +105,7 @@ namespace ICanHasDotnetCore.Web.Features.result
 
         private void LogErroredAndNotFoundPackages(string repoId, InvestigationResult result)
         {
-            foreach(var package in result.GetAllDistinctRecursive().Where(p => p.SupportType == SupportType.Error))
+            foreach(var package in result.GetAllDistinctRecursive().Where(p => p.SupportType == SupportType.Error && !p.Error.Contains("A task was canceled")))
                 Log.Error("Error occured with package {package} in GitHub repo {repoId}: {error}", package.PackageName, repoId, package.Error);
 
             foreach (var package in result.GetAllDistinctRecursive().Where(p => p.SupportType == SupportType.NotFound))

@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using FluentAssertions;
 using ICanHasDotnetCore.NugetPackages;
-using NuGet;
+using NuGet.Versioning;
 using Xunit;
 
 namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
@@ -21,6 +22,7 @@ namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
             yield return CreateTestCase("PCL library", "Microsoft.Azure.Common.Dependencies", "1.0.0", SupportType.Supported, "Microsoft.Bcl", "Microsoft.Bcl.Async", "Microsoft.Bcl.Build", "Microsoft.Net.Http", "Newtonsoft.Json");
             yield return CreateTestCase("Forwarding", "Serilog.Extras.Timing", "2.0.2", SupportType.NoDotNetLibraries, "SerilogMetrics");
             yield return CreateTestCase("OData", "Microsoft.Data.OData", "5.7.0", SupportType.Supported, "System.Spatial", "Microsoft.Data.Edm");
+            yield return CreateTestCase(".NETCoreApp package", "MailMerge", "2.2.0", SupportType.Supported, "DocumentFormat.OpenXml", "Microsoft.Extensions.Configuration", "Microsoft.Extensions.Configuration.FileExtensions", "Microsoft.Extensions.Configuration.Json", "Microsoft.Extensions.DependencyInjection.Abstractions", "Microsoft.Extensions.Logging.Abstractions", "Microsoft.Extensions.Options.ConfigurationExtensions");
         }
 
 
@@ -30,38 +32,40 @@ namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
 
         [Theory]
         [MemberData(nameof(TestCases))]
-        public void PackageIsRetrieved(string name, string id, string version, SupportType expectedSupportType, string[] expectedDependencies)
+        public async Task PackageIsRetrieved(string name, string id, string version, SupportType expectedSupportType, string[] expectedDependencies)
         {
-            GetPackage(id, version).Id.Should().Be(id);
+            var package = await GetPackageAsync(id, version);
+            package.Id.Should().Be(id);
         }
 
         [Theory]
         [MemberData(nameof(TestCases))]
-        public void PackageSupportTypeIsCorrect(string name, string id, string version, SupportType expectedSupportType, string[] expectedDependencies)
+        public async Task PackageSupportTypeIsCorrect(string name, string id, string version, SupportType expectedSupportType, string[] expectedDependencies)
         {
-            GetPackage(id, version).SupportType.Should().Be(expectedSupportType);
+            var package = await GetPackageAsync(id, version);
+            package.SupportType.Should().Be(expectedSupportType);
         }
 
         [Theory]
         [MemberData(nameof(TestCases))]
-        public void PackageDependenciesHaveBeenExtractedCorrectly(string name, string id, string version, SupportType expectedSupportType, string[] expectedDependencies)
+        public async Task PackageDependenciesHaveBeenExtractedCorrectly(string name, string id, string version, SupportType expectedSupportType, string[] expectedDependencies)
         {
-            GetPackage(id, version).Dependencies.Should().BeEquivalentTo(expectedDependencies);
+            var package = await GetPackageAsync(id, version);
+            package.Dependencies.Should().BeEquivalentTo(expectedDependencies);
         }
 
-        private NugetPackage GetPackage(string id, string version)
+        private async Task<NugetPackage> GetPackageAsync(string id, string version)
         {
-            return new NugetPackageInfoRetriever(new PackageRepositoryWrapper(), new NoNugetResultCache())
-                 .Retrieve(id, new SemanticVersion(version))
-                 .Result;
+            return await new NugetPackageInfoRetriever(new PackageRepositoryWrapper(logger: null), new NoNugetResultCache())
+                 .Retrieve(id, NuGetVersion.Parse(version));
         }
 
 
         [Fact]
-        public void NonExistantPackageShouldBeNotFound()
+        public async Task NonExistantPackageShouldBeNotFound()
         {
-            var pkg = GetPackage("FooFooFoo", "1.0.23523");
-            pkg.SupportType.Should().Be(SupportType.NotFound);
+            var package = await GetPackageAsync("FooFooFoo", "1.0.23523");
+            package.SupportType.Should().Be(SupportType.NotFound);
         }
     }
 }

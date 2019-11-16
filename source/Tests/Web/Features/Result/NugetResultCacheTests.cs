@@ -7,7 +7,8 @@ using ICanHasDotnetCore.Web.Database;
 using ICanHasDotnetCore.Web.Features.result.Cache;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using NuGet;
+using NuGet.Packaging.Core;
+using NuGet.Versioning;
 using Xunit;
 
 namespace ICanHasDotnetCore.Tests.Web.Features.Result
@@ -42,17 +43,27 @@ namespace ICanHasDotnetCore.Tests.Web.Features.Result
             // Arrange
             const string id = "id";
             var dependencies = new[] {"dep1", "dep2", "dep3"};
-            var version = new SemanticVersion(1, 2, 3, 4);
+            var version = new NuGetVersion(1, 2, 3);
             var frameworks = new[] {new FrameworkName(".NETFramework,Version=v4.0"), new FrameworkName(".NETFramework,Version=v4.5")};
             var expectedPackage = new NugetPackage(id, dependencies, SupportType.Supported, version, frameworks);
-            
+
             // Act
             _cache.Store(expectedPackage);
-            var package = _cache.Get(id, version);
-            
+            var package = _cache.Get(new PackageIdentity(id, version));
+
             // Assert
             package.Some.Should().BeTrue();
             package.Value.Should().BeEquivalentTo(expectedPackage);
+        }
+
+        [Fact]
+        void NugetResultCache_NotInCache_ReturnsNone()
+        {
+            // Act
+            var package = _cache.Get(new PackageIdentity("none", new NuGetVersion(1, 2, 3)));
+
+            // Assert
+            package.None.Should().BeTrue();
         }
     }
 }

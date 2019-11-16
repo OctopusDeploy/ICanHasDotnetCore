@@ -1,17 +1,17 @@
 ﻿using ICanHasDotnetCore.Plumbing;
-using NuGet;
+using NuGet.Packaging.Core;
 
 namespace ICanHasDotnetCore.NugetPackages
 {
     public interface INugetResultCache
     {
-        Option<NugetPackage> Get(string id, SemanticVersion version);
+        Option<NugetPackage> Get(PackageIdentity identity);
         void Store(NugetPackage package);
     }
 
     public class NoNugetResultCache : INugetResultCache
     {
-        public Option<NugetPackage> Get(string id, SemanticVersion version)
+        public Option<NugetPackage> Get(PackageIdentity identity)
         {
             return Option<NugetPackage>.ToNone;
         }

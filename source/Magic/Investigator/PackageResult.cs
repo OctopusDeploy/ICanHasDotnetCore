@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ICanHasDotnetCore.NugetPackages;
@@ -60,7 +60,7 @@ namespace ICanHasDotnetCore.Investigator
         {
             var isAggregationPackage = package.SupportType == SupportType.NoDotNetLibraries &&
                 dependencies.Any() &&
-                dependencies.All(d => d.SupportType == SupportType.PreRelease || 
+                dependencies.All(d => d.SupportType == SupportType.PreRelease ||
                 d.SupportType == SupportType.Supported ||
                 d.SupportType == SupportType.KnownReplacementAvailable ||
                 d.SupportType == SupportType.Unsupported
@@ -70,7 +70,7 @@ namespace ICanHasDotnetCore.Investigator
                  dependencies.All(d => d.SupportType == SupportType.PreRelease || d.SupportType == SupportType.Supported);
 
             var supportType = isSupportedAggregationPackage
-                ? (package.IsPrerelease ? SupportType.Supported : SupportType.PreRelease)
+                ? (package.IsPrerelease ? SupportType.PreRelease : SupportType.Supported)
                 : (isAggregationPackage ? SupportType.Unsupported : package.SupportType);
 
             return new PackageResult()

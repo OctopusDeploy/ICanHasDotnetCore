@@ -7,7 +7,7 @@ using ICanHasDotnetCore.Plumbing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using NuGet;
+using NuGet.Versioning;
 
 namespace ICanHasDotnetCore.Web.Database
 {
@@ -25,10 +25,10 @@ namespace ICanHasDotnetCore.Web.Database
                 list => string.Join("|", list),
                 value => value.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries).Select(e => new FrameworkName(e)).ToArray()
             );
-            var versionConverter = new ValueConverter<Option<SemanticVersion>, string>
+            var versionConverter = new ValueConverter<Option<NuGetVersion>, string>
             (
                 option => option.Value.ToNormalizedString(),
-                value => SemanticVersion.Parse(value)
+                value => NuGetVersion.Parse(value)
             );
             builder.HasKey(e => new {e.Id, e.Version});
             builder.Property(e => e.Version).HasConversion(versionConverter);

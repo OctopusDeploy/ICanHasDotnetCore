@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using ICanHasDotnetCore.NugetPackages;
-using NuGet;
+using NuGet.Versioning;
 using Xunit;
 
 namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
@@ -79,13 +79,13 @@ namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
             new object[] {"Hangfire.StructureMap", "1.6.0", SupportType.Unsupported},
             new object[] {"Harvest.Chosen", "1.4.2", SupportType.NoDotNetLibraries},
             new object[] {"Heijden.Dns", "1.0.0", SupportType.Unsupported},
-            new object[] {"Hekate", "3.2.0", SupportType.Unsupported},
+            new object[] {"Hekate", "3.2.0", SupportType.Supported},
             new object[] {"Helios", "2.1.2", SupportType.Unsupported},
             new object[] {"highcharts.TypeScript.DefinitelyTyped", "0.4.3", SupportType.NoDotNetLibraries},
             new object[] {"history.TypeScript.DefinitelyTyped", "0.2.7", SupportType.NoDotNetLibraries},
             new object[] {"Hopac", "0.2.1", SupportType.Unsupported},
             new object[] {"html5shiv", "0.1.0.8", SupportType.NoDotNetLibraries},
-            new object[] {"HtmlAgilityPack", "1.4.9.5", SupportType.Unsupported},
+            new object[] {"HtmlAgilityPack", "1.4.9.5", SupportType.Supported},
             new object[] {"HtmlAgilityPack.NetCore", "1.4.9.2", SupportType.Supported},
             new object[] {"HtmlSanitizationLibrary", "1.0.0", SupportType.Unsupported},
             new object[] {"HtmlSanitizer", "3.3.127-beta", SupportType.PreRelease},
@@ -108,7 +108,7 @@ namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
             new object[] {"ILRepack", "2.1.0-beta1", SupportType.NoDotNetLibraries},
             new object[] {"ImageProcessor", "2.4.3.0", SupportType.Unsupported},
             new object[] {"ImageProcessor.Web", "4.6.3.0", SupportType.Unsupported},
-            new object[] {"ImageProcessor.Web.Config", "2.3.0.0", SupportType.Unsupported},
+            new object[] {"ImageProcessor.Web.Config", "2.3.0.0", SupportType.NoDotNetLibraries},
             new object[] {"ImageResizer", "4.0.5", SupportType.Unsupported},
             new object[] {"ImageResizer.Mvc", "4.0.5", SupportType.NoDotNetLibraries},
             new object[] {"ImageResizer.MvcWebConfig", "4.0.5", SupportType.NoDotNetLibraries},
@@ -182,7 +182,7 @@ namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
             new object[] {"MaterialDesignColors", "1.1.3", SupportType.Unsupported},
             new object[] {"MaterialDesignThemes", "2.0.1-ci644", SupportType.Unsupported},
             new object[] {"MaterialDesignThemes.MahApps", "0.0.6", SupportType.Unsupported},
-            new object[] {"MathNet.Numerics", "3.12.0", SupportType.Unsupported},
+            new object[] {"MathNet.Numerics", "3.12.0", SupportType.Supported},
             new object[] {"MaxMind.Db", "2.1.1-beta1", SupportType.PreRelease},
             new object[] {"MaxMind.GeoIP2", "2.7.0-beta2", SupportType.PreRelease},
             new object[] {"MediatR", "2.1.0", SupportType.Supported},
@@ -211,7 +211,7 @@ namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
             new object[] {"Microsoft.Azure.Search", "1.1.2", SupportType.Unsupported},
             new object[] {"Microsoft.Extensions.Logging.Debug", "1.0.0", SupportType.Supported},
             new object[] {"MimeKit", "1.4.1", SupportType.NotFound},
-            new object[] {"Mindscape.Raygun4Net", "5.3.1", SupportType.Supported},
+            new object[] {"Mindscape.Raygun4Net", "5.3.1", SupportType.Unsupported},
             new object[] {"Nancy", "2.0.0-barneyrubble", SupportType.PreRelease},
             new object[] {"Ninject", "3.2.3-unstable-012", SupportType.Unsupported},
             new object[] {"NuGet.LibraryModel", "3.5.0-beta2-1484", SupportType.PreRelease},
@@ -241,7 +241,7 @@ namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
             new object[] {"Nustache", "1.16.0.1", SupportType.Unsupported},
             new object[] {"OAuth2", "0.8.37", SupportType.Unsupported},
             new object[] {"Octokit", "0.20.0", SupportType.Supported},
-            new object[] {"OctoPack", "3.0.71", SupportType.Unsupported},
+            new object[] {"OctoPack", "3.0.71", SupportType.NoDotNetLibraries},
             new object[] {"Octopus.Client", "3.4.0-beta0002", SupportType.Unsupported},
             new object[] {"Octostache", "1.0.2.40", SupportType.Unsupported},
             new object[] {"Oracle.ManagedDataAccess", "12.1.24160419", SupportType.Unsupported},
@@ -257,7 +257,7 @@ namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
             new object[] {"PInvoke.BCrypt", "0.3.2", SupportType.Supported},
             new object[] {"PInvoke.Kernel32", "0.3.2", SupportType.Supported},
             new object[] {"PInvoke.NCrypt", "0.3.2", SupportType.Supported},
-            new object[] {"PInvoke.Windows.Core", "0.3.2", SupportType.Unsupported},
+            new object[] {"PInvoke.Windows.Core", "0.3.2", SupportType.Supported},
             new object[] {"Platform.NET", "1.2.1.283", SupportType.Unsupported},
             new object[] {"Platform.Xml.Serialization", "1.2.1.283", SupportType.Unsupported},
             new object[] {"Polly", "4.3.0", SupportType.Supported},
@@ -285,7 +285,7 @@ namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
             new object[] {"React.Web", "2.5.0", SupportType.Unsupported},
             new object[] {"React.Web.Mvc4", "2.5.0", SupportType.Unsupported},
             new object[] {"reactiveui", "6.5.0", SupportType.NotFound},
-            new object[] {"ReactiveUI.Fody", "1.1.51", SupportType.Unsupported},
+            new object[] {"ReactiveUI.Fody", "1.1.51", SupportType.Supported},
             new object[] {"reactiveui-androidsupport", "6.5.0", SupportType.NotFound},
             new object[] {"reactiveui-core", "6.5.0", SupportType.NotFound},
             new object[] {"reactiveui-events", "6.5.0", SupportType.NotFound},
@@ -343,7 +343,7 @@ namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
             new object[] {"ServerAppFabric.Client", "1.1.2106.32", SupportType.Unsupported},
             new object[] {"ServiceStack", "4.0.60", SupportType.Unsupported},
             new object[] {"ServiceStack.Api.Swagger", "4.0.60", SupportType.Unsupported},
-            new object[] {"ServiceStack.Client", "4.0.60", SupportType.Unsupported},
+            new object[] {"ServiceStack.Client", "4.0.60", SupportType.Supported},
             new object[] {"ServiceStack.Common", "4.0.60", SupportType.Unsupported},
             new object[] {"ServiceStack.Interfaces", "4.0.60", SupportType.Unsupported},
             new object[] {"ServiceStack.Logging.Elmah", "4.0.60", SupportType.Unsupported},
@@ -352,7 +352,7 @@ namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
             new object[] {"ServiceStack.OrmLite.SqlServer", "4.0.60", SupportType.Unsupported},
             new object[] {"ServiceStack.Redis", "4.0.60", SupportType.Unsupported},
             new object[] {"ServiceStack.Server", "4.0.60", SupportType.Unsupported},
-            new object[] {"ServiceStack.Text", "4.0.60", SupportType.Unsupported},
+            new object[] {"ServiceStack.Text", "4.0.60", SupportType.Supported},
             new object[] {"SevenZipSharp", "0.64", SupportType.NotFound},
             new object[] {"Shaolinq", "1.1.0.924", SupportType.Unsupported},
             new object[] {"Shaolinq.Sqlite", "1.1.0.924", SupportType.Unsupported},
@@ -369,7 +369,7 @@ namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
             new object[] {"SimpleInjector.Integration.Web", "3.2.0", SupportType.Unsupported},
             new object[] {"SimpleInjector.Integration.Web.Mvc", "3.2.0", SupportType.Unsupported},
             new object[] {"SimpleInjector.Integration.WebApi", "3.2.0", SupportType.Unsupported},
-            new object[] {"SimpleInjector.Integration.WebApi.WebHost.QuickStart", "3.2.0", SupportType.Unsupported},
+            new object[] {"SimpleInjector.Integration.WebApi.WebHost.QuickStart", "3.2.0", SupportType.NoDotNetLibraries},
             new object[] {"SimpleInjector.Packaging", "3.2.0", SupportType.Supported},
             new object[] {"SimpleJson", "0.38.0", SupportType.NoDotNetLibraries},
             new object[] {"SlowCheetah", "2.5.15", SupportType.NoDotNetLibraries},
@@ -380,7 +380,7 @@ namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
             new object[] {"Spin.js", "2.3.2.1", SupportType.NoDotNetLibraries},
             new object[] {"Splat", "1.6.2", SupportType.Supported},
             new object[] {"Sprache", "2.0.0.52", SupportType.Unsupported},
-            new object[] {"sqlite-net-pcl", "1.1.2", SupportType.Unsupported},
+            new object[] {"sqlite-net-pcl", "1.1.2", SupportType.Supported},
             new object[] {"structuremap", "4.2.0.402", SupportType.Supported},
             new object[] {"WebGrease", "1.6.0", SupportType.Unsupported},
             new object[] {"WebMarkupMin.Core", "2.1.0", SupportType.Supported},
@@ -393,12 +393,12 @@ namespace ICanHasDotnetCore.Tests.Magic.NugetPackages
 
         protected WholeStackOfPackagesTests()
         {
-            _nugetPackageInfoRetriever = new NugetPackageInfoRetriever(new PackageRepositoryWrapper(), new NoNugetResultCache());
+            _nugetPackageInfoRetriever = new NugetPackageInfoRetriever(new PackageRepositoryWrapper(logger: null), new NoNugetResultCache());
         }
 
         public async Task<NugetPackage> GetPackageAsync(string id, string version)
         {
-            return await _nugetPackageInfoRetriever.Retrieve(id, SemanticVersion.Parse(version));
+            return await _nugetPackageInfoRetriever.Retrieve(id, NuGetVersion.Parse(version));
         }
     }
 

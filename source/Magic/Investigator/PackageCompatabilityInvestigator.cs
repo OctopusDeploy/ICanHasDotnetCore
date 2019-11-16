@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +28,7 @@ namespace ICanHasDotnetCore.Investigator
 
         public static PackageCompatabilityInvestigator Create(INugetResultCache nugetResultCache)
         {
-            var repository = new PackageRepositoryWrapper();
+            var repository = new PackageRepositoryWrapper(new NuGetSerilogLogger());
             return new PackageCompatabilityInvestigator(
                 new NugetPackageInfoRetriever(
                     repository,

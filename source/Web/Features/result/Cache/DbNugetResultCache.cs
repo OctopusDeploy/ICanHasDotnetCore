@@ -3,7 +3,7 @@ using System.Linq;
 using ICanHasDotnetCore.NugetPackages;
 using ICanHasDotnetCore.Plumbing;
 using ICanHasDotnetCore.Web.Database;
-using NuGet;
+using NuGet.Packaging.Core;
 using Serilog;
 
 namespace ICanHasDotnetCore.Web.Features.result.Cache
@@ -17,19 +17,19 @@ namespace ICanHasDotnetCore.Web.Features.result.Cache
             _contextFactory = contextFactory;
         }
 
-        public Option<NugetPackage> Get(string id, SemanticVersion version)
+        public Option<NugetPackage> Get(PackageIdentity identity)
         {
             try
             {
                 using (var context = _contextFactory())
                 {
-                    var package = context.NugetResultCache.SingleOrDefault(e => e.Id == id && e.Version.Value == version);
+                    var package = context.NugetResultCache.SingleOrDefault(e => e.Id == identity.Id && e.Version.Value == identity.Version);
                     return package != null ? Option<NugetPackage>.ToSome(package) : Option<NugetPackage>.ToNone;
                 }
             }
             catch (Exception ex)
             {
-                Log.Warning(ex, "Could not retrieve {id} {version} in Nuget Package Cache", id, version);
+                Log.Warning(ex, "Could not retrieve {id} {version} in Nuget Package Cache", identity.Id, identity.Version);
                 return Option<NugetPackage>.ToNone;
             }
         }

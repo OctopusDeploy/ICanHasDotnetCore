@@ -41,45 +41,39 @@ namespace ICanHasDotnetCore.Web.Features.Statistics
 
         private async Task AddStatisticAsync(PackageResult package, CancellationToken cancellationToken)
         {
-            using (var context = _contextFactory())
+            await using var context = _contextFactory();
+            var packageStatistic = await context.PackageStatistics.FindAsync(new object[] {package.PackageName}, cancellationToken);
+            if (packageStatistic == null)
             {
-                var packageStatistic = await context.PackageStatistics.FindAsync(new object[] {package.PackageName}, cancellationToken);
-                if (packageStatistic == null)
+                context.PackageStatistics.Add(new PackageStatistic
                 {
-                    context.PackageStatistics.Add(new PackageStatistic
-                    {
-                        Name = package.PackageName,
-                        Count = 1,
-                        LatestSupportType = package.SupportType
-                    });
-                }
-                else
-                {
-                    packageStatistic.Count += 1;
-                    packageStatistic.LatestSupportType = package.SupportType;
-                }
-                await context.SaveChangesAsync(cancellationToken);
+                    Name = package.PackageName,
+                    Count = 1,
+                    LatestSupportType = package.SupportType
+                });
             }
+            else
+            {
+                packageStatistic.Count += 1;
+                packageStatistic.LatestSupportType = package.SupportType;
+            }
+            await context.SaveChangesAsync(cancellationToken);
         }
 
         public async Task<IReadOnlyList<PackageStatistic>> GetAllPackageStatisticsAsync(CancellationToken cancellationToken)
         {
-            using (var context = _contextFactory())
-            {
-                return await context.PackageStatistics.AsNoTracking().ToListAsync(cancellationToken);
-            }
+            await using var context = _contextFactory();
+            return await context.PackageStatistics.AsNoTracking().ToListAsync(cancellationToken);
         }
 
         public async Task UpdateSupportTypeAsync(PackageStatistic stat, SupportType supportType, CancellationToken cancellationToken)
         {
-            using (var context = _contextFactory())
+            await using var context = _contextFactory();
+            var packageStatistic = await context.PackageStatistics.FindAsync(new object[] {stat.Name}, cancellationToken);
+            if (packageStatistic != null)
             {
-                var packageStatistic = await context.PackageStatistics.FindAsync(new object[] {stat.Name}, cancellationToken);
-                if (packageStatistic != null)
-                {
-                    packageStatistic.LatestSupportType = supportType;
-                    await context.SaveChangesAsync(cancellationToken);
-                }
+                packageStatistic.LatestSupportType = supportType;
+                await context.SaveChangesAsync(cancellationToken);
             }
         }
     }

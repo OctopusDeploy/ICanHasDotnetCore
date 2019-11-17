@@ -10,12 +10,10 @@ namespace ICanHasDotnetCore.SourcePackageFileReaders
     {
         public IReadOnlyList<string> ReadDependencies(byte[] contents)
         {
-            using (var ms = new MemoryStream(contents))
-            using (var sr = new StreamReader(ms))
-            {
-                var packages = (Packages) new XmlSerializer(typeof(Packages)).Deserialize(sr);
-                return packages.Select(p => p.Id).ToArray();
-            }
+            using var ms = new MemoryStream(contents);
+            using var sr = new StreamReader(ms);
+            var packages = (Packages) new XmlSerializer(typeof(Packages)).Deserialize(sr);
+            return packages.Select(p => p.Id).ToArray();
         }
     }
 }

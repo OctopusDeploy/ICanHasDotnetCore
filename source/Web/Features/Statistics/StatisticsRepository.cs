@@ -42,22 +42,17 @@ namespace ICanHasDotnetCore.Web.Features.Statistics
         private async Task AddStatisticAsync(PackageResult package, CancellationToken cancellationToken)
         {
             await using var context = _contextFactory();
-            var packageStatistic = await context.PackageStatistics.FindAsync(new object[] {package.PackageName}, cancellationToken);
-            if (packageStatistic == null)
+            var packageStatistic = new PackageStatistic
             {
-                context.PackageStatistics.Add(new PackageStatistic
-                {
-                    Name = package.PackageName,
-                    Count = 1,
-                    LatestSupportType = package.SupportType
-                });
-            }
-            else
-            {
-                packageStatistic.Count += 1;
-                packageStatistic.LatestSupportType = package.SupportType;
-            }
-            await context.SaveChangesAsync(cancellationToken);
+                Name = package.PackageName,
+                Count = 1,
+                LatestSupportType = package.SupportType
+            };
+            await context.PackageStatistics
+                .Upsert(packageStatistic)
+                .On(p => p.Name)
+                .WhenMatched(p => new PackageStatistic { Count = p.Count + 1 })
+                .RunAsync(cancellationToken);
         }
 
         public async Task<IReadOnlyList<PackageStatistic>> GetAllPackageStatisticsAsync(CancellationToken cancellationToken)

@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using ICanHasDotnetCore.NugetPackages;
 using ICanHasDotnetCore.Web.Configuration;
 using ICanHasDotnetCore.Web.Database;
@@ -8,7 +9,9 @@ using ICanHasDotnetCore.Web.Features.Statistics;
 using ICanHasDotnetCore.Web.Plumbing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -99,6 +102,18 @@ namespace ICanHasDotnetCore.Web
             }
         }
 
+        private static void EnsureDatabaseCreated(DatabaseFacade database)
+        {
+            var connection = database.GetDbConnection();
+            if (connection is SqliteConnection)
+            {
+                var connectionStringBuilder = new SqliteConnectionStringBuilder { ConnectionString = connection.ConnectionString };
+                var dataSource = new FileInfo(connectionStringBuilder.DataSource);
+                dataSource.Directory?.Create();
+            }
+            database.EnsureCreated();
+        }
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -107,9 +122,8 @@ namespace ICanHasDotnetCore.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                var context = app.ApplicationServices.GetRequiredService<AppDbContext>();
-                context.Database.EnsureCreated();
-                context.Dispose();
+                using var context = app.ApplicationServices.GetRequiredService<AppDbContext>();
+                EnsureDatabaseCreated(context.Database);
             }
 
             app.UseSerilogRequestLogging(options => options.GetLevel = (context, _, __) => HttpLogging.GetLevelForStatusCode(context.Response.StatusCode))

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <VersionPrefix>0.1.0-ci0166</VersionPrefix>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>ICanHasDotnetCore.Web</RootNamespace>
     <AssemblyName>Web</AssemblyName>
     <OutputType>Exe</OutputType>

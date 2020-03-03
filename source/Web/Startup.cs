@@ -58,7 +58,7 @@ namespace ICanHasDotnetCore.Web
                     : new Credentials(settings.Token));
                 var productInformation = new ProductHeaderValue("ICanHasDot.net", typeof(Startup).Assembly.GetName().Version.ToString());
                 var logger = Log.Logger.ForContext(Constants.SourceContextPropertyName, "Octokit");
-                var httpClient = new HttpClientAdapter(() => new SerilogMessageHandler(logger));
+                var httpClient = new HttpClientAdapter(() => new SerilogMessageHandler(logger, HttpMessageHandlerFactory.CreateDefault()));
                 var connection = new Connection(productInformation, GitHubClient.GitHubApiUrl, credentialStore, httpClient, new SimpleJsonSerializer());
                 return new GitHubClient(connection);
             });

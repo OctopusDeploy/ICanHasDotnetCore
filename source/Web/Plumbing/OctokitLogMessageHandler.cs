@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Cashew.Headers;
 using Octokit;
 using Serilog;
 using Serilog.Core;
@@ -15,7 +16,7 @@ namespace ICanHasDotnetCore.Web.Plumbing
     public class OctokitLogMessageHandler : DelegatingHandler
     {
         private static readonly ILogger Logger = Log.Logger.ForContext(Constants.SourceContextPropertyName, "Octokit");
-        private static readonly MessageTemplate MessageTemplate = new MessageTemplateParser().Parse("HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms (rate limit {RateLimit})");
+        private static readonly MessageTemplate MessageTemplate = new MessageTemplateParser().Parse("HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms (cache {CacheStatus}, rate limit {RateLimit})");
 
         public OctokitLogMessageHandler(HttpMessageHandler innerHandler)
         {
@@ -32,6 +33,7 @@ namespace ICanHasDotnetCore.Web.Plumbing
             var level = HttpLogging.GetLevelForStatusCode(statusCode);
             if (Logger.IsEnabled(level))
             {
+                var cacheStatus = response.Headers.GetCashewStatusHeader();
                 var rateLimit = new RateLimit(response.Headers.ToDictionary(e => e.Key, e => string.Join(";", e.Value)));
                 var properties = new[]
                 {
@@ -39,6 +41,7 @@ namespace ICanHasDotnetCore.Web.Plumbing
                     new LogEventProperty("RequestPath", new ScalarValue(request.RequestUri)),
                     new LogEventProperty("StatusCode", new ScalarValue(statusCode)),
                     new LogEventProperty("Elapsed", new ScalarValue(stopwatch.Elapsed.TotalMilliseconds)),
+                    new LogEventProperty("CacheStatus", new ScalarValue(cacheStatus)),
                     new LogEventProperty("RateLimit", new StructureValue(new[]
                     {
                         new LogEventProperty(nameof(rateLimit.Limit), new ScalarValue(rateLimit.Limit)),

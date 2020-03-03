@@ -1,5 +1,9 @@
 using System;
 using System.IO;
+using CacheManager.Core;
+using Cashew;
+using Cashew.Adapters.CacheManager;
+using Cashew.Keys;
 using ICanHasDotnetCore.NugetPackages;
 using ICanHasDotnetCore.Web.Configuration;
 using ICanHasDotnetCore.Web.Database;
@@ -19,6 +23,7 @@ using Microsoft.Extensions.Options;
 using Octokit;
 using Octokit.Internal;
 using Serilog;
+using Serilog.Extensions.Logging;
 
 namespace ICanHasDotnetCore.Web
 {
@@ -56,7 +61,14 @@ namespace ICanHasDotnetCore.Web
                     ? Credentials.Anonymous
                     : new Credentials(settings.Token));
                 var productInformation = new ProductHeaderValue("ICanHasDot.net", typeof(Startup).Assembly.GetName().Version.ToString());
-                var httpClient = new HttpClientAdapter(() => new OctokitLogMessageHandler(HttpMessageHandlerFactory.CreateDefault()));
+                var cacheManager = CacheFactory.Build(c => c.WithMicrosoftMemoryCacheHandle("Octokit")
+                    .WithExpiration(ExpirationMode.Sliding, TimeSpan.FromHours(6)).And
+                    .WithMicrosoftLogging(new SerilogLoggerFactory())
+                );
+                var cacheAdapter = new CacheManagerAdapter(cacheManager);
+                var keyStrategy = new HttpStandardKeyStrategy(cacheAdapter);
+                var httpCachingHandler = new HttpCachingHandler(cacheAdapter, keyStrategy, HttpMessageHandlerFactory.CreateDefault());
+                var httpClient = new HttpClientAdapter(() => new OctokitLogMessageHandler(httpCachingHandler));
                 var connection = new Connection(productInformation, GitHubClient.GitHubApiUrl, credentialStore, httpClient, new SimpleJsonSerializer());
                 return new GitHubClient(connection);
             });

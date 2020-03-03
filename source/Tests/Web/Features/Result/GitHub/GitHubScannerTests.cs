@@ -12,8 +12,8 @@ namespace ICanHasDotnetCore.Tests.Web.Features.Result.GitHub
     public class GitHubScannerTests
     {
 
-        [Fact()]
-        public async Task ICanHasDotnetRepository()
+        [Fact]
+        public async Task OctopusDeployICanHasDotnetRepository()
         {
             var result = await CreateScanner().ScanAsync("/OctopusDeploy/ICanHasDotnetCore\\");
             result.WasSuccessful.Should().BeTrue(result.ErrorString);

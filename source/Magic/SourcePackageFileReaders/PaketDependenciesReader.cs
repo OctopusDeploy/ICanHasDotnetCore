@@ -13,7 +13,7 @@ namespace ICanHasDotnetCore.SourcePackageFileReaders
             using var sr = new StreamReader(ms);
             var str = sr.ReadToEnd();
             var matches = Regex.Matches(str, @"nuget\s+([^\s]+)");
-            return matches.Cast<Match>()
+            return matches
                 .Select(m => m.Groups[1].Value)
                 .ToArray();
         }

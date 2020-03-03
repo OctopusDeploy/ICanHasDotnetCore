@@ -12,16 +12,10 @@ namespace ICanHasDotnetCore.Output
         public static string Format(InvestigationResult investigationResult, int levels = int.MaxValue)
         {
             var allResults = investigationResult.GetAllDistinctRecursive(levels);
-            return Format(allResults, "All");
+            return Format(allResults);
         }
 
-        public static string Format(PackageResult result)
-        {
-            var allResults = result.GetDependenciesResursive().Distinct().ToArray();
-            return Format(allResults, result.PackageName);
-        }
-
-        private static string Format(IReadOnlyList<PackageResult> results, string name)
+        private static string Format(IReadOnlyList<PackageResult> results)
         {
             var sb = new StringBuilder();
             sb.AppendLine("// This file can be used with any Cypher based DB or on https://neo4j.com/sandbox-v2/ ");

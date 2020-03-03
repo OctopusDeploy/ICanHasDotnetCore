@@ -22,8 +22,10 @@ namespace ICanHasDotnetCore.SourcePackageFileReaders
             { CsProj, new CsProjReader() }
         };
 
+        // ReSharper disable InconsistentNaming
         public static IReadOnlyList<string> SupportedFiles => SourcePackagesFileReaders.Keys.Except(SupportedExtensions).ToArray();
         public static IReadOnlyList<string> SupportedExtensions => new[] {CsProj};
+        // ReSharper restore InconsistentNaming
 
         public static Result<IReadOnlyList<string>> Read(SourcePackageFile file)
         {

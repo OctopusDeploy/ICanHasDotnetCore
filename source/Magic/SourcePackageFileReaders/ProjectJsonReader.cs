@@ -17,6 +17,7 @@ namespace ICanHasDotnetCore.SourcePackageFileReaders
 
         private class ProjectJson
         {
+            // ReSharper disable once UnusedAutoPropertyAccessor.Local : setter required by JSON deserialization
             public Dictionary<string, object> Dependencies { get; set; }
         }
     }

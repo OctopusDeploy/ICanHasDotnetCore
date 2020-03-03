@@ -44,7 +44,7 @@ namespace ICanHasDotnetCore.Web.Features.result.GitHub
                 var contents = await GetContentsRecursiveAsync(repo);
 
                 return contents
-                    .Select(c => new SourcePackageFile(c.Path.Contains("/") ? c.Path.Substring(0, c.Path.LastIndexOf("/")) : "<root>", c.Name, Encoding.UTF8.GetBytes(c.Content)))
+                    .Select(c => new SourcePackageFile(c.Path.Contains("/") ? c.Path.Substring(0, c.Path.LastIndexOf("/", StringComparison.Ordinal)) : "<root>", c.Name, Encoding.UTF8.GetBytes(c.Content)))
                     .ToArray();
             }
             catch (NotFoundException)

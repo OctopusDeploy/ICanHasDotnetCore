@@ -1,12 +1,9 @@
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ICanHasDotnetCore.NugetPackages;
-using ICanHasDotnetCore.Plumbing;
-using ICanHasDotnetCore.Plumbing.Extensions;
 using ICanHasDotnetCore.SourcePackageFileReaders;
 using Serilog;
 

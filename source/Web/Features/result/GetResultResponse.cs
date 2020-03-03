@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using ICanHasDotnetCore.NugetPackages;
+﻿using ICanHasDotnetCore.NugetPackages;
 
 namespace ICanHasDotnetCore.Web.Features.result
 {

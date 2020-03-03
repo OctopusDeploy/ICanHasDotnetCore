@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using FluentAssertions;
 using System.Linq;
-using ICanHasDotnetCore.Web.Configuration;
 using ICanHasDotnetCore.Web.Features.result.GitHub;
 using Octokit;
 using Xunit;

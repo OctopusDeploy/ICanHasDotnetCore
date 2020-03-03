@@ -1,8 +1,5 @@
-﻿using System.Linq;
-using System.Text;
-using FluentAssertions;
+﻿using FluentAssertions;
 using ICanHasDotnetCore.SourcePackageFileReaders;
-using Xunit;
 
 namespace ICanHasDotnetCore.Tests.Magic.SourcePackageFileReaders
 {

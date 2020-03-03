@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using ICanHasDotnetCore.Investigator;
 using ICanHasDotnetCore.Plumbing;
 using ICanHasDotnetCore.Plumbing.Extensions;
 using Serilog;

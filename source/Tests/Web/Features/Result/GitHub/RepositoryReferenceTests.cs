@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using ICanHasDotnetCore.Plumbing;
 using ICanHasDotnetCore.Web.Features.result.GitHub;
 using Xunit;
 

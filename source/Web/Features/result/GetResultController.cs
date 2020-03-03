@@ -1,4 +1,3 @@
-using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -15,7 +14,6 @@ using ICanHasDotnetCore.Web.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using ICanHasDotnetCore.Plumbing;
-using ICanHasDotnetCore.Web.Features.result.Cache;
 
 namespace ICanHasDotnetCore.Web.Features.result
 {

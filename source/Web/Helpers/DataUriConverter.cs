@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Linq;
-using System.Text;
+
 namespace ICanHasDotnetCore.Web.Helpers
 {
     public static class DataUriConverter

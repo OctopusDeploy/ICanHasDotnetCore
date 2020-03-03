@@ -16,12 +16,12 @@ namespace ICanHasDotnetCore.NugetPackages
             Frameworks = frameworks;
         }
 
-        public IReadOnlyList<string> Dependencies { get;  }
-        public string Id { get;  }
-        public SupportType SupportType { get;  }
-        public Option<NuGetVersion> Version { get;  }
+        public IReadOnlyList<string> Dependencies { get; }
+        public string Id { get; }
+        public SupportType SupportType { get; }
+        public Option<NuGetVersion> Version { get; }
         public string ProjectUrl { get; set; }
         public bool IsPrerelease => Version.IfSome(v => v.IsPrerelease.Some()).ValueOr(false);
-        public IReadOnlyList<FrameworkName> Frameworks { get;  }
+        public IReadOnlyList<FrameworkName> Frameworks { get; }
     }
 }

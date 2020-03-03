@@ -19,7 +19,6 @@ using Microsoft.Extensions.Options;
 using Octokit;
 using Octokit.Internal;
 using Serilog;
-using Serilog.Core;
 
 namespace ICanHasDotnetCore.Web
 {
@@ -57,8 +56,7 @@ namespace ICanHasDotnetCore.Web
                     ? Credentials.Anonymous
                     : new Credentials(settings.Token));
                 var productInformation = new ProductHeaderValue("ICanHasDot.net", typeof(Startup).Assembly.GetName().Version.ToString());
-                var logger = Log.Logger.ForContext(Constants.SourceContextPropertyName, "Octokit");
-                var httpClient = new HttpClientAdapter(() => new SerilogMessageHandler(logger, HttpMessageHandlerFactory.CreateDefault()));
+                var httpClient = new HttpClientAdapter(() => new OctokitLogMessageHandler(HttpMessageHandlerFactory.CreateDefault()));
                 var connection = new Connection(productInformation, GitHubClient.GitHubApiUrl, credentialStore, httpClient, new SimpleJsonSerializer());
                 return new GitHubClient(connection);
             });

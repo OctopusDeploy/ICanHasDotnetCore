@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using ICanHasDotnetCore.Plumbing;
@@ -44,7 +44,7 @@ namespace ICanHasDotnetCore.Web.Features.result.GitHub
                 var contents = await GetContentsRecursiveAsync(repo);
 
                 return contents
-                    .Select(c => new SourcePackageFile(c.Path.Contains("/") ? c.Path.Substring(0, c.Path.LastIndexOf("/", StringComparison.Ordinal)) : "<root>", c.Name, Encoding.UTF8.GetBytes(c.Content)))
+                    .Select(c => new SourcePackageFile(c.Path.Contains("/") ? c.Path.Substring(0, c.Path.LastIndexOf("/", StringComparison.Ordinal)) : "<root>", Path.GetFileName(c.Path), c.Content))
                     .ToArray();
             }
             catch (NotFoundException)
@@ -61,7 +61,13 @@ namespace ICanHasDotnetCore.Web.Features.result.GitHub
             return commits.First().Sha;
         }
 
-        private async Task<IReadOnlyList<RepositoryContent>> GetContentsRecursiveAsync(RepositoryReference repo)
+        private async Task<(string Path, byte[] Content)> GetRawContentAsync(string owner, string name, string path, string reference)
+        {
+            var content = await _gitHubClient.Repository.Content.GetRawContentByRef(owner, name, path, reference);
+            return (Path: path, Content: content);
+        }
+
+        private async Task<IReadOnlyList<(string Path, byte[] Content)>> GetContentsRecursiveAsync(RepositoryReference repo)
         {
             var reference = await GetReferenceAsync(repo);
             var treeResponse = await _gitHubClient.Git.Tree.GetRecursive(repo.Owner, repo.Name, reference);
@@ -80,11 +86,10 @@ namespace ICanHasDotnetCore.Web.Features.result.GitHub
                         t.Path.EndsWith(e, StringComparison.OrdinalIgnoreCase)
                     )
                 )
-                .Select(t => _gitHubClient.Repository.Content.GetAllContentsByRef(repo.Owner, repo.Name, t.Path, reference))
+                .Select(t => GetRawContentAsync(repo.Owner, repo.Name, t.Path, reference))
                 .ToArray();
 
             return (await Task.WhenAll(getFileTasks))
-                .SelectMany(r => r)
                 .ToArray();
 
         }

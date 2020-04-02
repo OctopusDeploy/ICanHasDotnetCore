@@ -45,7 +45,7 @@ namespace ICanHasDotnetCore.Web.Features.result
         }
 
         [HttpPost("/api/GetResult/GitHub")]
-        public async Task<ActionResult> GitHub([FromBody]GetGitHubRequest request, CancellationToken cancellationToken)
+        public async Task<ActionResult<GetResultResponse>> GitHub([FromBody]GetGitHubRequest request, CancellationToken cancellationToken)
         {
             var sw = Stopwatch.StartNew();
             var packagesFileDatas = await _gitHubScanner.ScanAsync(request.Id);
@@ -62,7 +62,7 @@ namespace ICanHasDotnetCore.Web.Features.result
             Log.Information("Generated results for GitHub repo {Repo}", request.Id);
             LogSummaryMessage(result, sw);
             LogErroredAndNotFoundPackages(request.Id, result);
-            return Json(BuildResponse(result));
+            return Ok(BuildResponse(result));
         }
 
         [HttpPost("/api/GetResult/NuGet")]

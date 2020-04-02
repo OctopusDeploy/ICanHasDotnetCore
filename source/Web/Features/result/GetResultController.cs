@@ -59,6 +59,7 @@ namespace ICanHasDotnetCore.Web.Features.result
                 .GoAsync(packagesFileDatas.Value, cancellationToken);
 
             sw.Stop();
+            await _statisticsRepository.AddStatisticsForResultAsync(result, cancellationToken);
             Log.Information("Generated results for GitHub repo {Repo}", request.Id);
             LogSummaryMessage(result, sw);
             LogErroredAndNotFoundPackages(request.Id, result);
